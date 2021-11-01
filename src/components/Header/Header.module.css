@@ -1,0 +1,10 @@
+.header {
+    grid-area: header;
+    background-color: #E9EBF8;
+    box-shadow: -1px -1px 5px #8D818C;
+    /*color: #0C0A3E;*/
+}
+
+.header h1 {
+    /*padding: 10px;*/
+}
