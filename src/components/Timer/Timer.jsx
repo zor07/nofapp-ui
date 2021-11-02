@@ -6,8 +6,11 @@ class Timer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            timePassed: this.getTimePassed()
+            timePassed: props.timers
+                .map(timer => this.getTimePassed(timer.start))
         }
+
+
     }
 
     componentDidMount() {
@@ -23,17 +26,17 @@ class Timer extends React.Component {
 
     tick() {
         this.setState({
-            timePassed: this.getTimePassed()
+            timePassed: this.props.timers
+                .map(timer => this.getTimePassed(timer.start))
         })
     }
 
-    getTimePassed = () => {
+    getTimePassed = (start) => {
         const secondsMS = 1000
         const minutesMS = secondsMS * 60;
         const hoursMS = minutesMS * 60;
         const daysMS = hoursMS * 24;
 
-        const start = this.props.timers[0].start;
         const now = Date.now();
         const diff = Math.abs(start - now);
 
