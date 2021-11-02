@@ -3,7 +3,6 @@ import {connect} from "react-redux";
 import Timer from "./Timer";
 
 const mapStateToProps = (state) => {
-    debugger
     return {
         timers: state.timerPage.timers
     }
