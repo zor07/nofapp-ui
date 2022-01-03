@@ -32,6 +32,29 @@ class Timer extends React.Component {
     }
 
     getTimePassed = (start) => {
+        return this._getDiffWithHours(start)
+    }
+
+    _getDiffWithHours(start) {
+        const secondsMS = 1000
+        const minutesMS = secondsMS * 60;
+        const hoursMS = minutesMS * 60;
+
+        const now = Date.now();
+        const diff = Math.abs(start - now);
+
+        const hours = Math.floor(diff   / hoursMS)
+        const minutes = Math.floor((diff % hoursMS)  / minutesMS)
+        const seconds = Math.floor((diff % hoursMS % minutesMS) / secondsMS) % minutesMS;
+
+        const hoursStr = ('00' + hours.toString()).slice(-3)
+        const minutesStr = ('0' + minutes.toString()).slice(-2)
+        const secondsStr = ('0' + seconds.toString()).slice(-2)
+
+        return`${hoursStr}:${minutesStr}:${secondsStr}`
+    }
+
+    _getDiffWithDays(start) {
         const secondsMS = 1000
         const minutesMS = secondsMS * 60;
         const hoursMS = minutesMS * 60;

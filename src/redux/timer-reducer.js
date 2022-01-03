@@ -5,7 +5,7 @@ const initialState = {
     timers: [
         {
             id: 1,
-            start: new Date("2021-11-02T01:00:00.000"),
+            start: new Date("2021-11-08T01:00:00.000"),
             stop: null,
             description: ""
         }
