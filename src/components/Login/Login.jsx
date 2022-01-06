@@ -2,11 +2,13 @@ import React from "react";
 import {Form, Field} from "react-final-form";
 import {Input} from "../Common/FormControls/FormControls";
 import {required} from "../../utils/validators/validators";
+import {connect} from "react-redux";
+import {login} from "../../redux/auth-reducer";
 
-const Login = (props) => {
+const Login = ({login}) => {
 
     const onSubmit = (values) => {
-        console.log(values)
+        login(values.username, values.password)
     }
 
     return (
@@ -41,4 +43,12 @@ const Login = (props) => {
     )
 }
 
-export default Login;
+const mapStateToProps = (state) => ({
+
+})
+
+const mapDispatchToProps = (state) => ({
+
+})
+
+export default connect(mapStateToProps, {login})(Login);
