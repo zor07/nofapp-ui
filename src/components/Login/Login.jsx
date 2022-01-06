@@ -12,12 +12,7 @@ const Login = (props) => {
     return (
         <div>
             <h1>LOGIN</h1>
-            <Form
-                onSubmit={onSubmit}
-                // validate={values => {
-                //     // do validation here, and return errors object
-                // }}
-            >
+            <Form onSubmit={onSubmit} >
                 {({handleSubmit, pristine, form, submitting}) => (
                     <form onSubmit={handleSubmit}>
                         <div>
@@ -41,7 +36,6 @@ const Login = (props) => {
                         </div>
                     </form>
                 )}
-
             </Form>
         </div>
     )
