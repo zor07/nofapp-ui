@@ -2,11 +2,13 @@ import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 import thunkMiddleware from "redux-thunk";
 import timerReducer from "./timer-reducer";
 import authReducer from "./auth-reducer";
+import appReducer from "./app-reducer";
 
 let reducers = combineReducers({
 
     timerPage: timerReducer,
-    auth: authReducer
+    auth: authReducer,
+    app: appReducer
 
 });
 

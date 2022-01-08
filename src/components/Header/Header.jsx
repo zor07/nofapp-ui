@@ -1,9 +1,22 @@
 import React from "react";
 import css from "./Header.module.css"
+import {NavLink} from "react-router-dom";
 
-const Header = () => {
+const Header = ({isAuth, username, logout}) => {
+
     return (
-        <div className={css.header}><h1>Nofapp</h1></div>
+        <header className={css.header}>
+            <div className={css.logo}><h1>Nofapp1</h1></div>
+
+            <div className={css.login}>
+                {isAuth
+                    ? <div>{username} - <button onClick={logout}>Logout</button></div>
+                    : <div><NavLink to={'/login'}>Login</NavLink></div>}
+            </div>
+
+
+
+        </header>
     )
 }
 

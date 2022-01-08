@@ -7,7 +7,6 @@ const Navbar = () => {
         <nav className={css.navbar}>
             <div className={css.item}>
                 <div><NavLink to='/timer' activeClassName={css.active}>Timer</NavLink></div>
-                <div><NavLink to='/login' activeClassName={css.active}>Login</NavLink></div>
             </div>
         </nav>
     )
