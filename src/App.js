@@ -23,6 +23,7 @@ class App extends Component {
                 <Navbar/>
                 <div className="app-wrapper-content">
                     <Routes>
+                        <Route path='/' element={<TimerContainer/>}/>
                         <Route path='/timer' element={<TimerContainer/>}/>
                         <Route path='/login' element={<Login/>}/>
                     </Routes>

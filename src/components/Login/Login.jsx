@@ -1,15 +1,23 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Form, Field} from "react-final-form";
 import {Input} from "../Common/FormControls/FormControls";
 import {required} from "../../utils/validators/validators";
 import {connect} from "react-redux";
 import {login} from "../../redux/auth-reducer";
+import {useNavigate} from "react-router-dom";
 
-const Login = ({login}) => {
+const Login = ({isAuth, login}) => {
 
+    const navigate = useNavigate();
     const onSubmit = (values) => {
         login(values.username, values.password)
     }
+
+    useEffect(() => {
+        if (isAuth) {
+            navigate('/');
+        }
+    })
 
     return (
         <div>
@@ -43,5 +51,8 @@ const Login = ({login}) => {
     )
 }
 
+const mapStateToProps = (state) => ({
+    isAuth: state.auth.isAuth
+})
 
-export default connect(null, {login})(Login);
+export default connect(mapStateToProps, {login})(Login);
