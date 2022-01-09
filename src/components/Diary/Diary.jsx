@@ -20,8 +20,8 @@ const Diary = (props) => {
     return (
         <div className={css.diaryRoot}>
             <div className={css.editor}>
-                <Editor editorState={editorState}
-                        placeholder="Enter some text..."
+                <Editor toolbarOnFocus
+                        editorState={editorState}
                         onEditorStateChange={onEditorChange}/>
             </div>
         </div>
