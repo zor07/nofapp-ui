@@ -1,5 +1,5 @@
 import React from 'react';
-import {Editor, EditorState} from 'draft-js';
+import {Editor, EditorState, RichUtils} from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import css from './Diary.module.css'
 import {compose} from "redux";
@@ -11,12 +11,29 @@ const Diary = (props) => {
         () => EditorState.createEmpty(),
     );
 
+    const onEditorChange = (editorState) => {
+        console.log(editorState)
+        setEditorState(editorState)
+    }
+
+    const handleKeyCommand = (command, editorState) => {
+        const newState = RichUtils.handleKeyCommand(editorState, command);
+
+        if (newState) {
+            onEditorChange(newState);
+            return 'handled';
+        }
+
+        return 'not-handled';
+    }
+
     return (
         <div className={css.diaryRoot}>
             <div className={css.editor}>
                 <Editor editorState={editorState}
                         placeholder="Enter some text..."
-                        onChange={setEditorState}/>
+                        handleKeyCommand={handleKeyCommand}
+                        onChange={onEditorChange}/>
             </div>
         </div>
 
