@@ -27,8 +27,15 @@ const Diary = (props) => {
         return 'not-handled';
     }
 
+    const onBoldClick = () => {
+        onEditorChange(RichUtils.toggleInlineStyle(editorState, 'BOLD'))
+    }
+
+
+
     return (
         <div className={css.diaryRoot}>
+            <button onClick={onBoldClick.bind(this)}>Bold</button>
             <div className={css.editor}>
                 <Editor editorState={editorState}
                         placeholder="Enter some text..."
