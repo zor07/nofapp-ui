@@ -26,7 +26,7 @@ class App extends Component {
                     <Routes>
                         <Route path='/' element={<TimerContainer/>}/>
                         <Route path='/timer' element={<TimerContainer/>}/>
-                        <Route path='/Diary' element={<Diary/>}/>
+                        <Route path='/diary' element={<Diary/>}/>
                         <Route path='/login' element={<Login/>}/>
                     </Routes>
                 </div>
