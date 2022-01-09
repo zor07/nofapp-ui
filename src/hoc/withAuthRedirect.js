@@ -7,7 +7,7 @@ export const withAuthRedirect = (Component) => {
         const navigate = useNavigate();
 
         useEffect(() => {
-            if (!props.isAuth) {
+            if (props.initialized && !props.isAuth) {
                 navigate("/login")
             }
         })
@@ -16,6 +16,7 @@ export const withAuthRedirect = (Component) => {
     }
 
     let mstp = (state) => ({
+        initialized: state.app.initialized,
         isAuth: state.auth.isAuth
     })
 
