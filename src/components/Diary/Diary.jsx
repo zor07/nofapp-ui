@@ -18,9 +18,9 @@ const Diary = (props) => {
     }
 
     return (
-        <div className={css.diaryRoot}>
-            <div className={css.editor}>
-                <Editor toolbarOnFocus
+        <div>
+            <div >
+                <Editor editorClassName={css.editor}
                         editorState={editorState}
                         onEditorStateChange={onEditorChange}/>
             </div>
