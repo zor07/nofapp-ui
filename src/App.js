@@ -9,6 +9,7 @@ import {initializeApp} from "./redux/app-reducer";
 import {connect, Provider} from "react-redux";
 import {compose} from "redux";
 import store from "./redux/redux-store";
+import Diary from "./components/Diary/Diary";
 
 class App extends Component {
 
@@ -25,6 +26,7 @@ class App extends Component {
                     <Routes>
                         <Route path='/' element={<TimerContainer/>}/>
                         <Route path='/timer' element={<TimerContainer/>}/>
+                        <Route path='/Diary' element={<Diary/>}/>
                         <Route path='/login' element={<Login/>}/>
                     </Routes>
                 </div>

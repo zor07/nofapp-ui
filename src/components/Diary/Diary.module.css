@@ -1,0 +1,14 @@
+.diaryRoot {
+    fontFamily: '\'Helvetica\', sans-serif';
+    padding: 20px;
+    /*width: 600px;*/
+}
+
+.editor {
+    background-color: white;
+    border: 1px solid #ccc;
+    cursor: text;
+    min-height: 80vh;
+    width: 95%;
+    padding: 10px;
+}
