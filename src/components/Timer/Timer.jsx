@@ -1,5 +1,6 @@
 import React from "react";
 import css from './Timer.module.css'
+import NewTimerForm from "./NewTimerForm";
 
 class Timer extends React.Component {
 
@@ -77,9 +78,13 @@ class Timer extends React.Component {
     }
 
     render() {
-        return <div className={css.timer}>
+        return <div>
+            <div className={css.timer}>
+                {this.state.timePassed}
+            </div>
 
-            {this.state.timePassed}
+
+            <NewTimerForm/>
 
         </div>
     }
