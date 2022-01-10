@@ -2,7 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import {compose} from "redux";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
-import {requestTimers} from "../../redux/timer-reducer";
+import {deleteTimer, requestTimers, stopTimer} from "../../redux/timer-reducer";
 import TimerCard from "./TimerCard";
 import NewTimerForm from "./NewTimerForm";
 
@@ -14,14 +14,30 @@ class TimerContainer extends React.Component {
     }
 
     render() {
-        const timers = this.props.timers
-            ? this.props.timers.map(timer => <TimerCard key={timer.id} timer={timer}/>)
+        const timers = this.props.timers;
+        const runningItems = timers
+            ? timers.filter(timer => timer.isRunning)
+                    .map(timer => <TimerCard key={timer.id}
+                                             stopTimer={this.props.stopTimer}
+                                             deleteTimer={this.props.deleteTimer}
+                                             timer={timer}/>)
+            : null
+
+        const stoppedItems = timers
+            ? timers.filter(timer => !timer.isRunning)
+                .map(timer => <TimerCard key={timer.id}
+                                         stopTimer={this.props.stopTimer}
+                                         deleteTimer={this.props.deleteTimer}
+                                         timer={timer}/>)
             : null
 
         return (
             <div>
                 <div>
-                    {timers}
+                    {runningItems}
+                </div>
+                <div>
+                    {stoppedItems}
                 </div>
                 <div>
                     <NewTimerForm />
@@ -39,5 +55,5 @@ const mapStateToProps = (state) => {
 
 export default compose(
     withAuthRedirect,
-    connect(mapStateToProps, {requestTimers})
+    connect(mapStateToProps, {requestTimers, stopTimer, deleteTimer})
 )(TimerContainer);

@@ -2,7 +2,15 @@ import React from "react";
 import Timer from "./Timer";
 import css from './Timer.module.css'
 
-const TimerCard = ({timer}) => {
+const TimerCard = ({timer, stopTimer, deleteTimer}) => {
+
+    const onStopClick = () => {
+        stopTimer(timer.id)
+    }
+
+    const onDeleteClick = () => {
+        deleteTimer(timer.id)
+    }
 
     return (
         <div className={css.timerCard}>
@@ -14,9 +22,9 @@ const TimerCard = ({timer}) => {
             </div>
             <div>
                 {
-                    timer.stop
-                    ? <button>Delete</button>
-                    : <button>Stop</button>
+                    timer.isRunning
+                        ? <button onClick={onStopClick}>Stop</button>
+                        : <button onClick={onDeleteClick}>Delete</button>
                 }
             </div>
         </div>

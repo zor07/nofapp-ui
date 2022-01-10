@@ -11,7 +11,7 @@ class Timer extends React.Component {
     }
 
     componentDidMount() {
-        if (!this.props.timer.stop) {
+        if (this.props.timer.isRunning) {
             this.intervalId = setInterval(
                 () => this.tick(),
                 1000
@@ -38,8 +38,8 @@ class Timer extends React.Component {
         const minutesMS = secondsMS * 60;
         const hoursMS = minutesMS * 60;
 
-        const now = Date.now();
-        const diff = Math.abs(start - now);
+        const till = this.props.timer.isRunning ? Date.now() : this.props.timer.stop;
+        const diff = Math.abs(start - till);
 
         const hours = Math.floor(diff   / hoursMS)
         const minutes = Math.floor((diff % hoursMS)  / minutesMS)

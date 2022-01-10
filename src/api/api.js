@@ -38,6 +38,24 @@ export const TIMER_API = {
         }).catch((error) => {
             return handleError(error)
         })
+    },
+    stopTimer(timerId) {
+        return instance.put(`timer/${timerId}/stop`, null,{
+            headers : {
+                "Authorization": `Bearer ${cookies.get("accessToken")}`
+            }
+        }).catch((error) => {
+            return handleError(error)
+        })
+    },
+    deleteTimer(timerId) {
+        return instance.delete(`timer/${timerId}`, {
+            headers : {
+                "Authorization": `Bearer ${cookies.get("accessToken")}`
+            }
+        }).catch((error) => {
+            return handleError(error)
+        })
     }
 }
 

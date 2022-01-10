@@ -3,13 +3,13 @@ import {isTokenExpired} from "../api/apiUtils";
 import {refreshToken} from "./auth-reducer";
 
 const SET_TIMERS = 'TIMER/SET_TIMERS'
-const STOP_TIMER = 'STOP_TIMER';
-const START_TIMER = 'START_TIMER';
+const START_TIMER = 'TIMER/START_TIMER'
 
 const initialState = {
     timers: [
         {
             id: 1,
+            isRunning: true,
             start: new Date("2021-11-08T01:00:00.000"),
             stop: null,
             description: ""
@@ -24,8 +24,6 @@ const timerReducer = (state = initialState, action) => {
                 ...state,
                 timers: action.payload
             }
-        // state.posts.filter(p => p.id !== action.postId)
-        // posts: [...state.posts, post]
         case START_TIMER:
             return {
                 ...state,
@@ -40,6 +38,31 @@ const setTimers = (payload) => ({type: SET_TIMERS, payload})
 export const start = () => ({type: START_TIMER})
 export const stop = () => ({type: START_TIMER})
 
+
+export const stopTimer = (timerId) => {
+    return async (dispatch) => {
+        const response = await TIMER_API.stopTimer(timerId)
+        if (response.status === 202) {
+            dispatch(requestTimers())
+        } else if (isTokenExpired(response)) {
+            dispatch(refreshToken())
+            dispatch(stopTimer(timerId))
+        }
+    }
+}
+
+export const deleteTimer = (timerId) => {
+    return async (dispatch) => {
+        const response = await TIMER_API.deleteTimer(timerId)
+        if (response.status === 204) {
+            dispatch(requestTimers())
+        } else if (isTokenExpired(response)) {
+            dispatch(refreshToken())
+            dispatch(deleteTimer(timerId))
+        }
+    }
+}
+
 export const requestTimers = () => {
     return async (dispatch) => {
         const response = await TIMER_API.getTimers()
@@ -48,8 +71,9 @@ export const requestTimers = () => {
             const timers = response.data.map(timer => {
                 return {
                     id: timer.id,
-                    start: Date.parse(timer.start),
-                    stop: Date.parse(timer.stop),
+                    isRunning: timer.isRunning,
+                    start: timer.start ? Date.parse(timer.start) : null,
+                    stop: timer.stop ? Date.parse(timer.stop) : null,
                     description: timer.description
                 }
             })
