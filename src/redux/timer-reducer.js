@@ -1,3 +1,8 @@
+import {TIMER_API} from "../api/api";
+import {isTokenExpired} from "../api/apiUtils";
+import {refreshToken} from "./auth-reducer";
+
+const SET_TIMERS = 'TIMER/SET_TIMERS'
 const STOP_TIMER = 'STOP_TIMER';
 const START_TIMER = 'START_TIMER';
 
@@ -14,14 +19,48 @@ const initialState = {
 
 const timerReducer = (state = initialState, action) => {
     switch (action.type) {
+        case SET_TIMERS:
+            return {
+                ...state,
+                timers: action.payload
+            }
+        // state.posts.filter(p => p.id !== action.postId)
+        // posts: [...state.posts, post]
+        case START_TIMER:
+            return {
+                ...state,
 
+            }
         default:
             return state;
     }
 }
 
-export const start = () => ({ type: START_TIMER})
-export const stop = () => ({ type: START_TIMER})
+const setTimers = (payload) => ({type: SET_TIMERS, payload})
+export const start = () => ({type: START_TIMER})
+export const stop = () => ({type: START_TIMER})
+
+export const requestTimers = () => {
+    return async (dispatch) => {
+        const response = await TIMER_API.getTimers()
+        if (response.status === 200) {
+
+            const timers = response.data.map(timer => {
+                return {
+                    id: timer.id,
+                    start: Date.parse(timer.start),
+                    stop: Date.parse(timer.stop),
+                    description: timer.description
+                }
+            })
+
+            dispatch(setTimers(timers))
+        } else if (isTokenExpired(response)) {
+            dispatch(refreshToken())
+            dispatch(requestTimers())
+        }
+    }
+}
 
 
 export default timerReducer;

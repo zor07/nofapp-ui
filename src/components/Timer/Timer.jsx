@@ -1,17 +1,13 @@
 import React from "react";
 import css from './Timer.module.css'
-import NewTimerForm from "./NewTimerForm";
 
 class Timer extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            timePassed: props.timers
-                .map(timer => this.getTimePassed(timer.start))
+            timePassed: this.getTimePassed(this.props.timer.start)
         }
-
-
     }
 
     componentDidMount() {
@@ -27,8 +23,7 @@ class Timer extends React.Component {
 
     tick() {
         this.setState({
-            timePassed: this.props.timers
-                .map(timer => this.getTimePassed(timer.start))
+            timePassed: this.getTimePassed(this.props.timer.start)
         })
     }
 
@@ -78,14 +73,8 @@ class Timer extends React.Component {
     }
 
     render() {
-        return <div>
-            <div className={css.timer}>
+        return <div className={css.timer}>
                 {this.state.timePassed}
-            </div>
-
-
-            <NewTimerForm/>
-
         </div>
     }
 

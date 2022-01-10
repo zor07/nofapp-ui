@@ -1,5 +1,6 @@
 import {AUTH_API} from "../api/api";
 import Cookies from 'universal-cookie';
+import {isTokenExpired} from "../api/apiUtils";
 
 const SET_USER_DATA = "AUTH/SET_USER_DATA"
 
@@ -44,14 +45,14 @@ export const me = () => {
         const response = await AUTH_API.me()
         if (response.status === 200) {
             dispatch(setUserData(response.data.id, response.data.name, response.data.username, true))
-        } else if (response.status === 403 && response.data.error_message.includes('The Token has expired')) {
+        } else if (isTokenExpired(response)) {
             dispatch(refreshToken())
         }
 
     }
 }
 
-const refreshToken = () => {
+export const refreshToken = () => {
     return async (dispatch) => {
         const response = await AUTH_API.refreshAccessToken()
         if (response.status === 200) {

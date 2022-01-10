@@ -17,11 +17,7 @@ export const AUTH_API = {
                 "Authorization": `Bearer ${cookies.get("accessToken")}`
             }
         }).catch((error) => {
-            if (error.response && error.response.status === 403) {
-                return error.response
-            } else {
-                console.error(error)
-            }
+            return handleError(error)
         })
     },
     refreshAccessToken() {
@@ -30,5 +26,25 @@ export const AUTH_API = {
                 "Authorization": `Bearer ${cookies.get("refreshToken")}`
             }
         })
+    }
+}
+
+export const TIMER_API = {
+    getTimers() {
+        return instance.get(`timer`, {
+            headers : {
+                "Authorization": `Bearer ${cookies.get("accessToken")}`
+            }
+        }).catch((error) => {
+            return handleError(error)
+        })
+    }
+}
+
+const handleError = (error) => {
+    if (error.response && error.response.status === 403) {
+        return error.response
+    } else {
+        console.error(error)
     }
 }
