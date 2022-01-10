@@ -38,6 +38,23 @@ const setTimers = (payload) => ({type: SET_TIMERS, payload})
 export const start = () => ({type: START_TIMER})
 export const stop = () => ({type: START_TIMER})
 
+export const startTimer = (timerData) => {
+    return async (dispatch) => {
+
+        const timerDto = {
+            description: timerData.description,
+            start: timerData.fromNow ? new Date().toISOString(): timerData.start
+        }
+
+        const response = await TIMER_API.startTimer(timerDto)
+        if (response.status === 201) {
+            dispatch(requestTimers())
+        } else if (isTokenExpired(response)) {
+            dispatch(refreshToken())
+            dispatch(startTimer(timerData))
+        }
+    }
+}
 
 export const stopTimer = (timerId) => {
     return async (dispatch) => {

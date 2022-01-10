@@ -5,10 +5,10 @@ import "../../../node_modules/react-datepicker/dist/react-datepicker.css"
 import {required} from "../../utils/validators/validators";
 import css from './Timer.module.css'
 
-const NewTimerForm = () => {
+const NewTimerForm = ({startTimer}) => {
 
-    const onSubmit = (values) => {
-        console.log(values)
+    const onSubmit = (timerData) => {
+        startTimer(timerData)
     }
 
     return (
@@ -28,7 +28,7 @@ const NewTimerForm = () => {
                             {!values.fromNow &&
                             <Field
                                 component={FieldDatePicker}
-                                name="date_till"
+                                name="start"
                                 placeholder="YYYY/MM/DD"
                             />
                             }

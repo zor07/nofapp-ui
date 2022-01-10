@@ -2,7 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import {compose} from "redux";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
-import {deleteTimer, requestTimers, stopTimer} from "../../redux/timer-reducer";
+import {deleteTimer, requestTimers, startTimer, stopTimer} from "../../redux/timer-reducer";
 import TimerCard from "./TimerCard";
 import NewTimerForm from "./NewTimerForm";
 
@@ -40,7 +40,7 @@ class TimerContainer extends React.Component {
                     {stoppedItems}
                 </div>
                 <div>
-                    <NewTimerForm />
+                    <NewTimerForm startTimer={this.props.startTimer}/>
                 </div>
             </div>
         )
@@ -55,5 +55,5 @@ const mapStateToProps = (state) => {
 
 export default compose(
     withAuthRedirect,
-    connect(mapStateToProps, {requestTimers, stopTimer, deleteTimer})
+    connect(mapStateToProps, {requestTimers, startTimer, stopTimer, deleteTimer})
 )(TimerContainer);

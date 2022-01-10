@@ -39,6 +39,15 @@ export const TIMER_API = {
             return handleError(error)
         })
     },
+    startTimer(timerData) {
+        return instance.post(`timer`, timerData,{
+            headers : {
+                "Authorization": `Bearer ${cookies.get("accessToken")}`
+            }
+        }).catch((error) => {
+            return handleError(error)
+        })
+    },
     stopTimer(timerId) {
         return instance.put(`timer/${timerId}/stop`, null,{
             headers : {
