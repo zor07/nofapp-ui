@@ -1,4 +1,18 @@
-.timer {
+
+.timerCard {
     padding: 10px;
-    font-size: xx-large;
+}
+
+.description {
+    font: 1.2em "Helvetica", sans-serif;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.timer {
+    font: 1.2em "Courier New", monospace;
+}
+
+.newTimerForm {
+    padding: 10px;
 }
