@@ -1,6 +1,7 @@
 import {TIMER_API} from "../api/api";
 import {isTokenExpired} from "../api/apiUtils";
 import {refreshToken} from "./auth-reducer";
+import {adjustForTimezone, getCurrentDate} from "../utils/dateUtils";
 
 const SET_TIMERS = 'TIMER/SET_TIMERS'
 const START_TIMER = 'TIMER/START_TIMER'
@@ -43,7 +44,7 @@ export const startTimer = (timerData) => {
 
         const timerDto = {
             description: timerData.description,
-            start: timerData.fromNow ? new Date().toISOString(): timerData.start
+            start: timerData.fromNow ? getCurrentDate(): adjustForTimezone(timerData.start)
         }
 
         const response = await TIMER_API.startTimer(timerDto)
