@@ -4,10 +4,9 @@ import {refreshToken} from "./auth-reducer";
 import {adjustForTimezone, getCurrentDate} from "../utils/dateUtils";
 
 const SET_TIMERS = 'TIMER/SET_TIMERS'
-const START_TIMER = 'TIMER/START_TIMER'
 
-type Action = {
-    type: typeof SET_TIMERS | typeof START_TIMER,
+type SetTimersAction = {
+    type: typeof SET_TIMERS,
     payload: Array<Timer>
 }
 
@@ -49,28 +48,19 @@ const initialState: TimerState = {
     ]
 }
 
-const timerReducer = (state: TimerState = initialState, action: Action) => {
+const timerReducer = (state: TimerState = initialState, action: SetTimersAction): TimerState => {
     switch (action.type) {
         case SET_TIMERS:
             return {
                 ...state,
                 timers: action.payload
             }
-        case START_TIMER:
-            return {
-                ...state,
-
-            }
         default:
             return state;
     }
 }
 
-const setTimers = (payload: Array<Timer>) => ({type: SET_TIMERS, payload})
-export const start = () => ({type: START_TIMER})
-export const stop = () => ({type: START_TIMER})
-
-
+const setTimers = (payload: Array<Timer>) : SetTimersAction => ({type: SET_TIMERS, payload})
 
 export const startTimer = (timerData: TimerFormData) => {
     return async (dispatch: Function) => {
@@ -102,7 +92,7 @@ export const stopTimer = (timerId: number) => {
     }
 }
 
-export const deleteTimer = (timerId: number) => {
+export const deleteTimer = (timerId: string) => {
     return async (dispatch: Function) => {
         const response = await TIMER_API.deleteTimer(timerId)
         if (response.status === 204) {
@@ -123,7 +113,7 @@ export const requestTimers = () => {
             const timers = timersResp.map(timer => {
                 return <Timer>{
                     id: timer.id,
-                    isRunning: true,
+                    isRunning: timer.isRunning,
                     start: new Date(Date.parse(timer.start)),
                     stop: timer.stop ? Date.parse(timer.stop) : null,
                     description: timer.description
