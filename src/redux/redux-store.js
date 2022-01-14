@@ -1,6 +1,6 @@
 import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 import thunkMiddleware from "redux-thunk";
-import authReducer from "./auth-reducer";
+import authReducer from "./auth-reducer.ts";
 import appReducer from "./app-reducer";
 import timerReducer from "./timer-reducer.ts";
 

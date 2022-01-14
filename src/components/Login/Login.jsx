@@ -3,7 +3,7 @@ import {Form, Field} from "react-final-form";
 import {Input} from "../Common/FormControls/FormControls";
 import {required} from "../../utils/validators/validators";
 import {connect} from "react-redux";
-import {login} from "../../redux/auth-reducer";
+import {login} from "../../redux/auth-reducer.ts";
 import {useNavigate} from "react-router-dom";
 
 const Login = ({isAuth, login}) => {

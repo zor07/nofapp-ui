@@ -1,6 +1,6 @@
 import {TIMER_API} from "../api/api";
 import {isTokenExpired} from "../api/apiUtils";
-import {refreshToken} from "./auth-reducer";
+import {refreshToken} from "./auth-reducer.ts";
 import {adjustForTimezone, getCurrentDate} from "../utils/dateUtils";
 
 const SET_TIMERS = 'TIMER/SET_TIMERS'

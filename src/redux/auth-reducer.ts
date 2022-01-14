@@ -4,6 +4,14 @@ import {isTokenExpired} from "../api/apiUtils";
 
 const SET_USER_DATA = "AUTH/SET_USER_DATA"
 
+type Action = {
+    type: typeof SET_USER_DATA,
+    id: string | null,
+    name: string | null,
+    username: string | null,
+    isAuth: boolean
+}
+
 const initialState = {
     id: null,
     name: null,
@@ -11,7 +19,7 @@ const initialState = {
     isAuth: false
 }
 
-const authReducer = (state = initialState, action) => {
+const authReducer = (state = initialState, action: Action) => {
     switch (action.type) {
         case SET_USER_DATA:
             return {...state, id: action.id, name: action.name, username: action.username, isAuth: action.isAuth}
@@ -20,13 +28,16 @@ const authReducer = (state = initialState, action) => {
     }
 }
 
-const setUserData = (id, name, username, isAuth) => ({type: SET_USER_DATA, id, name, username, isAuth})
+const setUserData = (id: string | null,
+                     name: string | null,
+                     username: string | null,
+                     isAuth: boolean): Action => ({type: SET_USER_DATA, id, name, username, isAuth})
 
-export const login = (username, password) => {
-    return async (dispatch) => {
+export const login = (username: string, password: string) => {
+    return async (dispatch: Function) => {
         const response = await AUTH_API.login(username, password);
         if (response.status === 200) {
-            updateCoockies(response.data.access_token, response.data.refresh_token)
+            updateCookies(response.data.access_token, response.data.refresh_token)
             dispatch(me())
         }
 
@@ -34,14 +45,14 @@ export const login = (username, password) => {
 }
 
 export const logout = () => {
-    return (dispatch) => {
+    return (dispatch: Function) => {
         dispatch(setUserData(null, null, null, false));
-        updateCoockies(null, null)
+        updateCookies(null, null)
     }
 }
 
 export const me = () => {
-    return async (dispatch) => {
+    return async (dispatch: Function) => {
         const response = await AUTH_API.me()
         if (response.status === 200) {
             dispatch(setUserData(response.data.id, response.data.name, response.data.username, true))
@@ -53,16 +64,16 @@ export const me = () => {
 }
 
 export const refreshToken = () => {
-    return async (dispatch) => {
+    return async (dispatch: Function) => {
         const response = await AUTH_API.refreshAccessToken()
         if (response.status === 200) {
-            updateCoockies(response.data.access_token, response.data.refresh_token)
+            updateCookies(response.data.access_token, response.data.refresh_token)
             dispatch(me())
         }
     }
 }
 
-const updateCoockies = (accessToken, refreshToken) => {
+const updateCookies = (accessToken: string | null, refreshToken: string | null): void => {
     const cookies = new Cookies();
     cookies.set('accessToken', accessToken, {path: '/'});
     cookies.set('refreshToken', refreshToken, {path: '/'});
