@@ -5,10 +5,10 @@ import TimerContainer from "./components/Timer/TimerContainer";
 import Login from "./components/Login/Login";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import {Component} from "react";
-import {initializeApp} from "./redux/app-reducer";
 import {connect, Provider} from "react-redux";
 import {compose} from "redux";
-import store from "./redux/redux-store";
+import {initializeApp} from "./redux/app-reducer.ts";
+import store from "./redux/redux-store.ts";
 import Diary from "./components/Diary/Diary";
 
 class App extends Component {

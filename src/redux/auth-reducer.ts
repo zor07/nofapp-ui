@@ -2,8 +2,6 @@ import {AUTH_API} from "../api/api";
 import Cookies from 'universal-cookie';
 import {isTokenExpired} from "../api/apiUtils";
 
-const SET_USER_DATA = "AUTH/SET_USER_DATA"
-
 type Action = {
     type: typeof SET_USER_DATA,
     id: string | null,
@@ -12,14 +10,23 @@ type Action = {
     isAuth: boolean
 }
 
-const initialState = {
+type InitialStateType = {
+    id: string | null
+    name: string | null
+    username: string | null
+    isAuth: boolean
+}
+
+const initialState: InitialStateType = {
     id: null,
     name: null,
     username: null,
     isAuth: false
 }
 
-const authReducer = (state = initialState, action: Action) => {
+const SET_USER_DATA = "AUTH/SET_USER_DATA"
+
+const authReducer = (state: InitialStateType = initialState, action: Action) => {
     switch (action.type) {
         case SET_USER_DATA:
             return {...state, id: action.id, name: action.name, username: action.username, isAuth: action.isAuth}

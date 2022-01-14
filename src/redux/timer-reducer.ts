@@ -1,16 +1,15 @@
 import {TIMER_API} from "../api/api";
 import {isTokenExpired} from "../api/apiUtils";
-import {refreshToken} from "./auth-reducer.ts";
 import {adjustForTimezone, getCurrentDate} from "../utils/dateUtils";
-
-const SET_TIMERS = 'TIMER/SET_TIMERS'
+// @ts-ignore
+import {refreshToken} from "./auth-reducer.ts";
 
 type SetTimersAction = {
     type: typeof SET_TIMERS,
     payload: Array<Timer>
 }
 
-type TimerState =  {
+type InitialState =  {
     timers: Array<Timer>
 };
 
@@ -36,7 +35,9 @@ type Timer = {
     description: string
 }
 
-const initialState: TimerState = {
+const SET_TIMERS = 'TIMER/SET_TIMERS'
+
+const initialState: InitialState = {
     timers: [
         {
             id: "1",
@@ -48,7 +49,7 @@ const initialState: TimerState = {
     ]
 }
 
-const timerReducer = (state: TimerState = initialState, action: SetTimersAction): TimerState => {
+const timerReducer = (state: InitialState = initialState, action: SetTimersAction): InitialState => {
     switch (action.type) {
         case SET_TIMERS:
             return {
@@ -108,18 +109,16 @@ export const requestTimers = () => {
     return async (dispatch: Function) => {
         const response = await TIMER_API.getTimers()
         if (response.status === 200) {
-
             const timersResp: Array<TimerDto> = response.data
             const timers = timersResp.map(timer => {
                 return <Timer>{
                     id: timer.id,
                     isRunning: timer.isRunning,
                     start: new Date(Date.parse(timer.start)),
-                    stop: timer.stop ? Date.parse(timer.stop) : null,
+                    stop: timer.stop ? new Date(Date.parse(timer.stop)) : null,
                     description: timer.description
                 };
             })
-
             dispatch(setTimers(timers))
         } else if (isTokenExpired(response)) {
             dispatch(refreshToken())
@@ -127,6 +126,5 @@ export const requestTimers = () => {
         }
     }
 }
-
 
 export default timerReducer;

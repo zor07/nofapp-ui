@@ -1,12 +1,16 @@
+// @ts-ignore
 import {me} from "./auth-reducer.ts";
+
+type InitialStateType = { initialized: boolean }
+type InitializeAppAction = {type: typeof SET_INITIALIZED}
 
 const SET_INITIALIZED = 'APP/SET_INITIALIZED'
 
-let initialState = {
+const initialState: InitialStateType = {
     initialized: false
 }
 
-const appReducer = (state = initialState, action) => {
+const appReducer = (state = initialState, action: InitializeAppAction) => {
     switch (action.type) {
         case SET_INITIALIZED:
             return {
@@ -20,7 +24,7 @@ const appReducer = (state = initialState, action) => {
 
 export const setInitialized = () => ({type: SET_INITIALIZED})
 
-export const initializeApp = () => (dispatch) => {
+export const initializeApp = () => (dispatch: Function) => {
     const promise = dispatch(me());
 
     Promise.all([promise])
