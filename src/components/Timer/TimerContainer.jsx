@@ -2,7 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import {compose} from "redux";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
-import {deleteTimer, requestTimers, startTimer, stopTimer} from "../../redux/timer-reducer";
+import {deleteTimer, requestTimers, startTimer, stopTimer} from "../../redux/timer-reducer.ts";
 import TimerCard from "./TimerCard";
 import NewTimerForm from "./NewTimerForm";
 
