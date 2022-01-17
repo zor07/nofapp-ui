@@ -2,22 +2,19 @@ import {AUTH_API} from "../api/api";
 import Cookies from 'universal-cookie';
 import {isTokenExpired} from "../api/apiUtils";
 
-type Action = {
-    type: typeof SET_USER_DATA,
+type UserDataType = {
     id: string | null,
     name: string | null,
     username: string | null,
     isAuth: boolean
 }
 
-type InitialStateType = {
-    id: string | null
-    name: string | null
-    username: string | null
-    isAuth: boolean
+type SetUserDataActionType = {
+    type: typeof SET_USER_DATA,
+    payload: UserDataType
 }
 
-const initialState: InitialStateType = {
+const initialState: UserDataType = {
     id: null,
     name: null,
     username: null,
@@ -26,10 +23,10 @@ const initialState: InitialStateType = {
 
 const SET_USER_DATA = "AUTH/SET_USER_DATA"
 
-const authReducer = (state: InitialStateType = initialState, action: Action) => {
+const authReducer = (state: UserDataType = initialState, action: SetUserDataActionType) => {
     switch (action.type) {
         case SET_USER_DATA:
-            return {...state, id: action.id, name: action.name, username: action.username, isAuth: action.isAuth}
+            return {...state, ...action.payload}
         default:
             return state;
     }
@@ -38,7 +35,7 @@ const authReducer = (state: InitialStateType = initialState, action: Action) => 
 const setUserData = (id: string | null,
                      name: string | null,
                      username: string | null,
-                     isAuth: boolean): Action => ({type: SET_USER_DATA, id, name, username, isAuth})
+                     isAuth: boolean): SetUserDataActionType => ({type: SET_USER_DATA, payload: {id, name, username, isAuth}})
 
 export const login = (username: string, password: string) => {
     return async (dispatch: Function) => {
@@ -47,7 +44,6 @@ export const login = (username: string, password: string) => {
             updateCookies(response.data.access_token, response.data.refresh_token)
             dispatch(me())
         }
-
     }
 }
 
