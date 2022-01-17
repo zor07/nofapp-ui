@@ -1,8 +1,14 @@
 import React from "react";
-import css from "./Header.module.css"
+import css from './Header.module.css'
 import {NavLink} from "react-router-dom";
 
-const Header = ({isAuth, username, logout}) => {
+type Props = {
+    isAuth: boolean
+    username: string
+    logout: () => void
+}
+
+const Header: React.FC<Props> = ({isAuth, username, logout}) => {
 
     return (
         <header className={css.header}>
