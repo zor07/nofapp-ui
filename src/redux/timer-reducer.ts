@@ -4,22 +4,22 @@ import {adjustForTimezone, getCurrentDate} from "../utils/dateUtils";
 // @ts-ignore
 import {refreshToken} from "./auth-reducer.ts";
 
-type SetTimersAction = {
+type SetTimersActionType = {
     type: typeof SET_TIMERS,
-    payload: Array<Timer>
+    payload: Array<TimerType>
 }
 
-type InitialState =  {
-    timers: Array<Timer>
+type InitialStateType =  {
+    timers: Array<TimerType>
 };
 
-type TimerFormData = {
+export type TimerFormDataType = {
     start?: string,
     fromNow: boolean,
     description: string
 }
 
-type TimerDto = {
+type TimerDtoType = {
     id: string,
     isRunning: boolean,
     start: string,
@@ -27,7 +27,7 @@ type TimerDto = {
     description: string
 }
 
-type Timer = {
+export type TimerType = {
     id: string,
     isRunning: boolean,
     start: Date,
@@ -37,7 +37,7 @@ type Timer = {
 
 const SET_TIMERS = 'TIMER/SET_TIMERS'
 
-const initialState: InitialState = {
+const initialState: InitialStateType = {
     timers: [
         {
             id: "1",
@@ -49,7 +49,7 @@ const initialState: InitialState = {
     ]
 }
 
-const timerReducer = (state: InitialState = initialState, action: SetTimersAction): InitialState => {
+const timerReducer = (state: InitialStateType = initialState, action: SetTimersActionType): InitialStateType => {
     switch (action.type) {
         case SET_TIMERS:
             return {
@@ -61,9 +61,9 @@ const timerReducer = (state: InitialState = initialState, action: SetTimersActio
     }
 }
 
-const setTimers = (payload: Array<Timer>) : SetTimersAction => ({type: SET_TIMERS, payload})
+const setTimers = (payload: Array<TimerType>) : SetTimersActionType => ({type: SET_TIMERS, payload})
 
-export const startTimer = (timerData: TimerFormData) => {
+export const startTimer = (timerData: TimerFormDataType) => {
     return async (dispatch: Function) => {
 
         const timerDto = {
@@ -81,7 +81,7 @@ export const startTimer = (timerData: TimerFormData) => {
     }
 }
 
-export const stopTimer = (timerId: number) => {
+export const stopTimer = (timerId: string) => {
     return async (dispatch: Function) => {
         const response = await TIMER_API.stopTimer(timerId)
         if (response.status === 202) {
@@ -109,9 +109,9 @@ export const requestTimers = () => {
     return async (dispatch: Function) => {
         const response = await TIMER_API.getTimers()
         if (response.status === 200) {
-            const timersResp: Array<TimerDto> = response.data
+            const timersResp: Array<TimerDtoType> = response.data
             const timers = timersResp.map(timer => {
-                return <Timer>{
+                return <TimerType>{
                     id: timer.id,
                     isRunning: timer.isRunning,
                     start: new Date(Date.parse(timer.start)),

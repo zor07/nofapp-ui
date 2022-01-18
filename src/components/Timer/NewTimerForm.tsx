@@ -4,10 +4,15 @@ import {FieldDatePicker, Input} from "../Common/FormControls/FormControls";
 import "../../../node_modules/react-datepicker/dist/react-datepicker.css"
 import {required} from "../../utils/validators/validators";
 import css from './Timer.module.css'
+import {TimerFormDataType} from "../../redux/timer-reducer";
 
-const NewTimerForm = ({startTimer}) => {
+type TimerFormType = {
+    startTimer: (timerData: TimerFormDataType) => void
+}
 
-    const onSubmit = (timerData) => {
+const NewTimerForm: React.FC<TimerFormType> = ({startTimer}) => {
+
+    const onSubmit = (timerData: TimerFormDataType) => {
         startTimer(timerData)
     }
 

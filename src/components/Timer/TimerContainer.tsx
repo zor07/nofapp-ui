@@ -2,12 +2,30 @@ import React from "react";
 import {connect} from "react-redux";
 import {compose} from "redux";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
-import {deleteTimer, requestTimers, startTimer, stopTimer} from "../../redux/timer-reducer.ts";
+import {deleteTimer, requestTimers, startTimer, stopTimer, TimerFormDataType, TimerType} from "../../redux/timer-reducer";
 import TimerCard from "./TimerCard";
 import NewTimerForm from "./NewTimerForm";
+import {AppStateType} from "../../redux/redux-store";
 
 
-class TimerContainer extends React.Component {
+type MapStatePropsType = {
+    timers: Array<TimerType>
+}
+
+type MapDispatchPropsType = {
+    requestTimers: () => void
+    startTimer: (timerData: TimerFormDataType) => void
+    stopTimer: (timerId: string) => void
+    deleteTimer: (timerId: string) => void
+}
+
+type OwnPropsType = {
+
+}
+
+type TimerContainerPropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
+
+class TimerContainer extends React.Component<TimerContainerPropsType> {
 
     componentDidMount() {
         this.props.requestTimers();
@@ -47,7 +65,7 @@ class TimerContainer extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
         timers: state.timerPage.timers
     }
@@ -55,5 +73,5 @@ const mapStateToProps = (state) => {
 
 export default compose(
     withAuthRedirect,
-    connect(mapStateToProps, {requestTimers, startTimer, stopTimer, deleteTimer})
+    connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {requestTimers, startTimer, stopTimer, deleteTimer})
 )(TimerContainer);

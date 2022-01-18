@@ -1,13 +1,25 @@
 import React from "react";
 import css from './Timer.module.css'
+import {TimerType} from "../../redux/timer-reducer";
 
-class Timer extends React.Component {
+type TimerPropsType = {
+    timer: TimerType,
+}
+
+type TimerStateType = {
+    timePassed: string,
+}
+
+class Timer extends React.Component<TimerPropsType, TimerStateType> {
+
+    private intervalId: any;
 
     constructor(props) {
         super(props);
         this.state = {
-            timePassed: this.getTimePassed(this.props.timer.start)
+            timePassed: this.getTimePassed(this.props.timer.start),
         }
+        this.intervalId = 0
     }
 
     componentDidMount() {
@@ -29,16 +41,16 @@ class Timer extends React.Component {
         })
     }
 
-    getTimePassed = (start) => {
-        return this._getDiffWithHours(start)
+    getTimePassed = (start: Date) => {
+        return this._getDiffWithHours(start.getTime())
     }
 
-    _getDiffWithHours(start) {
+    _getDiffWithHours(start: number) {
         const secondsMS = 1000
         const minutesMS = secondsMS * 60;
         const hoursMS = minutesMS * 60;
 
-        const till = this.props.timer.isRunning ? Date.now() : this.props.timer.stop;
+        const till = this.props.timer.isRunning ? Date.now() : this.props.timer.stop.getTime();
         const diff = Math.abs(start - till);
 
         const hours = Math.floor(diff   / hoursMS)
