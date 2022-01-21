@@ -1,8 +1,7 @@
 import {TIMER_API} from "../api/api";
 import {isTokenExpired} from "../api/apiUtils";
 import {adjustForTimezone, getCurrentDate} from "../utils/dateUtils";
-// @ts-ignore
-import {refreshToken} from "./auth-reducer.ts";
+import {refreshToken} from "./auth-reducer";
 
 type SetTimersActionType = {
     type: typeof SET_TIMERS,

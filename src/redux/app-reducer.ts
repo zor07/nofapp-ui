@@ -1,5 +1,4 @@
-// @ts-ignore
-import {me} from "./auth-reducer.ts";
+import {me} from "./auth-reducer";
 
 type InitialStateType = { initialized: boolean }
 type InitializeAppAction = {type: typeof SET_INITIALIZED}
