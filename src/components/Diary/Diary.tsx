@@ -7,8 +7,18 @@ import css from './Diary.module.css'
 import {compose} from "redux";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {connect} from "react-redux";
+import {AppStateType} from "../../redux/redux-store";
 
-const Diary = (props) => {
+
+type MapStateToPropsType = {
+}
+
+type MapDispatchToPropsType = {
+}
+
+type DiaryPropsType = MapStateToPropsType & MapDispatchToPropsType
+
+const Diary: React.FC<DiaryPropsType> = (props) => {
     const [editorState, setEditorState] = React.useState(
         () => EditorState.createEmpty()
     );
@@ -28,7 +38,7 @@ const Diary = (props) => {
     );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
 
     }
