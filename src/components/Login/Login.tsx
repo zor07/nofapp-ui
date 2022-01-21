@@ -3,10 +3,24 @@ import {Form, Field} from "react-final-form";
 import {Input} from "../Common/FormControls/FormControls";
 import {required} from "../../utils/validators/validators";
 import {connect} from "react-redux";
-import {login} from "../../redux/auth-reducer.ts";
+import {login} from "../../redux/auth-reducer";
 import {useNavigate} from "react-router-dom";
+import {AppStateType} from "../../redux/redux-store";
 
-const Login = ({isAuth, login}) => {
+
+
+type MapStateToPropsType = {
+    isAuth: boolean
+}
+
+type MapDispatchToPropsType = {
+    login: (username: string, password: string) => void
+}
+
+type LoginPropsType = MapStateToPropsType & MapDispatchToPropsType
+
+
+const Login: React.FC<LoginPropsType>= ({isAuth, login}) => {
 
     const navigate = useNavigate();
     const onSubmit = (values) => {
@@ -51,7 +65,7 @@ const Login = ({isAuth, login}) => {
     )
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
     isAuth: state.auth.isAuth
 })
 
