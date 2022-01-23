@@ -9,6 +9,7 @@ import SaveButton from "./Buttons/SaveButton";
 import BulletList from "./Buttons/BulletList";
 import OrderedList from "./Buttons/OrderedList";
 import TaskList from "./Buttons/TaskList";
+import Strike from "./Buttons/Strike";
 
 
 const Toolbar = ({state}) => {
@@ -32,6 +33,7 @@ const Toolbar = ({state}) => {
                 <Bold/>
                 <Italic/>
                 <Underline/>
+                <Strike/>
             </div>
             <hr role="separator" aria-orientation="vertical" className="remirror-role remirror-separator"/>
             <div className="remirror-role remirror-group">
