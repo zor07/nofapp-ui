@@ -42,7 +42,7 @@ const HeadingButtons = () => {
                     key={level}
                     onMouseDown={(event) => event.preventDefault()}
                     onClick={() => commands.toggleHeading({ level })}
-                    className={cx(active.heading({ level }) && 'active')}
+                    className={cx(active.heading({ level }) ? 'remirror-button-active' : 'remirror-button') + ' remirror-role remirror-tabbable'}
                 >
                     H{level}
                 </button>
@@ -63,8 +63,32 @@ const SaveButton = ({ state }) => {
         [getJSON]
     );
 
-    return <button onClick={handleClick}>Save</button>;
+    return <button
+        className="remirror-role remirror-button remirror-tabbable"
+        onClick={handleClick}>Save</button>;
 };
+
+export const Redo = () => {
+    const actions = useCommands();
+    const redo = () => {
+        actions.redo()
+    };
+
+    return <button
+        className="remirror-role remirror-button remirror-tabbable"
+        onClick={redo}>Redo</button>;
+}
+
+export const Undo = () => {
+    const actions = useCommands();
+    const undo = () => {
+        actions.undo()
+    };
+
+    return <button
+        className="remirror-role remirror-button remirror-tabbable"
+        onClick={undo}>Undo</button>;
+}
 
 export const Bold = () => {
     const { toggleBold, focus } = useCommands();
@@ -72,6 +96,7 @@ export const Bold = () => {
 
     return (
         <button
+            className="remirror-role remirror-button remirror-tabbable"
             onClick={() => {
                 toggleBold();
                 focus();
@@ -79,6 +104,24 @@ export const Bold = () => {
             style={{ fontWeight: active.bold() ? 'bold' : undefined }}
         >
             B
+        </button>
+    );
+};
+
+export const Italic = () => {
+    const { toggleItalic, focus } = useCommands();
+    const active = useActive();
+
+    return (
+        <button
+            className="remirror-role remirror-button remirror-tabbable"
+            onClick={() => {
+                toggleItalic();
+                focus();
+            }}
+            style={{ fontStyle: active.italic() ? 'italic' : undefined }}
+        >
+            I
         </button>
     );
 };
@@ -126,7 +169,7 @@ const Editor = () => {
     };
 
     return (
-        <div className="App">
+        <div className="remirror-theme">
             <h2>Start editing to see some magic happen!</h2>
             {saveText.length > 0 && <p>{saveText}</p>}
             <div className="remirror-theme">
@@ -140,9 +183,27 @@ const Editor = () => {
                         setState(parameter.state);
                     }}
                 >
-                    <Bold/>
-                    <HeadingButtons />
-                    <EditorComponent />
+                    <div className="remirror-role remirror-toolbar">
+                        <div className="remirror-role remirror-group">
+                            <Undo/>
+                            <Redo/>
+                        </div>
+                        <hr role="separator" aria-orientation="vertical" className="remirror-role remirror-separator"/>
+                        <div className="remirror-role remirror-group">
+                            <HeadingButtons />
+                        </div>
+                        <hr role="separator" aria-orientation="vertical" className="remirror-role remirror-separator"/>
+                        <div className="remirror-role remirror-group">
+                            <Bold/>
+                            <Italic/>
+                        </div>
+
+
+                    </div>
+                    <div className="remirror-editor remirror-a11y-dark">
+                        <EditorComponent/>
+                    </div>
+
                     <SaveButton state={state} />
                 </Remirror>
             </div>
