@@ -10,6 +10,7 @@ import {compose} from "redux";
 import {initializeApp} from "./redux/app-reducer.ts";
 import store from "./redux/redux-store.ts";
 import Diary from "./components/Diary/Diary";
+import Editor from "./components/Diary/Editor";
 
 class App extends Component {
 
@@ -27,6 +28,7 @@ class App extends Component {
                         <Route path='/' element={<TimerContainer/>}/>
                         <Route path='/timer' element={<TimerContainer/>}/>
                         <Route path='/diary' element={<Diary/>}/>
+                        <Route path='/editor' element={<Editor/>}/>
                         <Route path='/login' element={<Login/>}/>
                     </Routes>
                 </div>
