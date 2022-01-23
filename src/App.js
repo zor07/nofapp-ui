@@ -10,7 +10,7 @@ import {compose} from "redux";
 import {initializeApp} from "./redux/app-reducer.ts";
 import store from "./redux/redux-store.ts";
 import Diary from "./components/Diary/Diary";
-import Editor from "./components/Diary/Editor";
+import Editor from "./components/Editor/Editor";
 
 class App extends Component {
 

@@ -1,22 +1,21 @@
 import {useActive, useCommands} from "@remirror/react";
 import React from "react";
 
-const Underline = () => {
-    const { toggleUnderline, focus } = useCommands();
+const Bold = () => {
+    const { toggleBold, focus } = useCommands();
     const active = useActive();
 
     return (
         <button
             className="remirror-role remirror-button remirror-tabbable"
             onClick={() => {
-                toggleUnderline();
+                toggleBold();
                 focus();
             }}
-            style={{ fontStyle: active.underline() ? 'underline' : undefined }}
-        >
-            U
+            style={{ fontWeight: active.bold() ? 'bold' : undefined }}>
+            B
         </button>
     );
 }
 
-export default Underline
+export default Bold
