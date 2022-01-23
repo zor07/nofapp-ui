@@ -1,7 +1,15 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect} from "react";
 import "remirror/styles/all.css";
 
-import {BoldExtension, HeadingExtension, ItalicExtension, UnderlineExtension} from "remirror/extensions";
+import {
+    BoldExtension,
+    HeadingExtension,
+    ItalicExtension,
+    UnderlineExtension,
+    TaskListItemExtension,
+    BulletListExtension,
+    OrderedListExtension,
+    wysiwygPreset} from "remirror/extensions";
 import {EditorComponent, Remirror, useHelpers, useKeymap, useRemirror} from "@remirror/react";
 import Toolbar from "./Toolbar/Toolbar";
 
@@ -32,12 +40,15 @@ const initialContent = {
 };
 
 const Editor = () => {
-    const [saveText, setSaveText] = useState("");
     const { manager, state, setState } = useRemirror({
         extensions: () => [new BoldExtension({}),
             new ItalicExtension(),
             new UnderlineExtension(),
-            new HeadingExtension({})],
+            new HeadingExtension({}),
+            new BulletListExtension({}),
+            new OrderedListExtension(),
+            new TaskListItemExtension(),
+            ...wysiwygPreset()],
         content: {
             type: "doc",
             content: []
@@ -51,14 +62,9 @@ const Editor = () => {
         manager.view.updateState(manager.createState({ content: initialContent }));
     }, [manager]);
 
-    const handleSaveText = (text) => {
-        setSaveText(text);
-    };
-
     return (
-        <div className="remirror-theme">
+        <div>
             <h2>Start editing to see some magic happen!</h2>
-            {saveText.length > 0 && <p>{saveText}</p>}
             <div className="remirror-theme">
                 {/* the className is used to define css variables necessary for the editor */}
                 <Remirror

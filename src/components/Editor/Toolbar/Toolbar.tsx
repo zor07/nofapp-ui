@@ -6,6 +6,9 @@ import Italic from "./Buttons/Italic";
 import Underline from "./Buttons/Underline";
 import React from "react";
 import SaveButton from "./Buttons/SaveButton";
+import BulletList from "./Buttons/BulletList";
+import OrderedList from "./Buttons/OrderedList";
+import TaskList from "./Buttons/TaskList";
 
 
 const Toolbar = ({state}) => {
@@ -29,6 +32,12 @@ const Toolbar = ({state}) => {
                 <Bold/>
                 <Italic/>
                 <Underline/>
+            </div>
+            <hr role="separator" aria-orientation="vertical" className="remirror-role remirror-separator"/>
+            <div className="remirror-role remirror-group">
+                <BulletList />
+                <OrderedList />
+                <TaskList />
             </div>
 
         </div>
