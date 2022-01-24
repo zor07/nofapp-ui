@@ -9,15 +9,17 @@ import {
     TaskListItemExtension,
     BulletListExtension,
     OrderedListExtension,
-    wysiwygPreset} from "remirror/extensions";
+    DocExtension,
+    wysiwygPreset
+} from "remirror/extensions";
 import {EditorComponent, Remirror, useHelpers, useKeymap, useRemirror} from "@remirror/react";
 import Toolbar from "./Toolbar/Toolbar";
 
 const hooks = [
     () => {
-        const { getJSON } = useHelpers();
+        const {getJSON} = useHelpers();
         const handleSaveShortcut = useCallback(
-            ({ state }) => {
+            ({state}) => {
                 console.log(`Save to backend: ${JSON.stringify(getJSON(state))}`);
 
                 return true; // Prevents any further key handlers from being run.
@@ -33,15 +35,24 @@ const initialContent = {
     type: "doc",
     content: [
         {
-            type: "paragraph",
-            content: [{ type: "text", text: "This is a sample text" }]
+            "type": "heading",
+            "attrs": {
+                "level": 1
+            },
+            "content": [
+                {
+                    "type": "text",
+                    "text": "24.01.2022"
+                }
+            ]
         }
     ]
 };
 
 const Editor = () => {
-    const { manager, state, setState } = useRemirror({
+    const {manager, state, setState} = useRemirror({
         extensions: () => [new BoldExtension({}),
+            new DocExtension({content: 'heading block+'}),
             new ItalicExtension(),
             new UnderlineExtension(),
             new HeadingExtension({}),
@@ -59,7 +70,7 @@ const Editor = () => {
 
     useEffect(() => {
         // make api request and get initial data then set content
-        manager.view.updateState(manager.createState({ content: initialContent }));
+        manager.view.updateState(manager.createState({content: initialContent}));
     }, [manager]);
 
     return (
