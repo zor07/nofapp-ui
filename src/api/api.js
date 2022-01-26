@@ -68,6 +68,45 @@ export const TIMER_API = {
     }
 }
 
+export const DIARY_API = {
+    getDiaries() {
+        return instance.get(`diary`, {
+            headers : {
+                "Authorization": `Bearer ${cookies.get("accessToken")}`
+            }
+        }).catch((error) => {
+            return handleError(error)
+        })
+    },
+    getDiary(diaryId) {
+        return instance.get(`diary/${diaryId}`, {
+            headers : {
+                "Authorization": `Bearer ${cookies.get("accessToken")}`
+            }
+        }).catch((error) => {
+            return handleError(error)
+        })
+    },
+    saveDiary(diary) {
+        return instance.post(`diary`, diary,{
+            headers : {
+                "Authorization": `Bearer ${cookies.get("accessToken")}`
+            }
+        }).catch((error) => {
+            return handleError(error)
+        })
+    },
+    deleteDiary(diaryId) {
+        return instance.delete(`timer/${diaryId}`, {
+            headers : {
+                "Authorization": `Bearer ${cookies.get("accessToken")}`
+            }
+        }).catch((error) => {
+            return handleError(error)
+        })
+    }
+}
+
 const handleError = (error) => {
     if (error.response && error.response.status === 403) {
         return error.response
