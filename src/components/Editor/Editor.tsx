@@ -14,6 +14,7 @@ import {
 } from "remirror/extensions";
 import {EditorComponent, Remirror, useHelpers, useKeymap, useRemirror} from "@remirror/react";
 import Toolbar from "./Toolbar/Toolbar";
+import {RemirrorContentType, RemirrorJSON} from "remirror";
 
 const hooks = [
     () => {
@@ -31,25 +32,13 @@ const hooks = [
     }
 ];
 
-const initialContent = {
-    type: "doc",
-    content: [
-        {
-            "type": "heading",
-            "attrs": {
-                "level": 1
-            },
-            "content": [
-                {
-                    "type": "text",
-                    "text": "24.01.2022"
-                }
-            ]
-        }
-    ]
-};
 
-const Editor = () => {
+type EditorPropsType = {
+    content: RemirrorContentType,
+    saveContent: (content: RemirrorJSON) => void
+}
+
+const Editor: React.FC<EditorPropsType> = ({content, saveContent}) => {
     const {manager, state, setState} = useRemirror({
         extensions: () => [new BoldExtension({}),
             new DocExtension({content: 'heading block+'}),
@@ -70,7 +59,7 @@ const Editor = () => {
 
     useEffect(() => {
         // make api request and get initial data then set content
-        manager.view.updateState(manager.createState({content: initialContent}));
+        manager.view.updateState(manager.createState({content: content}));
     }, [manager]);
 
     return (
@@ -87,7 +76,7 @@ const Editor = () => {
                         setState(parameter.state);
                     }}>
 
-                    <Toolbar state={state}/>
+                    <Toolbar state={state} saveContent={saveContent}/>
                     <div className="remirror-editor remirror-a11y-dark">
                         <EditorComponent/>
                     </div>

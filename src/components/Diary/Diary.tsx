@@ -1,50 +1,32 @@
 import React from 'react';
-import {Editor} from 'react-draft-wysiwyg';
-import {EditorState} from 'draft-js';
-import '../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import 'draft-js/dist/Draft.css';
-import css from './Diary.module.css'
-import {compose} from "redux";
-import {withAuthRedirect} from "../../hoc/withAuthRedirect";
-import {connect} from "react-redux";
-import {AppStateType} from "../../redux/redux-store";
+import Editor from "../Editor/Editor";
+import {DiaryType} from "../../redux/diary-reducer";
+import {RemirrorContentType, RemirrorJSON} from "remirror";
 
-
-type MapStateToPropsType = {
+type DiaryPropsType = {
+    diary: DiaryType
+    saveDiary: (diary: DiaryType) => void
 }
 
-type MapDispatchToPropsType = {
-}
+const Diary: React.FC<DiaryPropsType> = ({diary, saveDiary}) => {
 
-type DiaryPropsType = MapStateToPropsType & MapDispatchToPropsType
+    const saveContent = (content: RemirrorJSON) => {
+        const newDiary = {
+            id: diary.id,
+            title: content.content[0].content[0].text,
+            data: content
+        }
 
-const Diary: React.FC<DiaryPropsType> = (props) => {
-    const [editorState, setEditorState] = React.useState(
-        () => EditorState.createEmpty()
-    );
-
-    const onEditorChange = (editorState) => {
-        setEditorState(editorState)
+        saveDiary(newDiary)
     }
 
     return (
         <div>
-            <div >
-                <Editor editorClassName={css.editor}
-                        editorState={editorState}
-                        onEditorStateChange={onEditorChange}/>
-            </div>
+            <Editor content={diary.data}
+                    saveContent={saveContent} />
         </div>
     );
 }
 
-const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
-    return {
 
-    }
-}
-
-export default compose(
-    withAuthRedirect,
-    connect(mapStateToProps, {})
-)(Diary);
+export default Diary

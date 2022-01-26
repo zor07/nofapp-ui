@@ -3,12 +3,16 @@ import thunkMiddleware from "redux-thunk";
 import authReducer from "./auth-reducer";
 import appReducer from "./app-reducer";
 import timerReducer from "./timer-reducer";
+import diariesReducer from "./diaries-reducer";
+import diaryReducer from "./diary-reducer";
 
 let rootReducer = combineReducers({
 
     timerPage: timerReducer,
     auth: authReducer,
-    app: appReducer
+    app: appReducer,
+    diaries: diariesReducer,
+    diary: diaryReducer
 
 });
 
