@@ -12,7 +12,7 @@ const Header: React.FC<HeaderPropsType> = ({isAuth, username, logout}) => {
 
     return (
         <header className={css.header}>
-            <div className={css.logo}><h1>Nofapp1</h1></div>
+            <div className={css.logo}><h1>Nofapp</h1></div>
 
             <div className={css.login}>
                 {isAuth
