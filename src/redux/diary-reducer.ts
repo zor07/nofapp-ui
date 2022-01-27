@@ -59,7 +59,7 @@ const diaryReducer = (state: InitialStateType = initialState, action: SetDiaryAc
         case UNMOUNT_DIARY:
             return {
                 ...state,
-                diary: null
+                diary: initialState.diary
             }
         default:
             return state;
@@ -68,10 +68,6 @@ const diaryReducer = (state: InitialStateType = initialState, action: SetDiaryAc
 
 const setDiary = (payload: DiaryType): SetDiaryActionType => ({type: SET_DIARY, payload})
 export const clearDiaryAction = (): UnmountDiaryActionType => ({type: UNMOUNT_DIARY})
-
-// export const clearDiary = (dispatch) => {
-//     dispatch(clearDiaryAction())
-// }
 
 export const getDiary = (diaryId: string) => {
     return async (dispatch) => {

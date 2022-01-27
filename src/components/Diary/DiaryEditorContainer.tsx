@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {connect, useDispatch} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
-import {DiaryType, getDiary, saveDiary} from "../../redux/diary-reducer";
+import {clearDiaryAction, DiaryType, getDiary, saveDiary} from "../../redux/diary-reducer";
 import {useParams} from "react-router-dom";
 import Editor from "../Editor/Editor";
 import {RemirrorJSON} from "remirror";
@@ -19,7 +19,7 @@ type MapDispatchPropsType = {
 
 type DiaryContainerPropsType = MapStatePropsType & MapDispatchPropsType
 
-const DiaryContainer: React.FC<DiaryContainerPropsType> = (props) =>  {
+const DiaryEditorContainer: React.FC<DiaryContainerPropsType> = (props) =>  {
 
     const params = useParams()
     const dispatch = useDispatch()
@@ -29,6 +29,7 @@ const DiaryContainer: React.FC<DiaryContainerPropsType> = (props) =>  {
         if (params.diaryId) {
             dispatch(getDiary(params.diaryId));
         }
+        return () => {dispatch(clearDiaryAction())}
     }, [dispatch])
 
     useEffect(() => {
@@ -62,4 +63,4 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
     }
 }
 
-export default connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {saveDiary, getDiary})(DiaryContainer)
+export default connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {saveDiary, getDiary})(DiaryEditorContainer)
