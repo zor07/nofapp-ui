@@ -60,28 +60,25 @@ const Editor: React.FC<EditorPropsType> = ({content, saveContent}) => {
     useEffect(() => {
         // make api request and get initial data then set content
         manager.view.updateState(manager.createState({content: content}));
-    }, [manager]);
+    }, [content]);
 
     return (
-        <div>
-            <h2>Start editing to see some magic happen!</h2>
-            <div className="remirror-theme">
-                {/* the className is used to define css variables necessary for the editor */}
-                <Remirror
-                    manager={manager}
-                    initialContent={state}
-                    hooks={hooks}
-                    onChange={(parameter) => {
-                        // Update the state to the latest value.
-                        setState(parameter.state);
-                    }}>
+        <div className="remirror-theme">
+            {/* the className is used to define css variables necessary for the editor */}
+            <Remirror
+                manager={manager}
+                initialContent={state}
+                hooks={hooks}
+                onChange={(parameter) => {
+                    // Update the state to the latest value.
+                    setState(parameter.state);
+                }}>
 
-                    <Toolbar state={state} saveContent={saveContent}/>
-                    <div className="remirror-editor remirror-a11y-dark">
-                        <EditorComponent/>
-                    </div>
-                </Remirror>
-            </div>
+                <Toolbar state={state} saveContent={saveContent}/>
+                <div className="remirror-editor remirror-a11y-dark">
+                    <EditorComponent/>
+                </div>
+            </Remirror>
         </div>
     );
 }

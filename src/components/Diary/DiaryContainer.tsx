@@ -1,8 +1,10 @@
-import React from 'react';
-import {connect} from "react-redux";
+import React, {useEffect, useRef, useState} from 'react';
+import {connect, useDispatch} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
-import Diary from "./Diary";
-import {DiaryType, saveDiary} from "../../redux/diary-reducer";
+import {DiaryType, getDiary, saveDiary} from "../../redux/diary-reducer";
+import {useParams} from "react-router-dom";
+import Editor from "../Editor/Editor";
+import {RemirrorJSON} from "remirror";
 
 
 type MapStatePropsType = {
@@ -11,17 +13,47 @@ type MapStatePropsType = {
 
 type MapDispatchPropsType = {
     saveDiary: (diary: DiaryType) => void
+    getDiary: (diaryId: string) => void
 }
 
-type OwnPropsType = {}
 
-type DiaryContainerPropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
+type DiaryContainerPropsType = MapStatePropsType & MapDispatchPropsType
 
-class DiaryContainer extends React.Component<DiaryContainerPropsType> {
-    render() {
-        return <Diary diary={this.props.diary}
-                      saveDiary={this.props.saveDiary}/>
+const DiaryContainer: React.FC<DiaryContainerPropsType> = (props) =>  {
+
+    const params = useParams()
+    const dispatch = useDispatch()
+    const [diary, setDiary] = useState(props.diary)
+
+    useEffect(() => {
+        if (params.diaryId) {
+            dispatch(getDiary(params.diaryId));
+        }
+    }, [dispatch])
+
+    useEffect(() => {
+        if (diary !== props.diary) {
+            dispatch(saveDiary(diary))
+        }
+    }, [diary])
+
+
+    const saveContent = (content: RemirrorJSON) => {
+        const newDiary = {
+            id: params.diaryId,
+            title: content.content[0].content[0].text,
+            data: content
+        }
+
+        setDiary(newDiary)
     }
+
+    return (
+        <div>
+            <Editor content={props.diary.data}
+                    saveContent={saveContent} />
+        </div>
+    )
 }
 
 let mapStateToProps = (state: AppStateType): MapStatePropsType => {
@@ -30,4 +62,4 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
     }
 }
 
-export default connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {saveDiary})(DiaryContainer);
+export default connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {saveDiary, getDiary})(DiaryContainer)

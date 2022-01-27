@@ -28,7 +28,11 @@ class DiariesContainer extends React.Component<DiariesContainerPropsType> {
         if (this.props.diaries.length > 0) {
             return <Diaries diaries={this.props.diaries} />
         } else {
-            return <DiaryContainer diary={null} timerPage={undefined} auth={undefined} app={undefined} diaries={undefined}/>
+            return <DiaryContainer diary={null}
+                                   timerPage={undefined}
+                                   auth={undefined}
+                                   app={undefined}
+                                   diaries={undefined} />
         }
     }
 }

@@ -3,12 +3,16 @@ import {isTokenExpired} from "../api/apiUtils";
 import {refreshToken} from "./auth-reducer";
 import {RemirrorJSON} from "remirror";
 
+type UnmountDiaryActionType = {
+    type: typeof UNMOUNT_DIARY,
+}
+
 type SetDiaryActionType = {
     type: typeof SET_DIARY,
     payload: DiaryType
 }
 
-type InitialStateType =  {
+type InitialStateType = {
     diary: DiaryType | null
 };
 
@@ -19,6 +23,7 @@ export type DiaryType = {
 }
 
 const SET_DIARY = 'DIARY/SET_DIARY'
+const UNMOUNT_DIARY = 'DIARY/UNMOUNT_DIARY'
 
 const initialState: InitialStateType = {
     diary: {
@@ -44,36 +49,45 @@ const initialState: InitialStateType = {
     }
 }
 
-const diaryReducer = (state: InitialStateType = initialState, action: SetDiaryActionType): InitialStateType => {
+const diaryReducer = (state: InitialStateType = initialState, action: SetDiaryActionType | UnmountDiaryActionType): InitialStateType => {
     switch (action.type) {
         case SET_DIARY:
             return {
                 ...state,
                 diary: action.payload
             }
+        case UNMOUNT_DIARY:
+            return {
+                ...state,
+                diary: null
+            }
         default:
             return state;
     }
 }
 
-const setDiary = (payload: DiaryType) : SetDiaryActionType => ({type: SET_DIARY, payload})
+const setDiary = (payload: DiaryType): SetDiaryActionType => ({type: SET_DIARY, payload})
+export const clearDiaryAction = (): UnmountDiaryActionType => ({type: UNMOUNT_DIARY})
 
+// export const clearDiary = (dispatch) => {
+//     dispatch(clearDiaryAction())
+// }
 
-export const requestDiary = (diaryId: string) => {
-    return async (dispatch: Function) => {
+export const getDiary = (diaryId: string) => {
+    return async (dispatch) => {
         const response = await DIARY_API.getDiary(diaryId)
         if (response.status === 200) {
             const diary: DiaryType = response.data
             dispatch(setDiary(diary))
         } else if (isTokenExpired(response)) {
             dispatch(refreshToken())
-            dispatch(requestDiary(diaryId))
+            dispatch(getDiary(diaryId))
         }
     }
 }
 
 export const saveDiary = (diary: DiaryType) => {
-    return async (dispatch: Function) => {
+    return async (dispatch) => {
         const response = await DIARY_API.saveDiary(diary)
         if (response.status === 201) {
             dispatch(setDiary(diary))
