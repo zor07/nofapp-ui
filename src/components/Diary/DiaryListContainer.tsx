@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {DiaryIdAndTitleType, requestDiaries} from "../../redux/diaries-reducer";
 import {NavLink} from "react-router-dom";
+import css from './Diary.module.css'
 
 type MapStatePropsType = {
     diaries: Array<DiaryIdAndTitleType>
@@ -32,7 +33,8 @@ const DiaryListContainer: React.FC<DiariesContainerPropsType> = (props) => {
         </li>);
 
     return (
-        <div>
+        <div className={css.diaryList}>
+            <h2>Diary</h2>
             <ul>
                 {notes}
             </ul>
