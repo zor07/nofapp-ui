@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {connect, useDispatch} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {clearDiaryAction, DiaryType, getDiary, saveDiary} from "../../redux/diary-reducer";

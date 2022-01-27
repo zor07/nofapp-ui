@@ -37,8 +37,21 @@ const diariesReducer = (state: InitialStateType = initialState, action: SetTimer
 
 const setDiaries = (payload: Array<DiaryIdAndTitleType>) : SetTimersActionType => ({type: SET_DIARIES, payload})
 
+
+export const deleteDiary = (diaryId: string) => {
+    return async (dispatch) => {
+        const response = await DIARY_API.deleteDiary(diaryId)
+        if (response.status === 204) {
+            dispatch(requestDiaries())
+        } else if (isTokenExpired(response)) {
+            dispatch(refreshToken())
+            dispatch(requestDiaries())
+        }
+    }
+}
+
 export const requestDiaries = () => {
-    return async (dispatch: Function) => {
+    return async (dispatch) => {
         const response = await DIARY_API.getDiaries()
         if (response.status === 200) {
             const diariesResp: Array<DiaryIdAndTitleType> = response.data

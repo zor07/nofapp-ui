@@ -97,7 +97,7 @@ export const DIARY_API = {
         })
     },
     deleteDiary(diaryId) {
-        return instance.delete(`timer/${diaryId}`, {
+        return instance.delete(`diary/${diaryId}`, {
             headers : {
                 "Authorization": `Bearer ${cookies.get("accessToken")}`
             }

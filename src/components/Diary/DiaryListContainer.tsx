@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
-import {connect} from "react-redux";
+import React, {useEffect, useState} from 'react';
+import {connect, useDispatch} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
-import {DiaryIdAndTitleType, requestDiaries} from "../../redux/diaries-reducer";
+import {deleteDiary, DiaryIdAndTitleType, requestDiaries} from "../../redux/diaries-reducer";
 import {NavLink} from "react-router-dom";
 import css from './Diary.module.css'
 
@@ -11,6 +11,7 @@ type MapStatePropsType = {
 
 type MapDispatchPropsType = {
     requestDiaries: () => void
+    deleteDiary: (diaryId: string) => void
 }
 
 type OwnPropsType = {}
@@ -19,16 +20,29 @@ type DiariesContainerPropsType = MapStatePropsType & MapDispatchPropsType & OwnP
 
 const DiaryListContainer: React.FC<DiariesContainerPropsType> = (props) => {
 
+    const [deleteDiaryId, setDeleteDiaryId] = useState('')
+    const dispatch = useDispatch()
+
     useEffect(() => {
-        props.requestDiaries()
+        dispatch(requestDiaries())
     }, [])
+
+
+    useEffect(() => {
+        if (deleteDiaryId !== '') {
+            dispatch(deleteDiary(deleteDiaryId))
+            setDeleteDiaryId('')
+        }
+    }, [deleteDiaryId])
 
     const notes = props.diaries.map(diary =>
         <li key={diary.id}>
             <NavLink to={`/diary/editor/${diary.id}`}>
                 {diary.title}
             </NavLink>
-
+            <div>
+                <button onClick={() => setDeleteDiaryId(diary.id)}> Delete </button>
+            </div>
 
         </li>);
 
@@ -53,4 +67,4 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
     }
 }
 
-export default connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {requestDiaries})(DiaryListContainer);
+export default connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {requestDiaries, deleteDiary})(DiaryListContainer);
