@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {DiaryIdAndTitleType, requestDiaries} from "../../redux/diaries-reducer";
@@ -17,34 +17,33 @@ type OwnPropsType = {}
 
 type DiariesContainerPropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
 
-class DiaryListContainer extends React.Component<DiariesContainerPropsType> {
+const DiaryListContainer: React.FC<DiariesContainerPropsType> = (props) => {
 
-    componentDidMount() {
-        this.props.requestDiaries()
-    }
+    useEffect(() => {
+        props.requestDiaries()
+    }, [])
 
-    render() {
-        const elements = this.props.diaries.map(diary =>
-            <li key={diary.id}>
-                <NavLink to={`/diary/editor/${diary.id}`}>
-                    {diary.title}
-                </NavLink>
-            </li>);
+    const notes = props.diaries.map(diary =>
+        <li key={diary.id}>
+            <NavLink to={`/diary/editor/${diary.id}`}>
+                {diary.title}
+            </NavLink>
 
 
-        return (
+        </li>);
+
+    return (
+        <div>
+            <ul>
+                {notes}
+            </ul>
             <div>
-                <ul>
-                    {elements}
-                </ul>
-                <div>
-                    <NavLink to={`/diary/editor`}>
-                        New note
-                    </NavLink>
-                </div>
+                <NavLink to={`/diary/editor`}>
+                    New note
+                </NavLink>
             </div>
-        )
-    }
+        </div>
+    )
 }
 
 let mapStateToProps = (state: AppStateType): MapStatePropsType => {
