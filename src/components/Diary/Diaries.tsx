@@ -8,7 +8,7 @@ type DiariesPropsType = {
 
 const Diaries: React.FC<DiariesPropsType> = ({diaries}) => {
 
-    const elements = diaries.map(diary => <li><NavLink to={`/diary/${diary.id}`}>{diary.title}</NavLink></li>);
+    const elements = diaries.map(diary => <li key={diary.id}><NavLink to={`/diary/${diary.id}`}>{diary.title}</NavLink></li>);
 
     return (
         <div>
