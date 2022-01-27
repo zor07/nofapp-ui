@@ -4,7 +4,6 @@ import {AppStateType} from "../../redux/redux-store";
 import {DiaryIdAndTitleType, requestDiaries} from "../../redux/diaries-reducer";
 import {NavLink} from "react-router-dom";
 
-
 type MapStatePropsType = {
     diaries: Array<DiaryIdAndTitleType>
 }

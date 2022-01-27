@@ -35,18 +35,23 @@ const DiaryEditorContainer: React.FC<DiaryContainerPropsType> = (props) =>  {
     useEffect(() => {
         if (diary !== props.diary) {
             dispatch(saveDiary(diary))
+            alert('Saved!')
         }
     }, [diary])
 
 
     const saveContent = (content: RemirrorJSON) => {
-        const newDiary = {
-            id: params.diaryId,
-            title: content.content[0].content[0].text,
-            data: content
-        }
+        if (!content.content[0].content) {
+            alert('Please add title!')
+        } else {
+            const newDiary = {
+                id: params.diaryId,
+                title: content.content[0].content[0].text,
+                data: content
+            }
 
-        setDiary(newDiary)
+            setDiary(newDiary)
+        }
     }
 
     return (
