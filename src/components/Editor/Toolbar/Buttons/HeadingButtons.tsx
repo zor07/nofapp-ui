@@ -10,7 +10,7 @@ const HeadingButtons = () => {
 
     return (
         <>
-            {[1, 2, 3, 4, 5, 6].map((level) => (
+            {[1, 2, 3].map((level) => (
                 <button key={level}
                         onMouseDown={(event) => event.preventDefault()}
                         onClick={() => commands.toggleHeading({ level })}
