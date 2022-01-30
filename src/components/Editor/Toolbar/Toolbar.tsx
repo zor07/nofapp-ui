@@ -12,6 +12,7 @@ import TaskList from "./Buttons/TaskList";
 import Strike from "./Buttons/Strike";
 import {EditorState} from "@remirror/pm";
 import {RemirrorJSON} from "remirror";
+import AlignButtons from "./Buttons/AlignButtons";
 
 
 type ToolbarPropsType = {
@@ -41,6 +42,10 @@ const Toolbar: React.FC<ToolbarPropsType> = ({state, saveContent}) => {
                 <Italic/>
                 <Underline/>
                 <Strike/>
+            </div>
+            <hr role="separator" aria-orientation="vertical" className="remirror-role remirror-separator"/>
+            <div className="remirror-role remirror-group">
+                <AlignButtons />
             </div>
             <hr role="separator" aria-orientation="vertical" className="remirror-role remirror-separator"/>
             <div className="remirror-role remirror-group">

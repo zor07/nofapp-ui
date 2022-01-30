@@ -8,13 +8,14 @@ import {
     UnderlineExtension,
     TaskListItemExtension,
     BulletListExtension,
+    NodeFormattingExtension,
     OrderedListExtension,
     DocExtension,
     wysiwygPreset
 } from "remirror/extensions";
 import {EditorComponent, Remirror, useHelpers, useKeymap, useRemirror} from "@remirror/react";
 import Toolbar from "./Toolbar/Toolbar";
-import {RemirrorContentType, RemirrorJSON} from "remirror";
+import {htmlToProsemirrorNode, RemirrorContentType, RemirrorJSON} from "remirror";
 
 const hooks = [
     () => {
@@ -45,6 +46,7 @@ const Editor: React.FC<EditorPropsType> = ({content, saveContent}) => {
             new ItalicExtension(),
             new UnderlineExtension(),
             new HeadingExtension({}),
+            new NodeFormattingExtension({}),
             new BulletListExtension({}),
             new OrderedListExtension(),
             new TaskListItemExtension(),
@@ -54,7 +56,7 @@ const Editor: React.FC<EditorPropsType> = ({content, saveContent}) => {
             content: []
         },
         selection: "start",
-        stringHandler: "html"
+        stringHandler: htmlToProsemirrorNode
     });
 
     useEffect(() => {
