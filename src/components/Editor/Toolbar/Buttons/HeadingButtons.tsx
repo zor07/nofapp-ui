@@ -1,7 +1,7 @@
 import {useActive, useCommands} from "@remirror/react";
 import {cx} from "remirror";
 import React from "react";
-import {H1, H2, H3, H4, H5, H6} from "../../icons/headingIcons"
+import {H1, H2, H3, H4, H5, H6} from "./Icons"
 
 const HeadingButtons = () => {
     const commands = useCommands();
