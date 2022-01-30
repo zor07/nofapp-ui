@@ -12,8 +12,7 @@ const Bold = () => {
                 onClick={() => {
                     toggleBold();
                     focus();
-                }}
-                style={{ fontWeight: active.bold() ? 'bold' : undefined }}>
+                }}>
             <BoldIcon />
         </button>
     );
