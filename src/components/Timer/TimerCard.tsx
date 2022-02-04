@@ -23,15 +23,15 @@ const TimerCard: React.FC<TimerCardPropsType> = ({timer, stopTimer, deleteTimer}
 
     return (
 
-        <Card title={<h2>{timer.description}</h2> }
+        <Card title={<Timer timer={timer} /> }
               style={{ width: 250 }}
               actions={[
                   timer.isRunning
                       ? <Button icon={<PauseOutlined/>} onClick={onStopClick}>Stop</Button>
                       : <Button danger icon={<DeleteOutlined/>}  onClick={onDeleteClick}>Delete</Button>
               ]}>
-            <div className={css.timerCard}>
-                <Timer timer={timer} />
+            <div className={css.description}>
+                {timer.description}
             </div>
         </Card>
 
