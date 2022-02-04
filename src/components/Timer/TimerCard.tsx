@@ -2,7 +2,8 @@ import React from "react";
 import Timer from "./Timer";
 import css from './Timer.module.css'
 import {TimerType} from "../../redux/timer-reducer";
-import {Button} from "antd";
+import {Button, Card} from "antd";
+import {DeleteOutlined, PauseOutlined} from "@ant-design/icons";
 
 type TimerCardPropsType = {
     timer: TimerType
@@ -21,21 +22,20 @@ const TimerCard: React.FC<TimerCardPropsType> = ({timer, stopTimer, deleteTimer}
     }
 
     return (
-        <div className={css.timerCard}>
-            <div className={css.description}>
-                {timer.description}
-            </div>
-            <div>
+
+        <Card title={<h2>{timer.description}</h2> }
+              style={{ width: 250 }}
+              actions={[
+                  timer.isRunning
+                      ? <Button icon={<PauseOutlined/>} onClick={onStopClick}>Stop</Button>
+                      : <Button danger icon={<DeleteOutlined/>}  onClick={onDeleteClick}>Delete</Button>
+              ]}>
+            <div className={css.timerCard}>
                 <Timer timer={timer} />
             </div>
-            <div>
-                {
-                    timer.isRunning
-                        ? <Button type="primary" onClick={onStopClick}>Stop</Button>
-                        : <Button type="primary"  onClick={onDeleteClick}>Delete</Button>
-                }
-            </div>
-        </div>
+        </Card>
+
+
     )
 }
 

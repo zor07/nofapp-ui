@@ -4,13 +4,13 @@
 }
 
 .description {
-    font: 1.2em "Helvetica", sans-serif;
+    font: 2.2em "Helvetica", sans-serif;
     padding-bottom: 5px;
     padding-top: 5px;
 }
 
 .timer {
-    font: 1.2em "Courier New", monospace;
+    font: 1.8em "Courier New", monospace;
 }
 
 .newTimerForm {
