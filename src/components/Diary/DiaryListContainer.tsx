@@ -4,6 +4,8 @@ import {AppStateType} from "../../redux/redux-store";
 import {deleteDiary, DiaryIdAndTitleType, requestDiaries} from "../../redux/diaries-reducer";
 import {NavLink} from "react-router-dom";
 import css from './Diary.module.css'
+import {compose} from "redux";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 
 type MapStatePropsType = {
     diaries: Array<DiaryIdAndTitleType>
@@ -67,4 +69,7 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
     }
 }
 
-export default connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {requestDiaries, deleteDiary})(DiaryListContainer);
+export default compose(
+    withAuthRedirect,
+    connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {requestDiaries, deleteDiary})
+)(DiaryListContainer);
