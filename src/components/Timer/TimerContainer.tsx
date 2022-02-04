@@ -6,6 +6,7 @@ import {deleteTimer, requestTimers, startTimer, stopTimer, TimerFormDataType, Ti
 import TimerCard from "./TimerCard";
 import NewTimerForm from "./NewTimerForm";
 import {AppStateType} from "../../redux/redux-store";
+import {Col, Divider, Row} from "antd";
 
 
 type MapStatePropsType = {
@@ -19,9 +20,7 @@ type MapDispatchPropsType = {
     deleteTimer: (timerId: string) => void
 }
 
-type OwnPropsType = {
-
-}
+type OwnPropsType = {}
 
 type TimerContainerPropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
 
@@ -35,31 +34,55 @@ class TimerContainer extends React.Component<TimerContainerPropsType> {
         const timers = this.props.timers;
         const runningItems = timers
             ? timers.filter(timer => timer.isRunning)
-                    .map(timer => <TimerCard key={timer.id}
-                                             stopTimer={this.props.stopTimer}
-                                             deleteTimer={this.props.deleteTimer}
-                                             timer={timer}/>)
+                .map(timer => {
+                    return (
+                        <Col span={6} key={timer.id}>
+                            <TimerCard key={timer.id}
+                                       stopTimer={this.props.stopTimer}
+                                       deleteTimer={this.props.deleteTimer}
+                                       timer={timer}/>
+                        </Col>
+                    )
+                })
             : null
 
         const stoppedItems = timers
             ? timers.filter(timer => !timer.isRunning)
-                .map(timer => <TimerCard key={timer.id}
-                                         stopTimer={this.props.stopTimer}
-                                         deleteTimer={this.props.deleteTimer}
-                                         timer={timer}/>)
+                .map(timer => {
+                    return (
+                        <Col span={6} key={timer.id}>
+                            <TimerCard key={timer.id}
+                                       stopTimer={this.props.stopTimer}
+                                       deleteTimer={this.props.deleteTimer}
+                                       timer={timer}/>
+                        </Col>
+                    )
+                })
             : null
 
         return (
             <div>
-                <div>
+                <Row justify="start">
                     {runningItems}
-                </div>
-                <div>
+                </Row>
+
+                {(stoppedItems.length > 0 && runningItems.length != 0) &&
+                <Divider/>
+                }
+
+                <Row justify="start">
                     {stoppedItems}
-                </div>
-                <div>
-                    <NewTimerForm startTimer={this.props.startTimer}/>
-                </div>
+                </Row>
+
+                {(stoppedItems.length > 0 || runningItems.length > 0) &&
+                <Divider/>
+                }
+
+                <Row justify="start">
+                    <Col span={12}>
+                        <NewTimerForm startTimer={this.props.startTimer}/>
+                    </Col>
+                </Row>
             </div>
         )
     }
