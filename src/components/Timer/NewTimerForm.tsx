@@ -3,6 +3,7 @@ import "../../../node_modules/react-datepicker/dist/react-datepicker.css"
 import {TimerFormDataType} from "../../redux/timer-reducer";
 import {Button, DatePicker, Form, Input} from "antd";
 import {Typography} from 'antd';
+import {PlaySquareOutlined} from "@ant-design/icons";
 
 const {Title} = Typography;
 
@@ -20,7 +21,7 @@ const NewTimerForm: React.FC<TimerFormType> = ({startTimer}) => {
 
     return (
         <div>
-            <Title level={4}>Create new timer</Title>
+            <Title level={4}>Start new timer</Title>
             <Form
                 size={'middle'}
                 form={form}
@@ -63,8 +64,8 @@ const NewTimerForm: React.FC<TimerFormType> = ({startTimer}) => {
                         offset: 4,
                         span: 10,
                     }}>
-                    <Button type="primary" htmlType="submit">
-                        Submit
+                    <Button icon={<PlaySquareOutlined />} type="primary" htmlType="submit">
+                        Start timer
                     </Button>
                 </Form.Item>
             </Form>

@@ -7,6 +7,10 @@ import {compose} from "redux";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {Button, List} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
+import {Typography} from 'antd';
+
+
+
 
 type MapStatePropsType = {
     diaries: Array<DiaryIdAndTitleType>
@@ -22,7 +26,7 @@ type OwnPropsType = {}
 type DiariesContainerPropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
 
 const DiaryListContainer: React.FC<DiariesContainerPropsType> = (props) => {
-
+    const {Title} = Typography;
     const [deleteDiaryId, setDeleteDiaryId] = useState('')
     const dispatch = useDispatch()
 
@@ -40,9 +44,9 @@ const DiaryListContainer: React.FC<DiariesContainerPropsType> = (props) => {
 
     return (
         <div>
-            <h2>Diary</h2>
-            <List itemLayout="horizontal"
-                  size="small"
+            <Title level={3}>Diary</Title>
+            <List itemLayout="vertical"
+                  size="large"
                   pagination={{
                       onChange: page => {
                           console.log(page);
@@ -58,7 +62,7 @@ const DiaryListContainer: React.FC<DiariesContainerPropsType> = (props) => {
                                      </NavLink>,
                                      <Button danger icon={<DeleteOutlined/>} onClick={() => setDeleteDiaryId(item.id)}/>
                                  ]}>
-                          {item.title}
+                          <Title level={5}>{item.title}</Title>
                       </List.Item>
                   )}/>
             <div>
