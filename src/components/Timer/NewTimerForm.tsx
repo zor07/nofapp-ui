@@ -21,7 +21,7 @@ const NewTimerForm: React.FC<TimerFormType> = ({startTimer}) => {
 
     return (
         <div>
-            <Title level={4}>Start new timer</Title>
+            <Title level={5}>Start new timer</Title>
             <Form
                 size={'middle'}
                 form={form}

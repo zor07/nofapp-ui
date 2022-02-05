@@ -6,7 +6,10 @@ import {deleteTimer, requestTimers, startTimer, stopTimer, TimerFormDataType, Ti
 import TimerCard from "./TimerCard";
 import NewTimerForm from "./NewTimerForm";
 import {AppStateType} from "../../redux/redux-store";
-import {Col, Divider, Row} from "antd";
+import {Col, Divider, Row, Typography} from "antd";
+
+const {Title} = Typography;
+
 
 
 type MapStatePropsType = {
@@ -62,6 +65,7 @@ class TimerContainer extends React.Component<TimerContainerPropsType> {
 
         return (
             <div>
+                <Title level={3}>Timers</Title>
                 <Row justify="start">
                     {runningItems}
                 </Row>
