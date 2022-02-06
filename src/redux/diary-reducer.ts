@@ -2,6 +2,7 @@ import {DIARY_API} from "../api/api";
 import {isTokenExpired} from "../api/apiUtils";
 import {refreshToken} from "./auth-reducer";
 import {RemirrorJSON} from "remirror";
+import {currentDateString} from "../utils/dateUtils";
 
 type UnmountDiaryActionType = {
     type: typeof UNMOUNT_DIARY,
@@ -25,27 +26,29 @@ export type DiaryType = {
 const SET_DIARY = 'DIARY/SET_DIARY'
 const UNMOUNT_DIARY = 'DIARY/UNMOUNT_DIARY'
 
+export const DEFAULT_CONTENT = {
+    type: "doc",
+    content: [
+        {
+            "type": "heading",
+            "attrs": {
+                "level": 1
+            },
+            "content": [
+                {
+                    "type": "text",
+                    "text": currentDateString()
+                }
+            ]
+        }
+    ]
+}
+
 const initialState: InitialStateType = {
     diary: {
         id: null,
         title: "",
-        data: {
-            type: "doc",
-            content: [
-                {
-                    "type": "heading",
-                    "attrs": {
-                        "level": 1
-                    },
-                    "content": [
-                        {
-                            "type": "text",
-                            "text": "24.01.2022"
-                        }
-                    ]
-                }
-            ]
-        }
+        data: DEFAULT_CONTENT
     }
 }
 
@@ -86,7 +89,8 @@ export const saveDiary = (diary: DiaryType) => {
     return async (dispatch) => {
         const response = await DIARY_API.saveDiary(diary)
         if (response.status === 201) {
-            dispatch(setDiary(diary))
+            const newDiary: DiaryType = response.data
+            dispatch(setDiary(newDiary))
         } else if (isTokenExpired(response)) {
             dispatch(refreshToken())
             dispatch(saveDiary(diary))
