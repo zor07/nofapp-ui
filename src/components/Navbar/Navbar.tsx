@@ -21,7 +21,7 @@ const Navbar: React.FC<NavbarPropsType> = ({isAuth, username, logout}) => {
                 <Menu.Item key="diary">
                     <NavLink to='/diary'>Diary</NavLink>
                 </Menu.Item>
-                <SubMenu title={username} style={{marginLeft: 'auto'}}>
+                <SubMenu title={username} style={{marginLeft: 'auto'}} key={'username'}>
                     <Menu.Item key="logout" icon={<LogoutOutlined/>} onClick={logout}>
                         Logout
                     </Menu.Item>
