@@ -9,9 +9,6 @@ import {Button, List} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import {Typography} from 'antd';
 
-
-
-
 type MapStatePropsType = {
     diaries: Array<DiaryIdAndTitleType>
     createdDiaryId: string | null
@@ -66,6 +63,10 @@ const DiaryListContainer: React.FC<DiariesContainerPropsType> = (props) => {
         setIsCreatingNewDiaryId(true)
     }
 
+    const onDeleteDiary = (diaryId: string) => {
+        setDeleteDiaryId(diaryId)
+    }
+
     return (
         <div>
             <Title level={3}>Diary</Title>
@@ -82,15 +83,17 @@ const DiaryListContainer: React.FC<DiariesContainerPropsType> = (props) => {
                       <List.Item key={item.id}
                                  actions={[
                                      <NavLink to={`/diary/editor/${item.id}`}>
-                                         <Button icon={<EditOutlined/>}/>
+                                         <Button icon={<EditOutlined/>}>Edit</Button>
                                      </NavLink>,
-                                     <Button danger icon={<DeleteOutlined/>} onClick={() => setDeleteDiaryId(item.id)}/>
+                                     <Button danger icon={<DeleteOutlined/>} onClick={() => onDeleteDiary(item.id)}>
+                                         Delete
+                                     </Button>
                                  ]}>
                           <Title level={5}>{item.title}</Title>
                       </List.Item>
                   )}/>
             <div>
-                <Button type="primary" onClick={onCreateNewDiary}>
+                <Button loading={isCreatingNewDiaryId} type="primary" onClick={onCreateNewDiary}>
                     New note
                 </Button>
             </div>
