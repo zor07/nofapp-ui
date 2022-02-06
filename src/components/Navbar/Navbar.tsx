@@ -1,7 +1,7 @@
 import React from "react";
 import {NavLink} from "react-router-dom";
 import {Menu} from "antd";
-import {LogoutOutlined} from "@ant-design/icons";
+import {LoginOutlined, LogoutOutlined} from "@ant-design/icons";
 
 type NavbarPropsType = {
     isAuth: boolean
@@ -31,7 +31,7 @@ const Navbar: React.FC<NavbarPropsType> = ({isAuth, username, logout}) => {
 
             {!isAuth &&
             <>
-                <Menu.Item key="login">
+                <Menu.Item icon={<LoginOutlined/>} key="login">
                     <NavLink to={'/login'}>Login</NavLink>
                 </Menu.Item>
             </>
