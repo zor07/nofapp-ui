@@ -1,5 +1,4 @@
 import './App.css';
-import Navbar from "./components/Navbar/Navbar";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import TimerContainer from "./components/Timer/TimerContainer";
 import Login from "./components/Login/Login";
@@ -11,8 +10,8 @@ import store from "./redux/redux-store.ts";
 import DiaryListContainer from "./components/Diary/DiaryListContainer";
 import DiaryEditorContainer from "./components/Diary/DiaryEditorContainer";
 import {Layout, Menu} from "antd";
-import {LaptopOutlined, NotificationOutlined, UserOutlined} from '@ant-design/icons';
 import 'antd/dist/antd.css';
+import HeaderContainer from "./components/Header/HeaderContainer";
 
 class App extends Component {
 
@@ -21,18 +20,14 @@ class App extends Component {
     }
 
     render() {
-        const { SubMenu } = Menu;
-        const { Header, Content } = Layout;
+        const {Header, Content} = Layout;
         return (
             <Layout>
-                <Header className="header" theme="light" >
-                    <div className="logo" >
-                        NoFapp
-                    </div>
-                    <Navbar/>
+                <Header className="header" theme="light">
+                    <HeaderContainer/>
                 </Header>
                 <Layout>
-                    <Layout style={{ padding: '12px 12px 12px' }}>
+                    <Layout style={{padding: '12px 12px 12px'}}>
                         <Content
                             className="site-layout-background"
                             style={{
