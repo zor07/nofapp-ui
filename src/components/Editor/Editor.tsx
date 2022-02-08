@@ -1,21 +1,11 @@
 import React, {useCallback, useEffect} from "react";
 import "remirror/styles/all.css";
 
-import {
-    BoldExtension,
-    HeadingExtension,
-    ItalicExtension,
-    UnderlineExtension,
-    TaskListItemExtension,
-    BulletListExtension,
-    NodeFormattingExtension,
-    OrderedListExtension,
-    DocExtension,
-    wysiwygPreset
-} from "remirror/extensions";
+import {BoldExtension, BulletListExtension, DocExtension, HeadingExtension, ItalicExtension, NodeFormattingExtension, OrderedListExtension, TaskListItemExtension, UnderlineExtension, wysiwygPreset} from "remirror/extensions";
 import {EditorComponent, Remirror, useHelpers, useKeymap, useRemirror} from "@remirror/react";
 import Toolbar from "./Toolbar/Toolbar";
 import {htmlToProsemirrorNode, RemirrorContentType, RemirrorJSON} from "remirror";
+import {useDebouncedCallback} from "use-debounce";
 
 const hooks = [
     () => {
@@ -55,13 +45,14 @@ const Editor: React.FC<EditorPropsType> = ({content, saveContent}) => {
             type: "doc",
             content: []
         },
-        selection: "start",
+        // selection: "start",
         stringHandler: htmlToProsemirrorNode
     });
 
     useEffect(() => {
         // make api request and get initial data then set content
         manager.view.updateState(manager.createState({content: content}));
+        console.log('loaded')
     }, [content]);
 
     return (
@@ -75,7 +66,7 @@ const Editor: React.FC<EditorPropsType> = ({content, saveContent}) => {
                     // Update the state to the latest value.
                     setState(parameter.state);
                 }}>
-
+                {/*<SaveOnDebounce state={state} saveContent={saveContent}/>*/}
                 <Toolbar state={state} saveContent={saveContent}/>
                 <div className="remirror-editor remirror-a11y-dark">
                     <EditorComponent/>
@@ -84,5 +75,24 @@ const Editor: React.FC<EditorPropsType> = ({content, saveContent}) => {
         </div>
     );
 }
+
+const SaveOnDebounce = ({state, saveContent}) => {
+    const { getJSON } = useHelpers();
+
+    const debounced = useDebouncedCallback(
+        (document) => {
+            // api call to save document
+            saveContent(document)
+        },
+        // delay in ms
+        100
+    );
+
+    useEffect(() => {
+        debounced(getJSON(state));
+    }, [state, debounced, getJSON]);
+
+    return null;
+};
 
 export default Editor
