@@ -35,7 +35,7 @@ const DiaryEditorContainer: React.FC<DiaryContainerPropsType> = (props) =>  {
     useEffect(() => {
         if (diary !== props.diary) {
             dispatch(saveDiary(diary))
-            alert('Saved!')
+            // alert('Saved!')
         }
     }, [diary])
 

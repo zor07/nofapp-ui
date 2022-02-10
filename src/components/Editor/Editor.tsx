@@ -6,6 +6,7 @@ import {EditorComponent, Remirror, useHelpers, useKeymap, useRemirror} from "@re
 import Toolbar from "./Toolbar/Toolbar";
 import {htmlToProsemirrorNode, RemirrorContentType, RemirrorJSON} from "remirror";
 import {useDebouncedCallback} from "use-debounce";
+import {message} from "antd";
 
 const hooks = [
     () => {
@@ -66,7 +67,7 @@ const Editor: React.FC<EditorPropsType> = ({content, saveContent}) => {
                     // Update the state to the latest value.
                     setState(parameter.state);
                 }}>
-                {/*<SaveOnDebounce state={state} saveContent={saveContent}/>*/}
+                <SaveOnDebounce state={state} saveContent={saveContent}/>
                 <Toolbar state={state} saveContent={saveContent}/>
                 <div className="remirror-editor remirror-a11y-dark">
                     <EditorComponent/>
@@ -83,9 +84,10 @@ const SaveOnDebounce = ({state, saveContent}) => {
         (document) => {
             // api call to save document
             saveContent(document)
+            message.info('Saved', 0.3)
         },
         // delay in ms
-        100
+        3000
     );
 
     useEffect(() => {
