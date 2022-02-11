@@ -10,17 +10,14 @@ import BulletList from "./Buttons/BulletList";
 import OrderedList from "./Buttons/OrderedList";
 import TaskList from "./Buttons/TaskList";
 import Strike from "./Buttons/Strike";
-import {EditorState} from "@remirror/pm";
-import {RemirrorJSON} from "remirror";
 import AlignButtons from "./Buttons/AlignButtons";
 
 
 type ToolbarPropsType = {
-    state: EditorState
-    saveContent: (content: RemirrorJSON) => void
+    saveContent: () => void
 }
 
-const Toolbar: React.FC<ToolbarPropsType> = ({state, saveContent}) => {
+const Toolbar: React.FC<ToolbarPropsType> = ({saveContent}) => {
 
     return (
         <div className="remirror-role remirror-toolbar">
@@ -30,7 +27,7 @@ const Toolbar: React.FC<ToolbarPropsType> = ({state, saveContent}) => {
             </div>
             <hr role="separator" aria-orientation="vertical" className="remirror-role remirror-separator"/>
             <div className="remirror-role remirror-group">
-                <SaveButton state={state} saveContent={saveContent}/>
+                <SaveButton saveContent={saveContent}/>
             </div>
             <hr role="separator" aria-orientation="vertical" className="remirror-role remirror-separator"/>
             <div className="remirror-role remirror-group">

@@ -1,7 +1,7 @@
 import {DIARY_API} from "../api/api";
 import {isTokenExpired} from "../api/apiUtils";
 import {refreshToken} from "./auth-reducer";
-import {RemirrorJSON} from "remirror";
+import {PrimitiveSelection, RemirrorJSON} from "remirror";
 import {currentDateString} from "../utils/dateUtils";
 
 type UnmountDiaryActionType = {
@@ -17,10 +17,15 @@ type InitialStateType = {
     diary: DiaryType | null
 };
 
+export type DiaryState = {
+    content: RemirrorJSON,
+    selection: PrimitiveSelection | null | undefined
+}
+
 export type DiaryType = {
     id: string | null
     title: string
-    data: RemirrorJSON
+    data: DiaryState
 }
 
 const SET_DIARY = 'DIARY/SET_DIARY'
@@ -48,7 +53,13 @@ const initialState: InitialStateType = {
     diary: {
         id: null,
         title: "",
-        data: DEFAULT_CONTENT
+        data: {
+            content: DEFAULT_CONTENT,
+            selection: {
+                anchor: 0,
+                head: 0
+            }
+        }
     }
 }
 

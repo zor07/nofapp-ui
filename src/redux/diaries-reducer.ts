@@ -82,7 +82,10 @@ export const createNewDiary = () => {
         const diary: DiaryType = {
             id: null,
             title: currentDateString(),
-            data: DEFAULT_CONTENT
+            data: {
+                content: DEFAULT_CONTENT,
+                selection: {anchor: 0, head: 0}
+            }
         }
         const response = await DIARY_API.saveDiary(diary)
         if (response.status === 201) {
