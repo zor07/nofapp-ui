@@ -4,7 +4,7 @@ import {AppStateType} from "../../redux/redux-store";
 import {clearDiaryAction, DiaryType, getDiary, saveDiary} from "../../redux/diary-reducer";
 import {useParams} from "react-router-dom";
 import Editor from "../Editor/Editor";
-import {RemirrorJSON} from "remirror";
+import {PrimitiveSelection, RemirrorJSON} from "remirror";
 
 
 type MapStatePropsType = {
@@ -35,19 +35,20 @@ const DiaryEditorContainer: React.FC<DiaryContainerPropsType> = (props) =>  {
     useEffect(() => {
         if (diary !== props.diary) {
             dispatch(saveDiary(diary))
-            alert('Saved!')
         }
     }, [diary])
 
 
-    const saveContent = (content: RemirrorJSON) => {
-        if (!content.content[0].content) {
+    const saveContent = (content: RemirrorJSON, selection: PrimitiveSelection, title: string) => {
+        if (!title || title === '') {
             alert('Please add title!')
         } else {
             const newDiary = {
                 id: params.diaryId,
-                title: content.content[0].content[0].text,
-                data: content
+                title: title,
+                data: {
+                    content, selection
+                }
             }
 
             setDiary(newDiary)
@@ -56,7 +57,7 @@ const DiaryEditorContainer: React.FC<DiaryContainerPropsType> = (props) =>  {
 
     return (
         <div>
-            <Editor content={props.diary.data}
+            <Editor selection={props.diary.data.selection} content={props.diary.data.content}
                     saveContent={saveContent} />
         </div>
     )
