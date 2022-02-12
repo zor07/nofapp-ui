@@ -48,7 +48,7 @@ const AddYoutubeButton = () => {
                 visible={visible}
                 onOk={handleOk}
                 onCancel={handleCancel}>
-                <Input placeholder="https://www.youtube.com/"
+                <Input placeholder="https://www.youtube.com/..."
                        value={youTubeVideoLink}
                        onChange={(e) => setYouTubeVideoLink(e.target.value)}/>
             </Modal>
