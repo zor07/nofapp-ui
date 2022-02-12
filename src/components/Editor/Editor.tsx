@@ -6,7 +6,6 @@ import {
     BulletListExtension,
     DocExtension,
     HeadingExtension,
-    ItalicExtension,
     NodeFormattingExtension,
     OrderedListExtension,
     TaskListItemExtension,
@@ -20,6 +19,7 @@ import Toolbar from "./Toolbar/Toolbar";
 import {htmlToProsemirrorNode, PrimitiveSelection, RemirrorContentType, RemirrorJSON} from "remirror";
 import {useDebouncedCallback} from "use-debounce";
 import {message} from "antd";
+import MyItalicExtension from "./extensions/MyItalicExtension";
 
 const hooks = [
     () => {
@@ -48,7 +48,7 @@ const Editor: React.FC<EditorPropsType> = ({content, selection,  saveContent}) =
     const {manager, state, setState} = useRemirror({
         extensions: () => [new BoldExtension({}),
             new DocExtension({content: 'heading block+'}),
-            new ItalicExtension(),
+            new MyItalicExtension(),
             new UnderlineExtension(),
             new HeadingExtension({}),
             new NodeFormattingExtension({}),
