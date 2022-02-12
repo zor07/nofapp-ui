@@ -1,6 +1,7 @@
 import {useCommands} from "@remirror/react";
 import React, {useState} from "react";
 import {Input, Modal} from "antd";
+import {AddImageLineIcon} from "./Icons";
 
 const AddImageButton = () => {
     const [visible, setVisible] = React.useState(false);
@@ -28,7 +29,7 @@ const AddImageButton = () => {
             <button className="remirror-role remirror-button remirror-tabbable"
                     onMouseDown={(event) => event.preventDefault()}
                     onClick={showModal}>
-                Add image
+                <AddImageLineIcon/>
             </button>
             <Modal
                 title="Insert image url"
