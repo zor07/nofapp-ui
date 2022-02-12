@@ -11,6 +11,7 @@ import {
     OrderedListExtension,
     TaskListItemExtension,
     UnderlineExtension,
+    IframeExtension,
     wysiwygPreset
 } from "remirror/extensions";
 import {EditorComponent, Remirror, useHelpers, useKeymap, useRemirror} from "@remirror/react";
@@ -53,6 +54,7 @@ const Editor: React.FC<EditorPropsType> = ({content, selection,  saveContent}) =
             new BulletListExtension({}),
             new OrderedListExtension(),
             new TaskListItemExtension(),
+            new IframeExtension({ enableResizing: true }),
             ...wysiwygPreset()],
         content: {
             type: "doc",

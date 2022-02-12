@@ -11,6 +11,7 @@ import OrderedList from "./Buttons/OrderedList";
 import TaskList from "./Buttons/TaskList";
 import Strike from "./Buttons/Strike";
 import AlignButtons from "./Buttons/AlignButtons";
+import AddYoutubeButton from "./Buttons/AddYoutubeButton";
 
 
 type ToolbarPropsType = {
@@ -50,7 +51,10 @@ const Toolbar: React.FC<ToolbarPropsType> = ({saveContent}) => {
                 <OrderedList />
                 <TaskList />
             </div>
-
+            <hr role="separator" aria-orientation="vertical" className="remirror-role remirror-separator"/>
+            <div className="remirror-role remirror-group">
+                <AddYoutubeButton />
+            </div>
         </div>
     )
 }
