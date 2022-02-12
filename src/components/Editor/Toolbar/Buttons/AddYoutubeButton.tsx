@@ -1,6 +1,7 @@
 import {useCommands} from "@remirror/react";
 import React, {useState} from "react";
 import {Input, Modal} from "antd";
+import {VideoLineIcon} from "./Icons";
 
 const AddYoutubeButton = () => {
     const [visible, setVisible] = React.useState(false);
@@ -28,7 +29,7 @@ const AddYoutubeButton = () => {
             <button className="remirror-role remirror-button remirror-tabbable"
                     onMouseDown={(event) => event.preventDefault()}
                     onClick={showModal}>
-                Add video
+                <VideoLineIcon />
             </button>
             <Modal
                 title="Insert YouTube video link"
