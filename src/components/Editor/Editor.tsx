@@ -1,8 +1,9 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import "remirror/styles/all.css";
 
 import {
     BoldExtension,
+    LinkExtension,
     BulletListExtension,
     DocExtension,
     HeadingExtension,
@@ -45,9 +46,20 @@ type EditorPropsType = {
 }
 
 const Editor: React.FC<EditorPropsType> = ({content, selection,  saveContent}) => {
+
+    const linkExtension = useMemo(() => {
+        const extension = new LinkExtension({autoLink: true, defaultTarget: '_blank'});
+        extension.addHandler('onClick', (_, data) => {
+            window.open(data.href,'_blank');
+            return true;
+        });
+        return extension;
+    }, []);
+
     const {manager, state, setState} = useRemirror({
         extensions: () => [new BoldExtension({}),
             new DocExtension({content: 'heading block+'}),
+            linkExtension,
             new MyItalicExtension(),
             new UnderlineExtension(),
             new HeadingExtension({}),
