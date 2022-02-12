@@ -1,6 +1,6 @@
 import {useCommands} from "@remirror/react";
 import React, {useState} from "react";
-import {Input, Modal} from "antd";
+import {Input, message, Modal} from "antd";
 import {VideoLineIcon} from "./Icons";
 
 const AddYoutubeButton = () => {
@@ -11,18 +11,30 @@ const AddYoutubeButton = () => {
 
     const showModal = () => {
         setVisible(true);
-    };
-
-    const handleOk = () => {
-        commands.addYouTubeVideo({ video: youTubeVideoLink})
-        setVisible(false);
         setYouTubeVideoLink('')
     };
 
+    const handleOk = () => {
+        if (isValidYouTubeUrl(youTubeVideoLink)) {
+            commands.addYouTubeVideo({ video: youTubeVideoLink})
+            setVisible(false);
+            setYouTubeVideoLink('')
+        } else {
+            message.warning("Please enter valid youtube video url", 2)
+        }
+    };
+
     const handleCancel = () => {
-        console.log('Clicked cancel button');
         setVisible(false);
     };
+
+    const isValidYouTubeUrl = (url: string) : boolean => {
+        if (url != undefined || url != '') {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return match && match[2].length == 11;
+        }
+    }
 
     return (
         <>
