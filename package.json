@@ -59,6 +59,7 @@
     "react-redux": "^7.2.6",
     "react-refresh": "^0.11.0",
     "react-router-dom": "^6.0.2",
+    "react-select": "^5.2.2",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
     "remirror": "^1.0.61",

@@ -13,6 +13,9 @@ import Strike from "./Controls/Strike";
 import AlignButtons from "./Controls/AlignButtons";
 import AddYoutubeButton from "./Controls/AddYoutubeButton";
 import AddImageButton from "./Controls/AddImageButton";
+import FontSizeControl from "./Controls/FontSizeControl";
+import {cx} from "remirror";
+import css from './Controls/Controls.module.css'
 
 
 type ToolbarPropsType = {
@@ -22,7 +25,7 @@ type ToolbarPropsType = {
 const Toolbar: React.FC<ToolbarPropsType> = ({saveContent}) => {
 
     return (
-        <div className="remirror-role remirror-toolbar">
+        <div className={cx( "remirror-role", "remirror-toolbar", css.toolbar)}>
             <div className="remirror-role remirror-group">
                 <Undo/>
                 <Redo/>
@@ -41,6 +44,10 @@ const Toolbar: React.FC<ToolbarPropsType> = ({saveContent}) => {
                 <Italic/>
                 <Underline/>
                 <Strike/>
+            </div>
+            <hr role="separator" aria-orientation="vertical" className="remirror-role remirror-separator"/>
+            <div className="remirror-role remirror-group">
+                <FontSizeControl/>
             </div>
             <hr role="separator" aria-orientation="vertical" className="remirror-role remirror-separator"/>
             <div className="remirror-role remirror-group">
