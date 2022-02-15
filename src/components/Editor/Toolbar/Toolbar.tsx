@@ -47,10 +47,6 @@ const Toolbar: React.FC<ToolbarPropsType> = ({saveContent}) => {
             </div>
             <hr role="separator" aria-orientation="vertical" className="remirror-role remirror-separator"/>
             <div className="remirror-role remirror-group">
-                <FontSizeControl/>
-            </div>
-            <hr role="separator" aria-orientation="vertical" className="remirror-role remirror-separator"/>
-            <div className="remirror-role remirror-group">
                 <AlignButtons />
             </div>
             <hr role="separator" aria-orientation="vertical" className="remirror-role remirror-separator"/>
