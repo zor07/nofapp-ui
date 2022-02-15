@@ -100,7 +100,7 @@ const Editor: React.FC<EditorPropsType> = ({content, selection,  saveContent}) =
             message.info('Saved')
         },
         // delay in ms
-        3000
+        10000
     );
 
     useEffect(() => {
