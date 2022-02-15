@@ -18,16 +18,24 @@ const FontSizeControl = () => {
     const {getFontSizeForSelection} = useHelpers();
     const {view} = useRemirrorContext({autoUpdate: true});
 
-
-    const [selectedOption, setSelectedOption] = useState({ value: '31', label: '31' });
-
     const options = [
-        { value: 10, label: '10' },
-        { value: '20', label: '20' },
-        { value: '30', label: '30' },
+        { value: '8', label:'8' },
+        { value: '9', label:'9' },
+        { value: '10', label:'10' },
+        { value: '11', label:'11' },
+        { value: '12', label:'12' },
+        { value: '14', label:'14' },
+        { value: '18', label:'18' },
+        { value: '24', label:'24' },
+        { value: '30', label:'30' },
+        { value: '36', label:'36' },
+        { value: '48', label:'48' },
+        { value: '60', label:'60' },
+        { value: '72', label:'72' },
+        { value: '96', label:'96' }
     ];
 
-    const handleChange = (
+    const handleFontSizeSelectChange = (
         newValue: OnChangeValue<FontSizeOption, false>,
         actionMeta: ActionMeta<FontSizeOption>
     ) => {
@@ -36,27 +44,16 @@ const FontSizeControl = () => {
         console.log(`action: ${actionMeta.action}`);
         console.groupEnd();
     };
-    const handleInputChange = (inputValue: any, actionMeta: any) => {
-        console.group('Input Changed');
-        console.log(inputValue);
-        console.log(`action: ${actionMeta.action}`);
-        console.groupEnd();
-    };
 
     return (
         <>
-            {/*"remirror-input"*/}
-            <CreatableSelect
-                    isClearable
-                    defaultMenuIsOpen
-                    className={css.select}
-                    // value={selectedOption}
-                    filterOption={() => true}
-                    components={{ DropdownIndicator:() => null, ClearIndicator:() => null, IndicatorSeparator:() => null }}
+            <Select className={css.select}
+                    isSearchable={false}
                     options={options}
-                    onInputChange={handleInputChange.bind(this)}
-                    onChange={handleChange.bind(this)}/>
-
+                    defaultValue={options[4]}
+                    maxMenuHeight={750}
+                    components={{ DropdownIndicator:() => null, ClearIndicator:() => null, IndicatorSeparator:() => null }}
+                    onChange={handleFontSizeSelectChange}/>
         </>
     );
 }
