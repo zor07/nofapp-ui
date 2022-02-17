@@ -5,6 +5,8 @@ import {clearDiaryAction, DiaryType, getDiary, saveDiary} from "../../redux/diar
 import {useParams} from "react-router-dom";
 import Editor from "../Editor/Editor";
 import {PrimitiveSelection, RemirrorJSON} from "remirror";
+import {Tabs} from "antd";
+import css from './Diary.module.css'
 
 
 type MapStatePropsType = {
@@ -55,10 +57,24 @@ const DiaryEditorContainer: React.FC<DiaryContainerPropsType> = (props) =>  {
         }
     }
 
+    const { TabPane } = Tabs;
+
     return (
         <div>
-            <Editor selection={props.diary.data.selection} content={props.diary.data.content}
-                    saveContent={saveContent} />
+
+            <Tabs defaultActiveKey="1" tabPosition={'top'} style={{ height: "max-content"}}>
+                {[...Array.from({ length: 20 }, (v, i) => i)].map(i => (
+                    <TabPane tab={`Tab-${i}`} key={i} disabled={i === 28}>
+                        <div  className={css.editor}>
+                            <Editor selection={props.diary.data.selection}
+                                    content={props.diary.data.content}
+                                    saveContent={saveContent} />
+                        </div>
+                    </TabPane>
+                ))}
+            </Tabs>
+
+
         </div>
     )
 }
