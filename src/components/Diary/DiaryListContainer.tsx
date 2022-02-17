@@ -85,9 +85,9 @@ const DiaryListContainer: React.FC<DiariesContainerPropsType> = (props) => {
                                      <NavLink to={`/diary/editor/${item.id}`}>
                                          <Button icon={<EditOutlined/>}>Edit</Button>
                                      </NavLink>,
-                                     <Button danger icon={<DeleteOutlined/>} onClick={() => onDeleteDiary(item.id)}>
-                                         Delete
-                                     </Button>
+                                     // <Button danger icon={<DeleteOutlined/>} onClick={() => onDeleteDiary(item.id)}>
+                                     //     Delete
+                                     // </Button>
                                  ]}>
                           <Title level={5}>{item.title}</Title>
                       </List.Item>
