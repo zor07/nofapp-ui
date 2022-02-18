@@ -97,11 +97,13 @@ const Editor: React.FC<EditorPropsType> = ({content, selection,  saveContent}) =
 
     const debounced = useDebouncedCallback(
         (document, selection, title) => {
-            saveContent(document, selection, title)
-            message.info('Saved')
+            if (shouldAutoSave) {
+                saveContent(document, selection, title)
+                message.info('Saved')
+            }
         },
         // delay in ms
-        10000
+        3000
     );
 
     useEffect(() => {
@@ -115,10 +117,12 @@ const Editor: React.FC<EditorPropsType> = ({content, selection,  saveContent}) =
                 const title = titleNode.text
                 saveContent(state.doc as unknown as RemirrorJSON, currSelection, title)
                 setShouldSaveImmediately(false)
+                setShouldAutoSave(false)
                 message.info('Saved')
             } else {
                 message.warn('Please add title', 1)
                 setShouldSaveImmediately(false)
+                setShouldAutoSave(false)
             }
         }
     }, [shouldSaveImmediately]);
