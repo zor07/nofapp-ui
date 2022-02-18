@@ -92,7 +92,7 @@ const Editor: React.FC<EditorPropsType> = ({content, selection,  saveContent}) =
         manager.view.focus();
     }, [content]);
 
-    const [shouldSave, setShouldSave] = useState(false)
+    const [shouldAutoSave, setShouldAutoSave] = useState(false)
     const [shouldSaveImmediately, setShouldSaveImmediately] = useState(false)
 
     const debounced = useDebouncedCallback(
@@ -124,7 +124,7 @@ const Editor: React.FC<EditorPropsType> = ({content, selection,  saveContent}) =
     }, [shouldSaveImmediately]);
 
     useEffect(() => {
-        if (shouldSave) {
+        if (shouldAutoSave) {
             const currSelection: PrimitiveSelection = {
                 anchor: state.selection.anchor,
                 head: state.selection.head
@@ -134,14 +134,14 @@ const Editor: React.FC<EditorPropsType> = ({content, selection,  saveContent}) =
                 const title = titleNode.text
                 debounced(state.doc, currSelection, title);
             }
-            setShouldSave(false)
+            setShouldAutoSave(false)
         }
-    }, [shouldSave]);
+    }, [shouldAutoSave]);
 
     const handleChange = useCallback(({ tr, state }) => {
         setState(state)
         if (tr?.docChanged) {
-            setShouldSave(true)
+            setShouldAutoSave(true)
         }
     }, [debounced]);
 
