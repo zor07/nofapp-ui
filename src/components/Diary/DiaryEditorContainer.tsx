@@ -6,8 +6,10 @@ import {useNavigate, useParams} from "react-router-dom";
 import Editor from "../Editor/Editor";
 import {PrimitiveSelection, RemirrorJSON} from "remirror";
 import {Tabs} from "antd";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import css from './Diary.module.css'
 import {DiaryIdAndTitleType} from "../../redux/diaries-reducer";
+import {compose} from "redux";
 
 
 type MapStatePropsType = {
@@ -104,4 +106,8 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
     }
 }
 
-export default connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {saveDiary, getDiary})(DiaryEditorContainer)
+
+export default compose(
+    withAuthRedirect,
+    connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {saveDiary, getDiary})
+)(DiaryEditorContainer);
