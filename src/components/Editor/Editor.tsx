@@ -1,25 +1,24 @@
 import React, {useCallback, useEffect, useMemo, useState} from "react";
 import "remirror/styles/all.css";
-import css from './Editor.module.css'
 
 import {
     BoldExtension,
-    LinkExtension,
     BulletListExtension,
     DocExtension,
-    HeadingExtension,
-    NodeFormattingExtension,
-    OrderedListExtension,
     FontSizeExtension,
-    TaskListItemExtension,
-    UnderlineExtension,
+    HeadingExtension,
     IframeExtension,
     ImageExtension,
+    LinkExtension,
+    NodeFormattingExtension,
+    OrderedListExtension,
+    TaskListItemExtension,
+    UnderlineExtension,
     wysiwygPreset
 } from "remirror/extensions";
 import {EditorComponent, Remirror, useHelpers, useKeymap, useRemirror} from "@remirror/react";
 import Toolbar from "./Toolbar/Toolbar";
-import {cx, htmlToProsemirrorNode, PrimitiveSelection, RemirrorContentType, RemirrorJSON} from "remirror";
+import {htmlToProsemirrorNode, PrimitiveSelection, RemirrorContentType, RemirrorJSON} from "remirror";
 import {useDebouncedCallback} from "use-debounce";
 import {message} from "antd";
 import MyItalicExtension from "./extensions/MyItalicExtension";
@@ -157,7 +156,7 @@ const Editor: React.FC<EditorPropsType> = ({content, selection,  saveContent}) =
 
                 <Toolbar saveContent={() => setShouldSaveImmediately(true)}/>
 
-                <div className={cx(`${css.editor} remirror-editor remirror-a11y-dark`)} >
+                <div className="remirror-editor remirror-a11y-dark" >
                     <EditorComponent/>
                 </div>
             </Remirror>
