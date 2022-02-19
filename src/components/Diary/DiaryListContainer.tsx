@@ -5,7 +5,7 @@ import {clearCreatedDiaryId, createNewDiary, deleteDiary, DiaryIdAndTitleType, r
 import {NavLink, useNavigate} from "react-router-dom";
 import {compose} from "redux";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
-import {Button, List} from "antd";
+import {Button, List, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import {Typography} from 'antd';
 
@@ -85,9 +85,15 @@ const DiaryListContainer: React.FC<DiariesContainerPropsType> = (props) => {
                                      <NavLink to={`/diary/editor/${item.id}`}>
                                          <Button icon={<EditOutlined/>}>Edit</Button>
                                      </NavLink>,
-                                     // <Button danger icon={<DeleteOutlined/>} onClick={() => onDeleteDiary(item.id)}>
-                                     //     Delete
-                                     // </Button>
+
+                                     <Popconfirm placement="top"
+                                                 title={`Are you shure you want to delete [${item.title}] ?`}
+                                                 onConfirm={() => onDeleteDiary(item.id)}
+                                                 okText="Yes"
+                                                 cancelText="No">
+                                         <Button danger icon={<DeleteOutlined/>}> Delete </Button>
+                                     </Popconfirm>
+
                                  ]}>
                           <Title level={5}>{item.title}</Title>
                       </List.Item>
