@@ -8,6 +8,7 @@ import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {Button, List, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import {Typography} from 'antd';
+import css from './Diary.module.css'
 
 type MapStatePropsType = {
     diaries: Array<DiaryIdAndTitleType>
@@ -68,7 +69,7 @@ const DiaryListContainer: React.FC<DiariesContainerPropsType> = (props) => {
     }
 
     return (
-        <div>
+        <div className={css.content}>
             <Title level={3}>Diary</Title>
             <List itemLayout="vertical"
                   size="large"
@@ -78,6 +79,15 @@ const DiaryListContainer: React.FC<DiariesContainerPropsType> = (props) => {
                       },
                       pageSize: 10,
                   }}
+                  footer={
+                      <div>
+                          <Button loading={isCreatingNewDiaryId}
+                                  type="primary"
+                                  onClick={onCreateNewDiary}>
+                              New note
+                          </Button>
+                      </div>
+                  }
                   dataSource={props.diaries}
                   renderItem={item => (
                       <List.Item key={item.id}
@@ -98,11 +108,6 @@ const DiaryListContainer: React.FC<DiariesContainerPropsType> = (props) => {
                           <Title level={5}>{item.title}</Title>
                       </List.Item>
                   )}/>
-            <div>
-                <Button loading={isCreatingNewDiaryId} type="primary" onClick={onCreateNewDiary}>
-                    New note
-                </Button>
-            </div>
         </div>
     )
 }
