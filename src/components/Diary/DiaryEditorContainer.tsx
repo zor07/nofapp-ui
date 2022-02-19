@@ -5,11 +5,12 @@ import {clearDiaryAction, DiaryType, getDiary, saveDiary} from "../../redux/diar
 import {useNavigate, useParams} from "react-router-dom";
 import Editor from "../Editor/Editor";
 import {PrimitiveSelection, RemirrorJSON} from "remirror";
-import {Tabs} from "antd";
+import {message, Tabs} from "antd";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import css from './Diary.module.css'
-import {DiaryIdAndTitleType} from "../../redux/diaries-reducer";
+import {DiaryIdAndTitleType, requestDiaries} from "../../redux/diaries-reducer";
 import {compose} from "redux";
+import {useDebouncedCallback} from "use-debounce";
 
 
 type MapStatePropsType = {
@@ -20,6 +21,7 @@ type MapStatePropsType = {
 type MapDispatchPropsType = {
     saveDiary: (diary: DiaryType) => void
     getDiary: (diaryId: string) => void
+    requestDiaries: () => void
 }
 
 
@@ -43,9 +45,28 @@ const DiaryEditorContainer: React.FC<DiaryContainerPropsType> = (props) =>  {
     useEffect(() => {
         if (diary !== props.diary) {
             dispatch(saveDiary(diary))
+            dispatch(requestDiaries())
         }
     }, [diary])
 
+
+    useEffect(() => {
+        if (currentDiaryId != params.diaryId) {
+            dispatch(getDiary(currentDiaryId));
+            navigate(`/diary/editor/${currentDiaryId}`)
+        }
+    }, [currentDiaryId])
+
+    const handleTabChange = (selectedDiaryId) => {
+        debounced.cancel();
+        setCurrentDiaryId(selectedDiaryId)
+    }
+
+    const { TabPane } = Tabs;
+
+    const [editorState, setEditorState] = useState(null);
+    const [shouldAutoSave, setShouldAutoSave] = useState(false)
+    const [shouldSaveImmediately, setShouldSaveImmediately] = useState(false)
 
     const saveContent = (content: RemirrorJSON, selection: PrimitiveSelection, title: string) => {
         if (!title || title === '') {
@@ -63,18 +84,61 @@ const DiaryEditorContainer: React.FC<DiaryContainerPropsType> = (props) =>  {
         }
     }
 
-    useEffect(() => {
-        if (currentDiaryId != params.diaryId) {
-            dispatch(getDiary(currentDiaryId));
-            navigate(`/diary/editor/${currentDiaryId}`)
+    const save = (content: RemirrorJSON, selection: PrimitiveSelection, title: string) => {
+        if (shouldAutoSave || shouldSaveImmediately) {
+            saveContent(content, selection, title)
+            message.info('Saved')
         }
-    }, [currentDiaryId])
+    }
+    const debounced = useDebouncedCallback(
+        (document, selection, title, save) => {
+            save(document, selection, title)
+        },
+        // delay in ms
+        3000
+    );
 
-    const handleTabChange = (selectedDiaryId) => {
-        setCurrentDiaryId(selectedDiaryId)
+    // Manual save
+    useEffect(() => {
+        if (shouldSaveImmediately) {
+            const currSelection =  getCurrSelection()
+            const title = getTitle()
+            if (title) {
+                save(editorState.doc as unknown as RemirrorJSON, currSelection, title)
+            } else {
+                message.warn('Please add title', 1)
+            }
+            setShouldSaveImmediately(false)
+            setShouldAutoSave(false)
+            debounced.cancel()
+        }
+    }, [shouldSaveImmediately]);
+
+    // Auto save
+    useEffect(() => {
+        if (shouldAutoSave) {
+            const currSelection =  getCurrSelection()
+            const title = getTitle()
+            if (title) {
+                debounced(editorState.doc, currSelection, title, save.bind(this));
+            }
+            setShouldAutoSave(false)
+        }
+    }, [shouldAutoSave]);
+
+    const getTitle = (): string | undefined => {
+        const titleNode = editorState.doc.nodeAt(1)
+        if (titleNode && titleNode.text) {
+            return titleNode.text
+        } else return undefined
     }
 
-    const { TabPane } = Tabs;
+    const getCurrSelection = (): PrimitiveSelection => {
+        return {
+            anchor: editorState.selection.anchor,
+            head: editorState.selection.head
+        }
+    }
 
     return (
         <div>
@@ -88,7 +152,10 @@ const DiaryEditorContainer: React.FC<DiaryContainerPropsType> = (props) =>  {
                         <div  className={css.editor}>
                             <Editor selection={props.diary.data.selection}
                                     content={props.diary.data.content}
-                                    saveContent={saveContent} />
+                                    saveContent={saveContent}
+                                    setEditorState={setEditorState}
+                                    setShouldAutoSave={setShouldAutoSave}
+                                    setShouldSaveImmediately={setShouldSaveImmediately}/>
                         </div>
                     </TabPane>
                 ))}
@@ -109,5 +176,5 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
 
 export default compose(
     withAuthRedirect,
-    connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {saveDiary, getDiary})
+    connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {saveDiary, getDiary, requestDiaries})
 )(DiaryEditorContainer);
