@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from "react";
+import React, {useCallback, useEffect, useMemo} from "react";
 import "remirror/styles/all.css";
 
 import {
@@ -19,8 +19,6 @@ import {
 import {EditorComponent, Remirror, useHelpers, useKeymap, useRemirror} from "@remirror/react";
 import Toolbar from "./Toolbar/Toolbar";
 import {htmlToProsemirrorNode, PrimitiveSelection, RemirrorContentType, RemirrorJSON} from "remirror";
-import {useDebouncedCallback} from "use-debounce";
-import {message} from "antd";
 import MyItalicExtension from "./extensions/MyItalicExtension";
 
 
@@ -33,7 +31,7 @@ const hooks = [
 
                 return true; // Prevents any further key handlers from being run.
             },
-            [getJSON]
+            []
         );
         // "Mod" means platform agnostic modifier key - i.e. Ctrl on Windows, or Cmd on MacOS
         useKeymap("Mod-s", handleSaveShortcut);
@@ -44,10 +42,15 @@ const hooks = [
 type EditorPropsType = {
     content: RemirrorContentType,
     selection: PrimitiveSelection | null | undefined
+
+    setEditorState: (EditorState) => void
+    setShouldAutoSave: (boolean) => void
+    setShouldSaveImmediately: (boolean) => void
+
     saveContent: (content: RemirrorJSON, selection: PrimitiveSelection, title: string) => void
 }
 
-const Editor: React.FC<EditorPropsType> = ({content, selection,  saveContent}) => {
+const Editor: React.FC<EditorPropsType> = ({content, selection,  saveContent, setEditorState, setShouldAutoSave, setShouldSaveImmediately}) => {
 
     const linkExtension = useMemo(() => {
         const extension = new LinkExtension({autoLink: true, defaultTarget: '_blank'});
@@ -92,58 +95,13 @@ const Editor: React.FC<EditorPropsType> = ({content, selection,  saveContent}) =
         manager.view.focus();
     }, [content]);
 
-    const [shouldSave, setShouldSave] = useState(false)
-    const [shouldSaveImmediately, setShouldSaveImmediately] = useState(false)
-
-    const debounced = useDebouncedCallback(
-        (document, selection, title) => {
-            saveContent(document, selection, title)
-            message.info('Saved')
-        },
-        // delay in ms
-        10000
-    );
-
-    useEffect(() => {
-        if (shouldSaveImmediately) {
-            const currSelection: PrimitiveSelection = {
-                anchor: state.selection.anchor,
-                head: state.selection.head
-            }
-            const titleNode = state.doc.nodeAt(1)
-            if (titleNode && titleNode.text) {
-                const title = titleNode.text
-                saveContent(state.doc as unknown as RemirrorJSON, currSelection, title)
-                setShouldSaveImmediately(false)
-                message.info('Saved')
-            } else {
-                message.warn('Please add title', 1)
-                setShouldSaveImmediately(false)
-            }
-        }
-    }, [shouldSaveImmediately]);
-
-    useEffect(() => {
-        if (shouldSave) {
-            const currSelection: PrimitiveSelection = {
-                anchor: state.selection.anchor,
-                head: state.selection.head
-            }
-            const titleNode = state.doc.nodeAt(1)
-            if (titleNode && titleNode.text) {
-                const title = titleNode.text
-                debounced(state.doc, currSelection, title);
-            }
-            setShouldSave(false)
-        }
-    }, [shouldSave]);
-
     const handleChange = useCallback(({ tr, state }) => {
         setState(state)
+        setEditorState(state)
         if (tr?.docChanged) {
-            setShouldSave(true)
+            setShouldAutoSave(true)
         }
-    }, [debounced]);
+    }, [state]);
 
     return (
         <div className="remirror-theme">
