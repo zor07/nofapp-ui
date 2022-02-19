@@ -86,7 +86,7 @@ const DiaryListContainer: React.FC<DiariesContainerPropsType> = (props) => {
                                          <Button icon={<EditOutlined/>}>Edit</Button>
                                      </NavLink>,
 
-                                     <Popconfirm placement="top"
+                                     <Popconfirm placement="right"
                                                  title={`Are you shure you want to delete [${item.title}] ?`}
                                                  onConfirm={() => onDeleteDiary(item.id)}
                                                  okText="Yes"
