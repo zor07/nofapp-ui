@@ -45,7 +45,10 @@ const DiaryEditorContainer: React.FC<DiaryContainerPropsType> = (props) =>  {
     useEffect(() => {
         if (diary !== props.diary) {
             dispatch(saveDiary(diary))
-            dispatch(requestDiaries())
+            setTimeout(() => {
+                // TODO describe types in reducers, and return promise from dispatch
+                dispatch(requestDiaries())
+            }, 250)
         }
     }, [diary])
 
