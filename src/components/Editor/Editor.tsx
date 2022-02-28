@@ -18,7 +18,7 @@ import {
 } from "remirror/extensions";
 import {EditorComponent, Remirror, useHelpers, useKeymap, useRemirror} from "@remirror/react";
 import Toolbar from "./Toolbar/Toolbar";
-import {htmlToProsemirrorNode, PrimitiveSelection, RemirrorContentType, RemirrorJSON} from "remirror";
+import {htmlToProsemirrorNode, PrimitiveSelection, RemirrorContentType} from "remirror";
 import MyItalicExtension from "./extensions/MyItalicExtension";
 
 
@@ -46,11 +46,9 @@ type EditorPropsType = {
     setEditorState: (EditorState) => void
     setShouldAutoSave: (boolean) => void
     setShouldSaveImmediately: (boolean) => void
-
-    saveContent: (content: RemirrorJSON, selection: PrimitiveSelection, title: string) => void
 }
 
-const Editor: React.FC<EditorPropsType> = ({content, selection,  saveContent, setEditorState, setShouldAutoSave, setShouldSaveImmediately}) => {
+const Editor: React.FC<EditorPropsType> = ({content, selection,  setEditorState, setShouldAutoSave, setShouldSaveImmediately}) => {
 
     const linkExtension = useMemo(() => {
         const extension = new LinkExtension({autoLink: true, defaultTarget: '_blank'});

@@ -156,7 +156,6 @@ const DiaryEditorContainer: React.FC<DiaryContainerPropsType> = (props) =>  {
                         <div  className={css.editor}>
                             <Editor selection={props.diary.data.selection}
                                     content={props.diary.data.content}
-                                    saveContent={saveContent}
                                     setEditorState={setEditorState}
                                     setShouldAutoSave={setShouldAutoSave}
                                     setShouldSaveImmediately={setShouldSaveImmediately}/>
