@@ -145,8 +145,7 @@ const DiaryEditorContainer: React.FC<DiaryContainerPropsType> = (props) =>  {
 
     return (
         <div>
-            <Tabs defaultActiveKey={params.diaryId}
-                  activeKey={params.diaryId}
+            <Tabs activeKey={params.diaryId}
                   tabPosition={'right'}
                   onChange={handleTabChange}
                   style={{ height: "max-content"}}>
