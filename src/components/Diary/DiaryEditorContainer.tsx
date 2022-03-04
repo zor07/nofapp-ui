@@ -98,7 +98,7 @@ const DiaryEditorContainer: React.FC<DiaryContainerPropsType> = (props) =>  {
             save(document, selection, title)
         },
         // delay in ms
-        3000
+        13000
     );
 
     // Manual save
