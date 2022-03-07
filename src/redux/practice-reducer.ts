@@ -51,7 +51,7 @@ const initialState: InitialStateType = {
     }
 }
 
-const practiceReducer = (state: InitialStateType = initialState, action: SetPracticeActionType): InitialStateType => {
+export const practiceReducer = (state: InitialStateType = initialState, action: SetPracticeActionType): InitialStateType => {
     switch (action.type) {
         case SET_PRACTICE:
             return {
