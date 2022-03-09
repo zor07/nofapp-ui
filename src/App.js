@@ -9,9 +9,11 @@ import {initializeApp} from "./redux/app-reducer.ts";
 import store from "./redux/redux-store.ts";
 import DiaryListContainer from "./components/Diary/DiaryListContainer";
 import DiaryEditorContainer from "./components/Diary/DiaryEditorContainer";
-import {Layout, Menu} from "antd";
+import {Layout} from "antd";
 import 'antd/dist/antd.css';
 import HeaderContainer from "./components/Header/HeaderContainer";
+import PracticeListContainer from "./components/Practice/PracticeListContainer";
+import PracticeContainer from "./components/Practice/PracticeContainer";
 
 class App extends Component {
 
@@ -41,6 +43,9 @@ class App extends Component {
                                 <Route path='/diary' element={<DiaryListContainer/>}/>
                                 <Route path='/diary/editor/:diaryId' element={<DiaryEditorContainer/>}/>
                                 <Route path='/diary/editor' element={<DiaryEditorContainer/>}/>
+                                <Route path='/practices' element={<PracticeListContainer isPublic={true}/>}/>
+                                <Route path='/my-practices' element={<PracticeListContainer isPublic={false}/>}/>
+                                <Route path='/practice/:practiceId' element={<PracticeContainer/>}/>
                                 <Route path='/login' element={<Login/>}/>
                             </Routes>
                         </Content>
