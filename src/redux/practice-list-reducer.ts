@@ -2,7 +2,7 @@ import {PRACTICE_API} from "../api/api";
 import {isTokenExpired} from "../api/apiUtils";
 import {refreshToken} from "./auth-reducer";
 
-type PracticeListEntryType = {
+export type PracticeListEntryType = {
     id: string | null
     name: string
     description: string
