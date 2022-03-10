@@ -44,7 +44,7 @@ const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPubl
     return (
         <div className={css.content}>
             <Title level={3}>{ isPublic ? 'All Practices' : 'My Practices' }</Title>
-            <List itemLayout="vertical"
+            <List itemLayout="horizontal"
                   size="large"
                   pagination={{
                       onChange: page => {
@@ -65,10 +65,6 @@ const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPubl
                   renderItem={practice => (
                       <List.Item key={practice.id}
                                  actions={[
-                                     <NavLink to={`/practices/${practice.id}`}>
-                                         <Button icon={<EditOutlined/>}>Edit</Button>
-                                     </NavLink>,
-
                                      <Popconfirm placement="right"
                                                  title={`Are you shure you want to delete [${practice.name}] ?`}
                                                  onConfirm={() => onDeletePractice(practice.id)}
@@ -76,11 +72,10 @@ const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPubl
                                                  cancelText="No">
                                          <Button danger icon={<DeleteOutlined/>}> Delete </Button>
                                      </Popconfirm>
-
                                  ]}>
                           <List.Item.Meta
                               avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                              title={<a href="https://ant.design">{practice.name}</a>}
+                              title={<NavLink to={`/practices/${practice.id}`}>{practice.name}</NavLink>}
                               description={practice.description}
                           />
                       </List.Item>
