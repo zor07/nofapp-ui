@@ -3,7 +3,7 @@ import {AppStateType} from "../../redux/redux-store";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 import {connect, useDispatch} from "react-redux";
-import {Button, List, message, Popconfirm, Typography} from 'antd';
+import {Avatar, Button, List, message, Popconfirm, Typography} from 'antd';
 import {getPractices, PracticeListEntryType} from "../../redux/practice-list-reducer";
 import css from "./PracticeListContainer.module.css";
 import {NavLink} from "react-router-dom";
@@ -27,10 +27,6 @@ const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPubl
     const {Title} = Typography
     const dispatch = useDispatch()
     const [isCreatingNewPractice, setCreatingNewPractice] = useState(false)
-
-    useEffect(() => {
-        dispatch(getPractices(isPublic))
-    }, [])
 
     useEffect(() => {
         dispatch(getPractices(isPublic))
@@ -82,7 +78,11 @@ const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPubl
                                      </Popconfirm>
 
                                  ]}>
-                          <Title level={5}>{practice.name}</Title>
+                          <List.Item.Meta
+                              avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                              title={<a href="https://ant.design">{practice.name}</a>}
+                              description={practice.description}
+                          />
                       </List.Item>
                   )}/>
         </div>
