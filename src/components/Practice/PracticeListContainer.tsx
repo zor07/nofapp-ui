@@ -7,7 +7,7 @@ import {Avatar, Button, List, message, Popconfirm, Typography} from 'antd';
 import {getPractices, PracticeListEntryType} from "../../redux/practice-list-reducer";
 import css from "./PracticeListContainer.module.css";
 import {NavLink} from "react-router-dom";
-import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
+import {DeleteOutlined, PlusCircleOutlined} from "@ant-design/icons";
 
 type MapStatePropsType = {
     practices: Array<PracticeListEntryType>
@@ -40,6 +40,10 @@ const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPubl
         message.info(`Deleting practice ${practiceId}`, 0.5)
     }
 
+    const onAddToMyPractices = (practiceId) => {
+        message.info(`Adding practice ${practiceId}`, 0.5)
+    }
+
 
     return (
         <div className={css.content}>
@@ -65,6 +69,7 @@ const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPubl
                   renderItem={practice => (
                       <List.Item key={practice.id}
                                  actions={[
+                                     <Button onClick={() => onAddToMyPractices(practice.id)} icon={<PlusCircleOutlined />}>Add to my list</Button>,
                                      <Popconfirm placement="right"
                                                  title={`Are you shure you want to delete [${practice.name}] ?`}
                                                  onConfirm={() => onDeletePractice(practice.id)}
