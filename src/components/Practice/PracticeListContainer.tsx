@@ -80,7 +80,7 @@ const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPubl
                                  ]}>
                           <List.Item.Meta
                               avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                              title={<NavLink to={`/practices/${practice.id}`}>{practice.name}</NavLink>}
+                              title={<NavLink to={`/practice/${practice.id}`}>{practice.name}</NavLink>}
                               description={practice.description}
                           />
                       </List.Item>
