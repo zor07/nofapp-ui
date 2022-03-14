@@ -107,6 +107,63 @@ export const DIARY_API = {
     }
 }
 
+export const PRACTICE_API = {
+    getPractices(isPublic= false) {
+        return instance.get(`practice?isPublic=${isPublic}`, {
+            headers : {
+                "Authorization": `Bearer ${cookies.get("accessToken")}`
+            }
+        }).catch((error) => {
+            return handleError(error)
+        })
+    },
+    getPractice(practiceId) {
+        return instance.get(`practice/${practiceId}`, {
+            headers : {
+                "Authorization": `Bearer ${cookies.get("accessToken")}`
+            }
+        }).catch((error) => {
+            return handleError(error)
+        })
+    },
+    addPracticeToUser(practiceId) {
+        return instance.put(`practice/${practiceId}`, {}, {
+            headers : {
+                "Authorization": `Bearer ${cookies.get("accessToken")}`
+            }
+        }).catch((error) => {
+            return handleError(error)
+        })
+    },
+    savePractice(practice) {
+        return instance.post(`practice`, practice, {
+            headers : {
+                "Authorization": `Bearer ${cookies.get("accessToken")}`
+            }
+        }).catch((error) => {
+            return handleError(error)
+        })
+    },
+    updatePractice(practice) {
+        return instance.put(`practice`, practice, {
+            headers : {
+                "Authorization": `Bearer ${cookies.get("accessToken")}`
+            }
+        }).catch((error) => {
+            return handleError(error)
+        })
+    },
+    deletePractice(practiceId) {
+        return instance.delete(`practice/${practiceId}`,  {
+            headers : {
+                "Authorization": `Bearer ${cookies.get("accessToken")}`
+            }
+        }).catch((error) => {
+            return handleError(error)
+        })
+    },
+}
+
 const handleError = (error) => {
     if (error.response && error.response.status === 403) {
         return error.response

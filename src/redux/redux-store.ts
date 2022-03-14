@@ -5,6 +5,8 @@ import appReducer from "./app-reducer";
 import timerReducer from "./timer-reducer";
 import diariesReducer from "./diaries-reducer";
 import diaryReducer from "./diary-reducer";
+import {practiceReducer} from "./practice-reducer";
+import {practiceListReducer} from "./practice-list-reducer";
 
 let rootReducer = combineReducers({
 
@@ -12,7 +14,9 @@ let rootReducer = combineReducers({
     auth: authReducer,
     app: appReducer,
     diaries: diariesReducer,
-    diary: diaryReducer
+    diary: diaryReducer,
+    practice: practiceReducer,
+    practiceList: practiceListReducer
 
 });
 
