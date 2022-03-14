@@ -6,6 +6,7 @@ import {getPractice, PracticeType} from "../../redux/practice-reducer";
 import {AppStateType} from "../../redux/redux-store";
 import {compose} from "redux";
 import {message} from "antd";
+import EditorStatic from "../Editor/EditorStatic";
 
 
 type MapStatePropsType = {
@@ -38,7 +39,7 @@ const PracticeContainer: React.FC<PracticeContainerPropsType> = (props) => {
     return (
         <div>
             <div>{practice.id}</div>
-            {/*<div>{practice.data}</div>*/}
+            <div><EditorStatic content={practice.data}/></div>
             <div>{practice.description}</div>
             <div>{practice.name}</div>
             <div>{practice.isPublic ? 'true' : 'false'}</div>
