@@ -16,9 +16,9 @@ type InitialStateType = {
     practice: PracticeType | null
 };
 
-export const DEFAULT_CONTENT = {
-    type: "doc",
-    content: [
+export const DEFAULT_CONTENT = `{
+    "type": "doc",
+    "content": [
         {
             "type": "heading",
             "attrs": {
@@ -27,12 +27,12 @@ export const DEFAULT_CONTENT = {
             "content": [
                 {
                     "type": "text",
-                    "text": currentDateString()
+                    "text": "currentDateString()"
                 }
             ]
         }
     ]
-}
+}`
 
 const SET_PRACTICE = 'PRACTICE/SET_PRACTICE'
 
@@ -46,7 +46,7 @@ const initialState: InitialStateType = {
         id: "1",
         name: "Default practice",
         description: "Default practice description",
-        data: DEFAULT_CONTENT,
+        data: JSON.parse(DEFAULT_CONTENT),
         isPublic: true
     }
 }
@@ -70,6 +70,7 @@ export const getPractice = (practiceId: string) => {
         const response = await PRACTICE_API.getPractice(practiceId)
         if (response.status === 200) {
             const practice: PracticeType = response.data
+            practice.data = JSON.parse(response.data.data)
             dispatch(setPractice(practice))
         } else if (isTokenExpired(response)) {
             dispatch(refreshToken())
