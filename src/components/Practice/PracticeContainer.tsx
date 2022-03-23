@@ -5,7 +5,7 @@ import {connect, useDispatch} from "react-redux";
 import {getPractice, PracticeType} from "../../redux/practice-reducer";
 import {AppStateType} from "../../redux/redux-store";
 import {compose} from "redux";
-import PracticeCard from "./PracticeCard";
+import PracticeData from "./PracticeData";
 
 
 type MapStatePropsType = {
@@ -36,7 +36,7 @@ const PracticeContainer: React.FC<PracticeContainerPropsType> = (props: Practice
     return (
         <div>
             <div>{practice.id}</div>
-            <div><PracticeCard content={practice.data}/></div>
+            <div><PracticeData content={practice.data}/></div>
             <div>{practice.description}</div>
             <div>{practice.name}</div>
             <div>{practice.isPublic ? 'true' : 'false'}</div>
