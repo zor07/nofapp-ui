@@ -55,16 +55,13 @@ const PracticeCard: React.FC<EditorStaticPropsType> = ({content}) => {
     console.log(data)
 
     return (
-
-        <div>
+        <div className='remirror-theme'>
             <RemirrorRenderer  json={data}
                                skipUnknownTypes={true}
                                skipUnknownMarks={true}
                                typeMap={typeMap}
                                markMap={markMap}  />
         </div>
-
-
     )
 };
 
