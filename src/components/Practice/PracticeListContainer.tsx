@@ -5,7 +5,7 @@ import {compose} from "redux";
 import {connect, useDispatch} from "react-redux";
 import {Avatar, Button, List, message, Popconfirm, Typography} from 'antd';
 import {getPractices, PracticeListEntryType} from "../../redux/practice-list-reducer";
-import css from "./PracticeListContainer.module.css";
+import css from "./Practice.module.css";
 import {NavLink} from "react-router-dom";
 import {DeleteOutlined, PlusCircleOutlined} from "@ant-design/icons";
 
