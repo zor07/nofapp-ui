@@ -14,7 +14,7 @@ type EditorStaticPropsType = {
     content: RemirrorJSON
 }
 
-const EditorStatic: React.FC<EditorStaticPropsType> = ({content}) => {
+const PracticeCard: React.FC<EditorStaticPropsType> = ({content}) => {
 
     const typeMap: MarkMap = {
         blockquote: 'blockquote',
@@ -68,4 +68,4 @@ const EditorStatic: React.FC<EditorStaticPropsType> = ({content}) => {
     )
 };
 
-export default EditorStatic
+export default PracticeCard
