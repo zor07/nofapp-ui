@@ -5,7 +5,7 @@ import {connect, useDispatch} from "react-redux";
 import {getPractice, PracticeType} from "../../redux/practice-reducer";
 import {AppStateType} from "../../redux/redux-store";
 import {compose} from "redux";
-import EditorStatic from "../Editor/EditorStatic";
+import EditorStatic from "./EditorStatic";
 
 
 type MapStatePropsType = {
