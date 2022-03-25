@@ -7,6 +7,7 @@ import {Avatar, Button, List, message, Popconfirm, Typography} from 'antd';
 import {
     clearCreatedPracticeId,
     createNewPractice,
+    deletePractice,
     getPractices,
     PracticeListEntryType
 } from "../../redux/practice-list-reducer";
@@ -23,6 +24,7 @@ type MapDispatchPropsType = {
     getPractices: (isPublic: boolean) => void,
     createNewPractice: (isPublic: boolean) => void
     clearCreatedPracticeId: () => void
+    deletePractice: (practiceId: string, isPublic: boolean) => void
 }
 
 type OwnPropsType = {
@@ -36,6 +38,7 @@ const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPubl
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [isCreatingNewPractice, setIsCreatingNewPractice] = useState(false)
+    const [toDeletePracticeId, setDeletePracticeID] = useState('')
 
     useEffect(() => {
         dispatch(getPractices(isPublic))
@@ -57,6 +60,14 @@ const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPubl
         }
     }, [createdPracticeId])
 
+    useEffect(() => {
+        if (toDeletePracticeId !== '') {
+            dispatch(deletePractice(toDeletePracticeId, isPublic))
+            setDeletePracticeID('')
+        }
+    }, [toDeletePracticeId])
+
+
     const onCreateNewPractice = () => {
         setIsCreatingNewPractice(true)
     }
@@ -66,7 +77,7 @@ const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPubl
     }
 
     const onDeletePractice = (practiceId) => {
-        message.info(`Deleting practice ${practiceId}`, 0.5)
+        setDeletePracticeID(practiceId)
     }
 
     const onAddToMyPractices = (practiceId) => {
@@ -128,5 +139,6 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
 
 export default compose(
     withAuthRedirect,
-    connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {getPractices, createNewPractice, clearCreatedPracticeId})
+    connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {getPractices,
+        createNewPractice, clearCreatedPracticeId, deletePractice})
 )(PracticeListContainer);
