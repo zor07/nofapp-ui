@@ -1,7 +1,7 @@
 import {PRACTICE_API} from "../api/api";
 import {isTokenExpired} from "../api/apiUtils";
 import {refreshToken} from "./auth-reducer";
-import {DEFAULT_CONTENT, PracticeType} from "./practice-reducer";
+import {DEFAULT_CONTENT} from "./practice-reducer";
 
 export type PracticeListEntryType = {
     id: string | null
