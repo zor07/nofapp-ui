@@ -5,6 +5,7 @@ import {compose} from "redux";
 import {connect, useDispatch} from "react-redux";
 import {Avatar, Button, List, message, Popconfirm, Typography} from 'antd';
 import {
+    addPracticeToUser,
     clearCreatedPracticeId,
     createNewPractice,
     deletePractice,
@@ -25,6 +26,7 @@ type MapDispatchPropsType = {
     createNewPractice: (isPublic: boolean) => void
     clearCreatedPracticeId: () => void
     deletePractice: (practiceId: string, isPublic: boolean) => void
+    addPracticeToUser: (practiceId: string) => void
 }
 
 type OwnPropsType = {
@@ -39,6 +41,7 @@ const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPubl
     const navigate = useNavigate()
     const [isCreatingNewPractice, setIsCreatingNewPractice] = useState(false)
     const [toDeletePracticeId, setDeletePracticeID] = useState('')
+    const [addToUserPracticeId, setAddToUserPracticeId] = useState('')
 
     useEffect(() => {
         dispatch(getPractices(isPublic))
@@ -64,9 +67,17 @@ const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPubl
         if (toDeletePracticeId !== '') {
             dispatch(deletePractice(toDeletePracticeId, isPublic))
             setDeletePracticeID('')
+            message.info('Deleted')
         }
     }, [toDeletePracticeId])
 
+    useEffect(() => {
+        if (addToUserPracticeId !== '') {
+            dispatch(addPracticeToUser(addToUserPracticeId ))
+            setAddToUserPracticeId('')
+            message.info('Added practice')
+        }
+    }, [addToUserPracticeId])
 
     const onCreateNewPractice = () => {
         setIsCreatingNewPractice(true)
@@ -81,7 +92,7 @@ const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPubl
     }
 
     const onAddToMyPractices = (practiceId) => {
-        message.info(`Adding practice ${practiceId}`, 0.5)
+        setAddToUserPracticeId(practiceId)
     }
 
 
@@ -140,5 +151,5 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
 export default compose(
     withAuthRedirect,
     connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {getPractices,
-        createNewPractice, clearCreatedPracticeId, deletePractice})
+        createNewPractice, clearCreatedPracticeId, deletePractice, addPracticeToUser})
 )(PracticeListContainer);
