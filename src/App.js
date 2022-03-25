@@ -14,6 +14,7 @@ import 'antd/dist/antd.css';
 import HeaderContainer from "./components/Header/HeaderContainer";
 import PracticeListContainer from "./components/Practice/PracticeListContainer";
 import PracticeContainer from "./components/Practice/PracticeContainer";
+import PracticeEditorContainer from "./components/Practice/PracticeEditorContainer";
 
 class App extends Component {
 
@@ -46,6 +47,7 @@ class App extends Component {
                                 <Route path='/practices' element={<PracticeListContainer isPublic={true}/>}/>
                                 <Route path='/my-practices' element={<PracticeListContainer isPublic={false}/>}/>
                                 <Route path='/practice/:practiceId' element={<PracticeContainer/>}/>
+                                <Route path='/practice/editor/:practiceId' element={<PracticeEditorContainer/>}/>
                                 <Route path='/login' element={<Login/>}/>
                             </Routes>
                         </Content>
