@@ -12,7 +12,7 @@ import {
 } from "../../redux/practice-list-reducer";
 import css from "./Practice.module.css";
 import {NavLink, useNavigate} from "react-router-dom";
-import {DeleteOutlined, PlusCircleOutlined} from "@ant-design/icons";
+import {DeleteOutlined, EditOutlined, PlusCircleOutlined} from "@ant-design/icons";
 
 type MapStatePropsType = {
     practices: Array<PracticeListEntryType>,
@@ -61,6 +61,10 @@ const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPubl
         setIsCreatingNewPractice(true)
     }
 
+    const onEditPractice = (practiceId) => {
+        navigate(`/practice/editor/${practiceId}`)
+    }
+
     const onDeletePractice = (practiceId) => {
         message.info(`Deleting practice ${practiceId}`, 0.5)
     }
@@ -95,6 +99,7 @@ const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPubl
                       <List.Item key={practice.id}
                                  actions={[
                                      <Button onClick={() => onAddToMyPractices(practice.id)} icon={<PlusCircleOutlined />}>Add to my list</Button>,
+                                     <Button onClick={() => onEditPractice(practice.id)} icon={<EditOutlined />}>Edit</Button>,
                                      <Popconfirm placement="right"
                                                  title={`Are you shure you want to delete [${practice.name}] ?`}
                                                  onConfirm={() => onDeletePractice(practice.id)}
