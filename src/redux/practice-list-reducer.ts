@@ -107,3 +107,15 @@ export const getPractices = (isPublic: boolean) => {
         }
     }
 }
+
+export const deletePractice = (practiceId : string, isPublic: boolean) => {
+    return async (dispatch) => {
+        const response = await PRACTICE_API.deletePractice(practiceId)
+        if (response.status === 204) {
+            dispatch(getPractices(isPublic))
+        } else if (isTokenExpired(response)) {
+            dispatch(refreshToken())
+            dispatch(deletePractice(practiceId, isPublic))
+        }
+    }
+}
