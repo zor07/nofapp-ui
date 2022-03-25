@@ -73,7 +73,7 @@ export const createNewPractice = (isPublic: boolean) => {
                 name: 'test'
             },
             description: 'Practice Description',
-            data: DEFAULT_CONTENT,
+            data: JSON.parse(DEFAULT_CONTENT),
             isPublic: isPublic
         }
         const response = await PRACTICE_API.savePractice(practice)
