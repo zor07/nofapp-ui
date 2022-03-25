@@ -119,3 +119,13 @@ export const deletePractice = (practiceId : string, isPublic: boolean) => {
         }
     }
 }
+
+export const addPracticeToUser = (practiceId: string) => {
+    return async (dispatch) => {
+        const response = await PRACTICE_API.addPracticeToUser(practiceId)
+        if (response.status !== 204 && isTokenExpired(response)) {
+            dispatch(refreshToken())
+            dispatch(addPracticeToUser(practiceId))
+        }
+    }
+}
