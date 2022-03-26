@@ -83,15 +83,15 @@ const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPubl
         setIsCreatingNewPractice(true)
     }
 
-    const onEditPractice = (practiceId) => {
+    const onEditPractice = (practiceId: string) => {
         navigate(`/practice/editor/${practiceId}`)
     }
 
-    const onDeletePractice = (practiceId) => {
+    const onDeletePractice = (practiceId: string) => {
         setDeletePracticeID(practiceId)
     }
 
-    const onAddToMyPractices = (practiceId) => {
+    const onAddToMyPractices = (practiceId: string) => {
         setAddToUserPracticeId(practiceId)
     }
 
