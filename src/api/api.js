@@ -127,7 +127,7 @@ export const PRACTICE_API = {
         })
     },
     addPracticeToUser(practiceId) {
-        return instance.put(`practice/${practiceId}`, {}, {
+        return instance.put(`practice/${practiceId}`, null, {
             headers : {
                 "Authorization": `Bearer ${cookies.get("accessToken")}`
             }

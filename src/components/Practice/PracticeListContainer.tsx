@@ -4,17 +4,29 @@ import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 import {connect, useDispatch} from "react-redux";
 import {Avatar, Button, List, message, Popconfirm, Typography} from 'antd';
-import {getPractices, PracticeListEntryType} from "../../redux/practice-list-reducer";
-import css from "./PracticeListContainer.module.css";
-import {NavLink} from "react-router-dom";
-import {DeleteOutlined, PlusCircleOutlined} from "@ant-design/icons";
+import {
+    addPracticeToUser,
+    clearCreatedPracticeId,
+    createNewPractice,
+    deletePractice,
+    getPractices,
+    PracticeListEntryType
+} from "../../redux/practice-list-reducer";
+import css from "./Practice.module.css";
+import {NavLink, useNavigate} from "react-router-dom";
+import {DeleteOutlined, EditOutlined, PlusCircleOutlined} from "@ant-design/icons";
 
 type MapStatePropsType = {
-    practices: Array<PracticeListEntryType>
+    practices: Array<PracticeListEntryType>,
+    createdPracticeId: string | null
 }
 
 type MapDispatchPropsType = {
-    getPractices: (isPublic: boolean) => void
+    getPractices: (isPublic: boolean) => void,
+    createNewPractice: (isPublic: boolean) => void
+    clearCreatedPracticeId: () => void
+    deletePractice: (practiceId: string, isPublic: boolean) => void
+    addPracticeToUser: (practiceId: string) => void
 }
 
 type OwnPropsType = {
@@ -23,25 +35,64 @@ type OwnPropsType = {
 
 type PracticeListContainerPropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
 
-const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPublic, practices}) => {
+const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPublic, practices, createdPracticeId}) => {
     const {Title} = Typography
     const dispatch = useDispatch()
-    const [isCreatingNewPractice, setCreatingNewPractice] = useState(false)
+    const navigate = useNavigate()
+    const [isCreatingNewPractice, setIsCreatingNewPractice] = useState(false)
+    const [toDeletePracticeId, setDeletePracticeID] = useState('')
+    const [addToUserPracticeId, setAddToUserPracticeId] = useState('')
 
     useEffect(() => {
         dispatch(getPractices(isPublic))
     }, [isPublic])
 
+    useEffect(() => {
+        if (isCreatingNewPractice) {
+            dispatch(createNewPractice(isPublic))
+        }
+    }, [isCreatingNewPractice])
+
+    useEffect(() => {
+        dispatch(getPractices(isPublic))
+        if (createdPracticeId) {
+            setIsCreatingNewPractice(false)
+            const newId = createdPracticeId
+            dispatch(clearCreatedPracticeId())
+            navigate(`/practice/editor/${newId}`)
+        }
+    }, [createdPracticeId])
+
+    useEffect(() => {
+        if (toDeletePracticeId !== '') {
+            dispatch(deletePractice(toDeletePracticeId, isPublic))
+            setDeletePracticeID('')
+            message.info('Deleted')
+        }
+    }, [toDeletePracticeId])
+
+    useEffect(() => {
+        if (addToUserPracticeId !== '') {
+            dispatch(addPracticeToUser(addToUserPracticeId ))
+            setAddToUserPracticeId('')
+            message.info('Added practice')
+        }
+    }, [addToUserPracticeId])
+
     const onCreateNewPractice = () => {
-        message.info("Creating new practice", 0.5)
+        setIsCreatingNewPractice(true)
+    }
+
+    const onEditPractice = (practiceId) => {
+        navigate(`/practice/editor/${practiceId}`)
     }
 
     const onDeletePractice = (practiceId) => {
-        message.info(`Deleting practice ${practiceId}`, 0.5)
+        setDeletePracticeID(practiceId)
     }
 
     const onAddToMyPractices = (practiceId) => {
-        message.info(`Adding practice ${practiceId}`, 0.5)
+        setAddToUserPracticeId(practiceId)
     }
 
 
@@ -70,6 +121,7 @@ const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPubl
                       <List.Item key={practice.id}
                                  actions={[
                                      <Button onClick={() => onAddToMyPractices(practice.id)} icon={<PlusCircleOutlined />}>Add to my list</Button>,
+                                     <Button onClick={() => onEditPractice(practice.id)} icon={<EditOutlined />}>Edit</Button>,
                                      <Popconfirm placement="right"
                                                  title={`Are you shure you want to delete [${practice.name}] ?`}
                                                  onConfirm={() => onDeletePractice(practice.id)}
@@ -91,11 +143,13 @@ const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPubl
 
 let mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
-        practices: state.practiceList.practices
+        practices: state.practiceList.practices,
+        createdPracticeId: state.practiceList.createdPracticeId
     }
 }
 
 export default compose(
     withAuthRedirect,
-    connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {getPractices})
+    connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {getPractices,
+        createNewPractice, clearCreatedPracticeId, deletePractice, addPracticeToUser})
 )(PracticeListContainer);

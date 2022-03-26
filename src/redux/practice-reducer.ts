@@ -1,7 +1,6 @@
 import {PRACTICE_API} from "../api/api";
 import {isTokenExpired} from "../api/apiUtils";
 import {RemirrorJSON} from "remirror";
-import {currentDateString} from "../utils/dateUtils";
 import {refreshToken} from "./auth-reducer";
 
 export type PracticeType = {
@@ -15,6 +14,10 @@ export type PracticeType = {
 type InitialStateType = {
     practice: PracticeType | null
 };
+
+type UnmountPracticeActionType = {
+    type: typeof UNMOUNT_PRACTICE,
+}
 
 export const DEFAULT_CONTENT = `{
     "type": "doc",
@@ -35,6 +38,7 @@ export const DEFAULT_CONTENT = `{
 }`
 
 const SET_PRACTICE = 'PRACTICE/SET_PRACTICE'
+const UNMOUNT_PRACTICE = 'PRACTICE/UNMOUNT_PRACTICE'
 
 type SetPracticeActionType = {
     type: typeof SET_PRACTICE,
@@ -51,12 +55,17 @@ const initialState: InitialStateType = {
     }
 }
 
-export const practiceReducer = (state: InitialStateType = initialState, action: SetPracticeActionType): InitialStateType => {
+export const practiceReducer = (state: InitialStateType = initialState, action: SetPracticeActionType | UnmountPracticeActionType): InitialStateType => {
     switch (action.type) {
         case SET_PRACTICE:
             return {
                 ...state,
                 practice: action.payload
+            }
+        case UNMOUNT_PRACTICE:
+            return {
+                ...state,
+                practice: initialState.practice
             }
         default:
             return state;
@@ -64,13 +73,14 @@ export const practiceReducer = (state: InitialStateType = initialState, action: 
 }
 
 export const setPractice = (payload: PracticeType): SetPracticeActionType => ({type: SET_PRACTICE, payload})
+export const clearPracticeAction = (): UnmountPracticeActionType => ({type: UNMOUNT_PRACTICE})
 
 export const getPractice = (practiceId: string) => {
     return async (dispatch) => {
         const response = await PRACTICE_API.getPractice(practiceId)
         if (response.status === 200) {
             const practice: PracticeType = response.data
-            practice.data = JSON.parse(response.data.data)
+            practice.data = response.data.data
             dispatch(setPractice(practice))
         } else if (isTokenExpired(response)) {
             dispatch(refreshToken())

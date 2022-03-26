@@ -14,7 +14,7 @@ type EditorStaticPropsType = {
     content: RemirrorJSON
 }
 
-const EditorStatic: React.FC<EditorStaticPropsType> = ({content}) => {
+const PracticeData: React.FC<EditorStaticPropsType> = ({content}) => {
 
     const typeMap: MarkMap = {
         blockquote: 'blockquote',
@@ -55,17 +55,14 @@ const EditorStatic: React.FC<EditorStaticPropsType> = ({content}) => {
     console.log(data)
 
     return (
-
-        <div>
+        <div className='remirror-theme'>
             <RemirrorRenderer  json={data}
                                skipUnknownTypes={true}
                                skipUnknownMarks={true}
                                typeMap={typeMap}
                                markMap={markMap}  />
         </div>
-
-
     )
 };
 
-export default EditorStatic
+export default PracticeData
