@@ -30,7 +30,7 @@ export const DEFAULT_CONTENT = `{
             "content": [
                 {
                     "type": "text",
-                    "text": "currentDateString()"
+                    "text": "Enter Practice Name"
                 }
             ]
         }
