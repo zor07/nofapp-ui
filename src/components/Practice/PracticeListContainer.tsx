@@ -3,7 +3,7 @@ import {AppStateType} from "../../redux/redux-store";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 import {connect, useDispatch} from "react-redux";
-import {Avatar, Button, List, message, Popconfirm, Typography} from 'antd';
+import {Avatar, Button, List, message, Popconfirm, Tag, Typography} from 'antd';
 import {
     addPracticeToUser,
     clearCreatedPracticeId,
@@ -145,7 +145,14 @@ const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPubl
                               <List.Item.Meta
                                   avatar={<Avatar src="https://joeschmoe.io/api/v1/random"/>}
                                   title={<NavLink to={`/practice/${practice.id}`}>{practice.name}</NavLink>}
-                                  description={practice.description}
+                                  description={<div>
+                                      {practice.description}
+                                      <div>
+                                          <Tag color="green">Tag 1</Tag>
+                                          <Tag color="orange">Tag 2</Tag>
+                                          <Tag color="blue">Tag 3</Tag>
+                                      </div>
+                                  </div>}
                               />
                           </List.Item>
                       );
