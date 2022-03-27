@@ -60,7 +60,7 @@ const PracticeData: React.FC<EditorStaticPropsType> = ({content, name, id}) => {
 
     const removeTitle = (obj: RemirrorJSON) : RemirrorJSON => {
         const contentWithoutTitle = [...obj.content]
-        if (contentWithoutTitle[0].type === 'heading') {
+        if (contentWithoutTitle[0] && contentWithoutTitle[0].type === 'heading') {
             contentWithoutTitle.shift()
         }
         obj.content = contentWithoutTitle
