@@ -2,6 +2,7 @@ import {PRACTICE_API} from "../api/api";
 import {isTokenExpired} from "../api/apiUtils";
 import {refreshToken} from "./auth-reducer";
 import {DEFAULT_CONTENT} from "./practice-reducer";
+import {getDescriptionFromRemirrorJson} from "../utils/stringUtils";
 
 export type PracticeListEntryType = {
     id: string | null
@@ -98,7 +99,9 @@ export const getPractices = (isPublic: boolean) => {
         const response = await PRACTICE_API.getPractices(isPublic)
         if (response.status === 200) {
             const practices: Array<PracticeListEntryType> = response.data.map(p => ({
-                id: p.id, name: p.name, description: p.description
+                id: p.id,
+                name: p.name,
+                description: getDescriptionFromRemirrorJson(p.data, '')
             }))
             dispatch(setPractices(practices))
         } else if (isTokenExpired(response)) {

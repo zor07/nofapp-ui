@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {ReactElement, useEffect, useState} from "react";
 import {AppStateType} from "../../redux/redux-store";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
@@ -83,17 +83,38 @@ const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPubl
         setIsCreatingNewPractice(true)
     }
 
-    const onEditPractice = (practiceId) => {
+    const onEditPractice = (practiceId: string) => {
         navigate(`/practice/editor/${practiceId}`)
     }
 
-    const onDeletePractice = (practiceId) => {
+    const onDeletePractice = (practiceId: string) => {
         setDeletePracticeID(practiceId)
     }
 
-    const onAddToMyPractices = (practiceId) => {
+    const onAddToMyPractices = (practiceId: string) => {
         setAddToUserPracticeId(practiceId)
     }
+
+    const createListItemActions = (practice: PracticeListEntryType) : Array<ReactElement> => {
+        const actions = [
+            <Button onClick={() => onEditPractice(practice.id)}
+                    icon={<EditOutlined/>}>Edit</Button>,
+            <Popconfirm placement="right"
+                        title={`Are you shure you want to delete [${practice.name}] ?`}
+                        onConfirm={() => onDeletePractice(practice.id)}
+                        okText="Yes"
+                        cancelText="No">
+                <Button danger icon={<DeleteOutlined/>}> Delete </Button>
+            </Popconfirm>
+        ]
+        if (isPublic) {
+            actions.unshift(<Button onClick={() => onAddToMyPractices(practice.id)}
+                                    icon={<PlusCircleOutlined/>}>Add to my list</Button>)
+        }
+
+        return actions
+    }
+
 
 
     return (
@@ -117,29 +138,23 @@ const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPubl
                       </div>
                   }
                   dataSource={practices}
-                  renderItem={practice => (
-                      <List.Item key={practice.id}
-                                 actions={[
-                                     <Button onClick={() => onAddToMyPractices(practice.id)} icon={<PlusCircleOutlined />}>Add to my list</Button>,
-                                     <Button onClick={() => onEditPractice(practice.id)} icon={<EditOutlined />}>Edit</Button>,
-                                     <Popconfirm placement="right"
-                                                 title={`Are you shure you want to delete [${practice.name}] ?`}
-                                                 onConfirm={() => onDeletePractice(practice.id)}
-                                                 okText="Yes"
-                                                 cancelText="No">
-                                         <Button danger icon={<DeleteOutlined/>}> Delete </Button>
-                                     </Popconfirm>
-                                 ]}>
-                          <List.Item.Meta
-                              avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                              title={<NavLink to={`/practice/${practice.id}`}>{practice.name}</NavLink>}
-                              description={practice.description}
-                          />
-                      </List.Item>
-                  )}/>
+                  renderItem={practice => {
+                      return (
+                          <List.Item key={practice.id}
+                                     actions={createListItemActions(practice)}>
+                              <List.Item.Meta
+                                  avatar={<Avatar src="https://joeschmoe.io/api/v1/random"/>}
+                                  title={<NavLink to={`/practice/${practice.id}`}>{practice.name}</NavLink>}
+                                  description={practice.description}
+                              />
+                          </List.Item>
+                      );
+                  }}/>
         </div>
     )
 }
+
+
 
 let mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
