@@ -7,6 +7,7 @@ import {getDescriptionFromRemirrorJson} from "../utils/stringUtils";
 export type PracticeListEntryType = {
     id: string | null
     name: string
+    isPublic: boolean
     description: string
 }
 
@@ -38,19 +39,23 @@ type SetCreatedPracticeIdActionType = {
 const initialState: InitialStateType = {
     publicPractices: [{
         id: "1",
+        isPublic: true,
         name: "Default public practice 1",
         description: "Default public practice description 1",
     }, {
         id: "2",
+        isPublic: true,
         name: "Default public practice 2",
         description: "Default public practice description 2",
     }],
     userPractices: [{
         id: "1",
+        isPublic: false,
         name: "Default user practice 1",
         description: "Default user practice description 1",
     }, {
         id: "2",
+        isPublic: false,
         name: "Default user practice 2",
         description: "Default user practice description 2",
     }],
@@ -138,6 +143,7 @@ const getPractices = (isPublic: boolean) => {
             const practices: Array<PracticeListEntryType> = response.data.map(p => ({
                 id: p.id,
                 name: p.name,
+                isPublic: p.isPublic,
                 description: getDescriptionFromRemirrorJson(p.data, '')
             }))
             if (isPublic) {
