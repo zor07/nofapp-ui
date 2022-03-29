@@ -125,7 +125,7 @@ const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPubl
                                     icon={<PlusCircleOutlined/>}>Add to my list</Button>)
         }
 
-        if (!isPublic) {
+        if (!isPublic && practice.isPublic) {
             actions.unshift(<Button onClick={() => {onRemoveFromMyPractices(practice.id)}}
                                     icon={<MinusCircleOutlined/>}>Remove from my list</Button>)
         }
@@ -168,9 +168,10 @@ const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPubl
                                   description={<div>
                                       {practice.description}
                                       <div>
-                                          <Tag color="green">Tag 1</Tag>
-                                          <Tag color="orange">Tag 2</Tag>
-                                          <Tag color="blue">Tag 3</Tag>
+                                          {practice.isPublic
+                                              ? <Tag color="green">Public practice</Tag>
+                                              : <Tag color="blue">My Practice</Tag>
+                                          }
                                       </div>
                                   </div>}
                               />
