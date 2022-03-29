@@ -116,7 +116,7 @@ const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPubl
                 <Button danger icon={<DeleteOutlined/>}> Delete </Button>
             </Popconfirm>
         ]
-        if (isPublic) {
+        if (isPublic && !userOwnsPractice(practice.id)) {
             actions.unshift(<Button onClick={() => onAddToMyPractices(practice.id)}
                                     icon={<PlusCircleOutlined/>}>Add to my list</Button>)
         }
@@ -124,7 +124,9 @@ const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPubl
         return actions
     }
 
-
+    const userOwnsPractice = (practiceId: string) : boolean => {
+        return userPractices.filter(practice => practice.id === practiceId).length > 0
+    }
 
     return (
         <div className={css.content}>
