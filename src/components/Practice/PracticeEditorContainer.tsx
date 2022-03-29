@@ -4,7 +4,7 @@ import {AppStateType} from "../../redux/redux-store";
 import {useNavigate, useParams} from "react-router-dom";
 import Editor from "../Editor/Editor";
 import {RemirrorJSON} from "remirror";
-import {message} from "antd";
+import {Button, Descriptions, message, PageHeader, Tag} from "antd";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import css from '../Diary/Diary.module.css' // TODO move css to Editor
 import {compose} from "redux";
@@ -124,8 +124,31 @@ const PracticeEditorContainer: React.FC<PracticeEditorContainerPropsType> = (pro
         } else return undefined
     }
 
+    const goToPublicPracticeList = () => {
+        navigate('/practices')
+    }
+
+    const goToMyPracticeList = () => {
+        navigate('/my-practices')
+    }
+
     return (
         <div  className={css.editor}>
+            <PageHeader
+                ghost={false}
+                title={'Edit practice'}>
+                <Descriptions size="small" column={1}>
+                    <Descriptions.Item label="Tags">
+                        <Tag color="green">Tag 1</Tag>
+                        <Tag color="orange">Tag 2</Tag>
+                        <Tag color="blue">Tag 3</Tag>
+                    </Descriptions.Item>
+                    <Descriptions.Item label="Go to:">
+                        <Button onClick={() => goToPublicPracticeList()}>Public Practices</Button>
+                        <Button onClick={() => goToMyPracticeList()}>My Practices</Button>
+                    </Descriptions.Item>
+                </Descriptions>
+            </PageHeader>
             <Editor selection={{anchor: 0, head: 0}}
                     content={props.practice.data}
                     setEditorState={setEditorState}

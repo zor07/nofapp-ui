@@ -10,5 +10,5 @@ export const getDescriptionFromRemirrorJson = (data: RemirrorJSON, content: stri
             }
         }
     })
-    return content
+    return content.substring(0, 70).concat('...')
 }

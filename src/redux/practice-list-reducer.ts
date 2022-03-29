@@ -7,19 +7,27 @@ import {getDescriptionFromRemirrorJson} from "../utils/stringUtils";
 export type PracticeListEntryType = {
     id: string | null
     name: string
+    isPublic: boolean
     description: string
 }
 
 type InitialStateType = {
-    practices: Array<PracticeListEntryType> | null,
+    publicPractices: Array<PracticeListEntryType> | null,
+    userPractices: Array<PracticeListEntryType> | null,
     createdPracticeId: string | null
 };
 
-const SET_PRACTICES = 'PRACTICE/SET_PRACTICES'
+const SET_PUBLIC_PRACTICES = 'PRACTICE/SET_PUBLIC_PRACTICES'
+const SET_USER_PRACTICES = 'PRACTICE/SET_USER_PRACTICES'
 const SET_CREATED_PRACTICE_ID = 'PRACTICE/SET_CREATED_PRACTICE_ID'
 
-type SetPracticesActionType = {
-    type: typeof SET_PRACTICES,
+type SetPublicPracticesActionType = {
+    type: typeof SET_PUBLIC_PRACTICES,
+    payload: Array<PracticeListEntryType> | null
+}
+
+type SetUserPracticesActionType = {
+    type: typeof SET_USER_PRACTICES,
     payload: Array<PracticeListEntryType> | null
 }
 
@@ -29,24 +37,45 @@ type SetCreatedPracticeIdActionType = {
 }
 
 const initialState: InitialStateType = {
-    practices: [{
+    publicPractices: [{
         id: "1",
-        name: "Default practice 1",
-        description: "Default practice description 1",
+        isPublic: true,
+        name: "Default public practice 1",
+        description: "Default public practice description 1",
     }, {
         id: "2",
-        name: "Default practice 2",
-        description: "Default practice description 2",
+        isPublic: true,
+        name: "Default public practice 2",
+        description: "Default public practice description 2",
+    }],
+    userPractices: [{
+        id: "1",
+        isPublic: false,
+        name: "Default user practice 1",
+        description: "Default user practice description 1",
+    }, {
+        id: "2",
+        isPublic: false,
+        name: "Default user practice 2",
+        description: "Default user practice description 2",
     }],
     createdPracticeId: null
 }
 
-export const practiceListReducer = (state: InitialStateType = initialState, action: SetPracticesActionType | SetCreatedPracticeIdActionType): InitialStateType => {
+export const practiceListReducer = (state: InitialStateType = initialState,
+                                    action: SetPublicPracticesActionType |
+                                            SetUserPracticesActionType |
+                                            SetCreatedPracticeIdActionType): InitialStateType => {
     switch (action.type) {
-        case SET_PRACTICES:
+        case SET_PUBLIC_PRACTICES:
             return {
                 ...state,
-                practices: action.payload
+                publicPractices: action.payload
+            }
+        case SET_USER_PRACTICES:
+            return {
+                ...state,
+                userPractices: action.payload
             }
         case SET_CREATED_PRACTICE_ID:
             return {
@@ -58,10 +87,16 @@ export const practiceListReducer = (state: InitialStateType = initialState, acti
     }
 }
 
-export const setPractices = (payload: Array<PracticeListEntryType>): SetPracticesActionType => ({
-    type: SET_PRACTICES,
+const setPublicPracticesAction = (payload: Array<PracticeListEntryType>): SetPublicPracticesActionType => ({
+    type: SET_PUBLIC_PRACTICES,
     payload
 })
+
+const setUserPracticesAction = (payload: Array<PracticeListEntryType>): SetUserPracticesActionType => ({
+    type: SET_USER_PRACTICES,
+    payload
+})
+
 const setCreatedPracticeIdAction = (id: string): SetCreatedPracticeIdActionType => ({type: SET_CREATED_PRACTICE_ID, id})
 
 export const createNewPractice = (isPublic: boolean) => {
@@ -94,16 +129,28 @@ export const clearCreatedPracticeId = () => {
     }
 }
 
-export const getPractices = (isPublic: boolean) => {
+export const fetchPractices = () => {
+    return async (dispatch) => {
+        dispatch(getPractices(true))
+        dispatch(getPractices(false))
+    }
+}
+
+const getPractices = (isPublic: boolean) => {
     return async (dispatch) => {
         const response = await PRACTICE_API.getPractices(isPublic)
         if (response.status === 200) {
             const practices: Array<PracticeListEntryType> = response.data.map(p => ({
                 id: p.id,
                 name: p.name,
+                isPublic: p.isPublic,
                 description: getDescriptionFromRemirrorJson(p.data, '')
             }))
-            dispatch(setPractices(practices))
+            if (isPublic) {
+                dispatch(setPublicPracticesAction(practices))
+            } else {
+                dispatch(setUserPracticesAction(practices))
+            }
         } else if (isTokenExpired(response)) {
             dispatch(refreshToken())
             dispatch(getPractices(isPublic))

@@ -1,6 +1,6 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
-import {Menu} from 'antd';
+import {Avatar, Menu} from 'antd';
 import {LoginOutlined, LogoutOutlined} from '@ant-design/icons';
 
 type NavbarPropsType = {
@@ -29,7 +29,7 @@ const Navbar: React.FC<NavbarPropsType> = ({isAuth, username, logout}) => {
                         <NavLink to='/my-practices'>My Practices</NavLink>
                     </Menu.Item>
                 </SubMenu>
-                <SubMenu title={username} style={{marginLeft: 'auto'}} key={'username'}>
+                <SubMenu title={<div><Avatar src="https://joeschmoe.io/api/v1/random"/>  {username}</div>} style={{marginLeft: 'auto'}} key={'username'}>
                     <Menu.Item key='logout' icon={<LogoutOutlined/>} onClick={logout}>
                         Logout
                     </Menu.Item>
