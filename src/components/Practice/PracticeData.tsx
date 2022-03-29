@@ -16,12 +16,13 @@ import {useNavigate} from "react-router-dom";
 import {EditOutlined} from "@ant-design/icons";
 
 type EditorStaticPropsType = {
-    content: RemirrorJSON,
-    name: string,
+    content: RemirrorJSON
+    name: string
+    isPublic: boolean
     id: string
 }
 
-const PracticeData: React.FC<EditorStaticPropsType> = ({content, name, id}) => {
+const PracticeData: React.FC<EditorStaticPropsType> = ({content, name, isPublic, id}) => {
 
     const typeMap: MarkMap = {
         blockquote: 'blockquote',
@@ -86,9 +87,10 @@ const PracticeData: React.FC<EditorStaticPropsType> = ({content, name, id}) => {
                 extra={[<Button key="1" icon={<EditOutlined/>} onClick={() => onEditPractice(id)}>Edit</Button>]}>
                 <Descriptions size="small" column={3}>
                     <Descriptions.Item label="Tags">
-                        <Tag color="green">Tag 1</Tag>
-                        <Tag color="orange">Tag 2</Tag>
-                        <Tag color="blue">Tag 3</Tag>
+                        {isPublic
+                            ? <Tag color="green">Public practice</Tag>
+                            : <Tag color="blue">My Practice</Tag>
+                        }
                     </Descriptions.Item>
                 </Descriptions>
             </PageHeader>

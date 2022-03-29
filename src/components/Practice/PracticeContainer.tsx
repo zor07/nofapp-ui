@@ -35,7 +35,7 @@ const PracticeContainer: React.FC<PracticeContainerPropsType> = (props: Practice
 
     return (
         <div>
-            <PracticeData content={practice.data} name={practice.name} id={practice.id}/>
+            <PracticeData content={practice.data} name={practice.name} isPublic={practice.isPublic} id={practice.id}/>
         </div>
     )
 
