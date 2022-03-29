@@ -14,7 +14,7 @@ import {
 } from "../../redux/practice-list-reducer";
 import css from "./Practice.module.css";
 import {NavLink, useNavigate} from "react-router-dom";
-import {DeleteOutlined, EditOutlined, PlusCircleOutlined} from "@ant-design/icons";
+import {DeleteOutlined, EditOutlined, MinusCircleOutlined, PlusCircleOutlined} from "@ant-design/icons";
 
 type MapStatePropsType = {
     publicPractices: Array<PracticeListEntryType>,
@@ -104,6 +104,10 @@ const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPubl
         setAddToUserPracticeId(practiceId)
     }
 
+    const onRemoveFromMyPractices = (practiceId: string) => {
+        setDeletePracticeID(practiceId)
+    }
+
     const createListItemActions = (practice: PracticeListEntryType) : Array<ReactElement> => {
         const actions = [
             <Button onClick={() => onEditPractice(practice.id)}
@@ -119,6 +123,11 @@ const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPubl
         if (isPublic && !userOwnsPractice(practice.id)) {
             actions.unshift(<Button onClick={() => onAddToMyPractices(practice.id)}
                                     icon={<PlusCircleOutlined/>}>Add to my list</Button>)
+        }
+
+        if (!isPublic) {
+            actions.unshift(<Button onClick={() => {onRemoveFromMyPractices(practice.id)}}
+                                    icon={<MinusCircleOutlined/>}>Remove from my list</Button>)
         }
 
         return actions
