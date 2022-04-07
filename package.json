@@ -82,7 +82,7 @@
   },
   "scripts": {
     "start": "node --optimize_for_size --max_old_space_size=460 scripts/start.js",
-    "build": "node --optimize_for_size --max_old_space_size=460 scripts/build.js",
+    "build": "node scripts/build.js",
     "test": "node scripts/test.js"
   },
   "eslintConfig": {
