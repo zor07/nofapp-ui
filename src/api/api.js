@@ -2,7 +2,7 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 
 const instance = axios.create({
-    baseURL: 'http://localhost:8888/api/v1/'
+    baseURL: process.env.NODE_ENV === 'production' ? process.env.REACT_APP_API_URL_PROD  : process.env.REACT_APP_API_URL_DEV.toString()
 })
 
 const cookies = new Cookies()
