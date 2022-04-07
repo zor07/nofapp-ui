@@ -2,7 +2,7 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 
 const instance = axios.create({
-    baseURL: 'http://localhost:8888/api/v1/'
+    baseURL: 'https://nofapp-backend.herokuapp.com/api/v1/'
 })
 
 const cookies = new Cookies()
