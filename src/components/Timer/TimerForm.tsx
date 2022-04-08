@@ -1,5 +1,4 @@
 import React from "react";
-import "../../../node_modules/react-datepicker/dist/react-datepicker.css"
 import {TimerFormDataType} from "../../redux/timer-reducer";
 import {Button, DatePicker, Form, Input} from "antd";
 import {Typography} from 'antd';
@@ -11,7 +10,7 @@ type TimerFormType = {
     startTimer: (timerData: TimerFormDataType) => void
 }
 
-const NewTimerForm: React.FC<TimerFormType> = ({startTimer}) => {
+const TimerForm: React.FC<TimerFormType> = ({startTimer}) => {
     const [form] = Form.useForm()
 
     const onFinish = (timerData: TimerFormDataType) => {
@@ -74,4 +73,4 @@ const NewTimerForm: React.FC<TimerFormType> = ({startTimer}) => {
 }
 
 
-export default NewTimerForm;
+export default TimerForm;

@@ -4,13 +4,11 @@ import {compose} from "redux";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {deleteTimer, requestTimers, startTimer, stopTimer, TimerFormDataType, TimerType} from "../../redux/timer-reducer";
 import TimerCard from "./TimerCard";
-import NewTimerForm from "./NewTimerForm";
 import {AppStateType} from "../../redux/redux-store";
 import {Col, Divider, Row, Typography} from "antd";
+import TimerForm from "./TimerForm";
 
 const {Title} = Typography;
-
-
 
 type MapStatePropsType = {
     timers: Array<TimerType>
@@ -70,7 +68,7 @@ class TimerContainer extends React.Component<TimerContainerPropsType> {
                     {runningItems}
                 </Row>
 
-                {(stoppedItems.length > 0 && runningItems.length != 0) &&
+                {(stoppedItems.length > 0 && runningItems.length !== 0) &&
                 <Divider/>
                 }
 
@@ -84,7 +82,7 @@ class TimerContainer extends React.Component<TimerContainerPropsType> {
 
                 <Row justify="start">
                     <Col span={12}>
-                        <NewTimerForm startTimer={this.props.startTimer}/>
+                        <TimerForm startTimer={this.props.startTimer}/>
                     </Col>
                 </Row>
             </div>
