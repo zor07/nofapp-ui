@@ -3,9 +3,8 @@ import {connect} from "react-redux";
 import {login} from "../../redux/auth-reducer";
 import {useNavigate} from "react-router-dom";
 import {AppStateType} from "../../redux/redux-store";
-import {Button, DatePicker, Form, Input, Typography} from "antd";
-import {LockOutlined, LoginOutlined, PlaySquareOutlined, UserOutlined} from "@ant-design/icons";
-
+import {Button, Form, Input, Typography} from "antd";
+import {LockOutlined, UserOutlined} from "@ant-design/icons";
 
 
 type MapStateToPropsType = {
