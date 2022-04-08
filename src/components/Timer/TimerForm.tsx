@@ -1,5 +1,4 @@
 import React from "react";
-import "../../../node_modules/react-datepicker/dist/react-datepicker.css"
 import {TimerFormDataType} from "../../redux/timer-reducer";
 import {Button, DatePicker, Form, Input} from "antd";
 import {Typography} from 'antd';
