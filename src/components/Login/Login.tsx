@@ -1,11 +1,10 @@
 import React, {useEffect} from "react";
-import {Form, Field} from "react-final-form";
-import {Input} from "../Common/FormControls/FormControls";
-import {required} from "../../utils/validators/validators";
 import {connect} from "react-redux";
 import {login} from "../../redux/auth-reducer";
 import {useNavigate} from "react-router-dom";
 import {AppStateType} from "../../redux/redux-store";
+import {Button, DatePicker, Form, Input, Typography} from "antd";
+import {LockOutlined, LoginOutlined, PlaySquareOutlined, UserOutlined} from "@ant-design/icons";
 
 
 
@@ -19,13 +18,20 @@ type MapDispatchToPropsType = {
 
 type LoginPropsType = MapStateToPropsType & MapDispatchToPropsType
 
+type LoginValuesType = {
+    username: string
+    password: string
+}
 
 const Login: React.FC<LoginPropsType>= ({isAuth, login}) => {
-
+    const [form] = Form.useForm()
+    const {Title} = Typography;
     const navigate = useNavigate();
-    const onSubmit = (values) => {
+
+    const onFinish = (values: LoginValuesType) => {
         login(values.username, values.password)
-    }
+        form.resetFields()
+    };
 
     useEffect(() => {
         if (isAuth) {
@@ -35,31 +41,52 @@ const Login: React.FC<LoginPropsType>= ({isAuth, login}) => {
 
     return (
         <div>
-            <h1>LOGIN</h1>
-            <Form onSubmit={onSubmit} >
-                {({handleSubmit, pristine, form, submitting}) => (
-                    <form onSubmit={handleSubmit}>
-                        <div>
-                            <Field component={Input}
-                                   name={'username'}
-                                   placeholder={'Username'}
-                                   validate={required}
-                            />
-                        </div>
-                        <div>
-                            <Field component={Input}
-                                   name={'password'}
-                                   placeholder={'Password'}
-                                   validate={required}
-                            />
-                        </div>
-                        <div>
-                            <button type="submit" disabled={submitting || pristine}>
-                                Submit
-                            </button>
-                        </div>
-                    </form>
-                )}
+            <Title level={1}>Login</Title>
+            <Form
+                title={'Login'}
+                size={'middle'}
+                form={form}
+                name="loginForm"
+                layout={'horizontal'}
+                labelCol={{
+                    span: 3,
+                }}
+                wrapperCol={{
+                    span: 4,
+                }}
+                onFinish={onFinish}
+                autoComplete="off">
+                <Form.Item
+                    name="username"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input your Username!',
+                        },
+                    ]}>
+                    <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                </Form.Item>
+
+                <Form.Item
+                    name="password"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input your Password!',
+                        },
+                    ]}>
+                    <Input
+                        prefix={<LockOutlined className="site-form-item-icon" />}
+                        type="password"
+                        placeholder="Password"
+                    />
+                </Form.Item>
+
+                <Form.Item>
+                    <Button type="primary" htmlType="submit" className="login-form-button">
+                        Log in
+                    </Button>
+                </Form.Item>
             </Form>
         </div>
     )
