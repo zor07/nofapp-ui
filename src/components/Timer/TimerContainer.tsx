@@ -68,7 +68,7 @@ class TimerContainer extends React.Component<TimerContainerPropsType> {
                     {runningItems}
                 </Row>
 
-                {(stoppedItems.length > 0 && runningItems.length != 0) &&
+                {(stoppedItems.length > 0 && runningItems.length !== 0) &&
                 <Divider/>
                 }
 
