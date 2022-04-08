@@ -11,7 +11,7 @@ type TimerFormType = {
     startTimer: (timerData: TimerFormDataType) => void
 }
 
-const NewTimerForm: React.FC<TimerFormType> = ({startTimer}) => {
+const TimerForm: React.FC<TimerFormType> = ({startTimer}) => {
     const [form] = Form.useForm()
 
     const onFinish = (timerData: TimerFormDataType) => {
@@ -74,4 +74,4 @@ const NewTimerForm: React.FC<TimerFormType> = ({startTimer}) => {
 }
 
 
-export default NewTimerForm;
+export default TimerForm;
