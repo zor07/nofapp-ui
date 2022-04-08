@@ -110,13 +110,13 @@ export const requestTimers = () => {
         if (response.status === 200) {
             const timersResp: Array<TimerDtoType> = response.data
             const timers = timersResp.map(timer => {
-                return <TimerType>{
+                return {
                     id: timer.id,
                     isRunning: timer.isRunning,
                     start: new Date(Date.parse(timer.start)),
                     stop: timer.stop ? new Date(Date.parse(timer.stop)) : null,
                     description: timer.description
-                };
+                } as TimerType;
             })
             dispatch(setTimers(timers))
         } else if (isTokenExpired(response)) {
