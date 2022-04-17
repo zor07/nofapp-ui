@@ -1,11 +1,5 @@
 # nofapp-ui
 
-## [Live demo](https://nofapp-ui.herokuapp.com/)
-login: `demo`\
-password: `demo`
-
-![login](https://github.com/zor07/nofapp-ui/blob/master/readmeimg/login.gif)
-
 ## Description
 
 This react application is a self development tool.\
@@ -13,9 +7,20 @@ It's still work in progress.\
 Backend part is located here: [nofapp-backend](https://github.com/zor07/nofapp).\
 This application has three pages.
 
-* Timer page, where multiple timers can be set and ran.
+### Timer page, where multiple timers can be set and ran.
+
+![timers](https://github.com/zor07/nofapp-ui/blob/master/readmeimg/timers.gif)
+
 * Diary page, where user can write to his diary using rich text editor.
 * And WIP Practices page
+
+
+## [Live demo](https://nofapp-ui.herokuapp.com/)
+login: `demo`\
+password: `demo`
+
+![login](https://github.com/zor07/nofapp-ui/blob/master/readmeimg/login.gif)
+
 
 ## Technologies
 * [Typescript](https://www.typescriptlang.org/)
