@@ -31,7 +31,7 @@ export const AUTH_API = {
 
 export const TIMER_API = {
     getTimers() {
-        return instance.get(`timer`, {
+        return instance.get(`timers`, {
             headers : {
                 "Authorization": `Bearer ${cookies.get("accessToken")}`
             }
@@ -40,7 +40,7 @@ export const TIMER_API = {
         })
     },
     startTimer(timerData) {
-        return instance.post(`timer`, timerData,{
+        return instance.post(`timers`, timerData,{
             headers : {
                 "Authorization": `Bearer ${cookies.get("accessToken")}`
             }
@@ -49,7 +49,7 @@ export const TIMER_API = {
         })
     },
     stopTimer(timerId) {
-        return instance.put(`timer/${timerId}/stop`, null,{
+        return instance.put(`timers/${timerId}/stop`, null,{
             headers : {
                 "Authorization": `Bearer ${cookies.get("accessToken")}`
             }
@@ -58,7 +58,7 @@ export const TIMER_API = {
         })
     },
     deleteTimer(timerId) {
-        return instance.delete(`timer/${timerId}`, {
+        return instance.delete(`timers/${timerId}`, {
             headers : {
                 "Authorization": `Bearer ${cookies.get("accessToken")}`
             }
@@ -109,7 +109,7 @@ export const DIARY_API = {
 
 export const PRACTICE_API = {
     getPractices(isPublic= false) {
-        return instance.get(`practice?isPublic=${isPublic}`, {
+        return instance.get(`practices?isPublic=${isPublic}`, {
             headers : {
                 "Authorization": `Bearer ${cookies.get("accessToken")}`
             }
@@ -118,7 +118,7 @@ export const PRACTICE_API = {
         })
     },
     getPractice(practiceId) {
-        return instance.get(`practice/${practiceId}`, {
+        return instance.get(`practices/${practiceId}`, {
             headers : {
                 "Authorization": `Bearer ${cookies.get("accessToken")}`
             }
@@ -127,7 +127,7 @@ export const PRACTICE_API = {
         })
     },
     addPracticeToUser(practiceId) {
-        return instance.put(`practice/${practiceId}`, null, {
+        return instance.put(`practices/${practiceId}`, null, {
             headers : {
                 "Authorization": `Bearer ${cookies.get("accessToken")}`
             }
@@ -136,7 +136,7 @@ export const PRACTICE_API = {
         })
     },
     savePractice(practice) {
-        return instance.post(`practice`, practice, {
+        return instance.post(`practices`, practice, {
             headers : {
                 "Authorization": `Bearer ${cookies.get("accessToken")}`
             }
@@ -145,7 +145,7 @@ export const PRACTICE_API = {
         })
     },
     updatePractice(practice) {
-        return instance.put(`practice`, practice, {
+        return instance.put(`practices`, practice, {
             headers : {
                 "Authorization": `Bearer ${cookies.get("accessToken")}`
             }
@@ -154,7 +154,7 @@ export const PRACTICE_API = {
         })
     },
     deletePractice(practiceId) {
-        return instance.delete(`practice/${practiceId}`,  {
+        return instance.delete(`practices/${practiceId}`,  {
             headers : {
                 "Authorization": `Bearer ${cookies.get("accessToken")}`
             }
