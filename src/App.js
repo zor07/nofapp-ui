@@ -15,6 +15,9 @@ import HeaderContainer from "./components/Header/HeaderContainer";
 import PracticeListContainer from "./components/Practice/PracticeListContainer";
 import PracticeContainer from "./components/Practice/PracticeContainer";
 import PracticeEditorContainer from "./components/Practice/PracticeEditorContainer";
+import NotebookListContainer from "./components/Notebook/NotebookListContainer";
+import NoteListContainer from "./components/Notebook/NoteListContainer";
+import NoteEditorContainer from "./components/Notebook/NoteEditorContainer";
 
 class App extends Component {
 
@@ -42,6 +45,9 @@ class App extends Component {
                                 <Route path='/' element={<TimerContainer/>}/>
                                 <Route path='/timer' element={<TimerContainer/>}/>
                                 <Route path='/diary' element={<DiaryListContainer/>}/>
+                                <Route path='/notebooks' element={<NotebookListContainer/>}/>
+                                <Route path='/notebooks/:notebookId/notes' element={<NoteListContainer/>}/>
+                                <Route path='/notebooks/:notebookId/notes/:noteId' element={<NoteEditorContainer/>}/>
                                 <Route path='/diary/editor/:diaryId' element={<DiaryEditorContainer/>}/>
                                 <Route path='/diary/editor' element={<DiaryEditorContainer/>}/>
                                 <Route path='/practices' element={<PracticeListContainer isPublic={true}/>}/>

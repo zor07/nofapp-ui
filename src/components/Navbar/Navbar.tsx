@@ -21,6 +21,9 @@ const Navbar: React.FC<NavbarPropsType> = ({isAuth, username, logout}) => {
                 <Menu.Item key='diary'>
                     <NavLink to='/diary'>Diary</NavLink>
                 </Menu.Item>
+                <Menu.Item key='notebooks'>
+                    <NavLink to='/notebooks'>Notes</NavLink>
+                </Menu.Item>
                 <SubMenu title={'Practices'} key={'practices'}>
                     <Menu.Item key='AllPractices'>
                         <NavLink to='/practices'>All Practices</NavLink>
