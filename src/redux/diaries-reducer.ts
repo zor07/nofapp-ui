@@ -59,7 +59,7 @@ export const deleteDiary = (diaryId: string) => {
             dispatch(requestDiaries())
         } else if (isTokenExpired(response)) {
             dispatch(refreshToken())
-            dispatch(requestDiaries())
+            dispatch(deleteDiary(diaryId))
         }
     }
 }
