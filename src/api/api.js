@@ -107,6 +107,45 @@ export const DIARY_API = {
     }
 }
 
+export const NOTEBOOKS_API = {
+    getNotebooks() {
+        return instance.get('notebooks', {
+            headers : {
+                "Authorization": `Bearer ${cookies.get("accessToken")}`
+            }
+        }).catch((error) => {
+            return handleError(error)
+        })
+    },
+    createNotebook(notebook) {
+        return instance.post('notebooks', notebook, {
+            headers : {
+                "Authorization": `Bearer ${cookies.get("accessToken")}`
+            }
+        }).catch((error) => {
+            return handleError(error)
+        })
+    },
+    updateNotebook(notebook) {
+        return instance.put('notebooks', notebook, {
+            headers : {
+                "Authorization": `Bearer ${cookies.get("accessToken")}`
+            }
+        }).catch((error) => {
+            return handleError(error)
+        })
+    },
+    deleteNotebook(notebookId) {
+        return instance.delete(`notebooks/${notebookId}`, {
+            headers : {
+                "Authorization": `Bearer ${cookies.get("accessToken")}`
+            }
+        }).catch((error) => {
+            return handleError(error)
+        })
+    }
+}
+
 export const PRACTICE_API = {
     getPractices(isPublic= false) {
         return instance.get(`practices?isPublic=${isPublic}`, {
