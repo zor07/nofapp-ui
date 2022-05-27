@@ -7,12 +7,14 @@ import diariesReducer from "./diaries-reducer";
 import diaryReducer from "./diary-reducer";
 import {practiceReducer} from "./practice-reducer";
 import {practiceListReducer} from "./practice-list-reducer";
+import notebookReducer from "./notebook-reducer";
 
 let rootReducer = combineReducers({
 
     timerPage: timerReducer,
     auth: authReducer,
     app: appReducer,
+    notebooks: notebookReducer,
     diaries: diariesReducer,
     diary: diaryReducer,
     practice: practiceReducer,
