@@ -3,7 +3,7 @@ import {isTokenExpired} from "../api/apiUtils";
 import {refreshToken} from "./auth-reducer";
 
 export type NotebookType = {
-    id: string
+    id: string | null
     name: string
     description: string
 }
@@ -52,6 +52,18 @@ const notebooksReducer = (state: InitialStateType = initialState, action: SetNot
 }
 
 const setNotebooks = (payload: Array<NotebookType>): SetNotebooksActionType => ({type: SET_NOTEBOOKS, payload})
+
+export const createNotebook = (notebook: NotebookType) => {
+    return async (dispatch) => {
+        const response = await NOTEBOOKS_API.createNotebook(notebook)
+        if (response.status === 201) {
+            dispatch(requestNotebooks())
+        } else if (isTokenExpired(response)) {
+            dispatch(refreshToken())
+            dispatch(createNotebook(notebook))
+        }
+    }
+}
 
 export const deleteNotebook = (notebookId: string) => {
     return async (dispatch) => {
