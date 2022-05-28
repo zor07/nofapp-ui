@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from "react";
-import {deleteNotebook, NotebookType, requestNotebooks} from "../../redux/notebook-reducer";
-import {Button, List, Popconfirm, Typography} from "antd";
+import {createNotebook, deleteNotebook, NotebookType, requestNotebooks} from "../../redux/notebook-reducer";
+import {Button, Card, Col, Divider, Popconfirm, Row, Typography} from "antd";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
-import css from "../Diary/Diary.module.css";
+import css from "./Notebooks.module.css";
 import {AppStateType} from "../../redux/redux-store";
 import {compose} from "redux";
 import {connect, useDispatch} from "react-redux";
 import {DeleteOutlined} from "@ant-design/icons";
+import NotebookForm from "./NotebookForm";
 
 
 type MapStatePropsType = {
@@ -16,6 +17,7 @@ type MapStatePropsType = {
 type MapDispatchPropsType = {
     requestNotebooks: () => void
     deleteNotebook: (notebookId: string) => void
+    createNotebook: (notebook: NotebookType) => void
 }
 
 type NotebookListContainerType = MapStatePropsType & MapDispatchPropsType
@@ -26,7 +28,6 @@ const NotebookListContainer: React.FC<NotebookListContainerType> = (props) => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        console.log("requesting diaries")
         dispatch(requestNotebooks())
     }, [])
 
@@ -41,42 +42,46 @@ const NotebookListContainer: React.FC<NotebookListContainerType> = (props) => {
         setDeleteNotebookId(notebookId)
     }
 
+    const notebookCards = props.notebooks.map(notebook => {
+        return (
+            <Col span={5} key={notebook.id}>
+                <div className={css.notebookCard}>
+                    <Card title={<Title level={5}>{notebook.name}</Title>}
+                          style={{width: 250}}
+                          actions={[
+                              <Popconfirm placement="right"
+                                          title={`Are you shure you want to delete [${notebook.name}] ?`}
+                                          onConfirm={() => onDeleteNotebook(notebook.id)}
+                                          okText="Yes"
+                                          cancelText="No">
+                                  <Button danger icon={<DeleteOutlined/>}/>
+                              </Popconfirm>
+                          ]}>
+                        <p>{notebook.description}</p>
+                    </Card>
+                </div>
+            </Col>
+
+        )
+    })
+
     return (
         <div className={css.content}>
             <Title level={3}>Notebooks</Title>
-            <List itemLayout={'vertical'}
-                  size={'large'}
-                  pagination={{
-                      onChange: page => {
-                          console.log(page);
-                      },
-                      pageSize: 10,
-                  }}
-                  footer={
-                      <div>
-                          <Button>
-                              Create new notebook
-                          </Button>
-                      </div>
-                  }
-                  dataSource={props.notebooks}
-                  renderItem={item => (
-                      <List.Item key={item.id}
-                                 actions={[
-                                     <Popconfirm placement="right"
-                                                 title={`Are you shure you want to delete [${item.name}] ?`}
-                                                 onConfirm={() => onDeleteNotebook(item.id)}
-                                                 okText="Yes"
-                                                 cancelText="No">
-                                         <Button danger icon={<DeleteOutlined/>}> Delete </Button>
-                                     </Popconfirm>
-                                 ]}>
-                          <Title level={5}>{item.name}</Title>
-                          <div>{item.description}</div>
 
-                      </List.Item>
+            <Row justify="start">
+                {notebookCards}
+            </Row>
 
-                  )}/>
+            {(notebookCards.length > 0) &&
+                <Divider/>
+            }
+
+            <Row justify="start">
+                <Col span={12}>
+                    <NotebookForm createNotebook={createNotebook} />
+                </Col>
+            </Row>
         </div>
     )
 }
@@ -89,5 +94,9 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
 
 export default compose(
     withAuthRedirect,
-    connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {requestNotebooks, deleteNotebook})
+    connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {
+        requestNotebooks,
+        deleteNotebook,
+        createNotebook
+    })
 )(NotebookListContainer);

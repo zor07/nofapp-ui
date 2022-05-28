@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {Button, Form, Input, Typography} from 'antd';
 import {NotebookType} from "../../redux/notebook-reducer";
-import {PlaySquareOutlined} from "@ant-design/icons";
+import {FormOutlined} from "@ant-design/icons";
 import {useDispatch} from "react-redux";
+import TextArea from "antd/es/input/TextArea";
 
 const {Title} = Typography;
 
@@ -65,15 +66,11 @@ const NotebookForm: React.FC<NotebookFormType> = ({createNotebook}) => {
                             message: 'Please add description!',
                         },
                     ]}>
-                    <Input/>
+                    <TextArea/>
                 </Form.Item>
 
-                <Form.Item
-                    wrapperCol={{
-                        offset: 4,
-                        span: 10,
-                    }}>
-                    <Button icon={<PlaySquareOutlined />} type="primary" htmlType="submit">
+                <Form.Item>
+                    <Button icon={<FormOutlined />} type="primary" htmlType="submit">
                         Create new notebook
                     </Button>
                 </Form.Item>
