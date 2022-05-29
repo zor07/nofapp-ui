@@ -1,4 +1,4 @@
-import {NOTE_API} from "../api/api";
+import {NOTES_API} from "../api/api";
 import {isTokenExpired} from "../api/apiUtils";
 import {refreshToken} from "./auth-reducer";
 import {NoteType, DEFAULT_CONTENT} from "./note-editor-reducer";
@@ -11,7 +11,7 @@ export type NoteIdAndTitleType = {
 
 type SetNotesActionType = {
     type: typeof SET_NOTES
-    payload: Array<NoteIdAndTitleType>
+    notes: Array<NoteIdAndTitleType>
 }
 
 type SetCreatedNoteIdActionType = {
@@ -37,7 +37,7 @@ const notesReducer = (state: NotesStateType = initialState, action: SetNotesActi
         case "NOTES/SET_NOTES":
             return {
                 ...state,
-                notes: action.payload
+                notes: action.notes
             }
         case "NOTES/SET_CREATED_NOTE_ID":
             return {
@@ -49,12 +49,12 @@ const notesReducer = (state: NotesStateType = initialState, action: SetNotesActi
     }
 }
 
-const setNotes = (payload: Array<NoteIdAndTitleType>): SetNotesActionType => ({type: SET_NOTES, payload})
+const setNotes = (notes: Array<NoteIdAndTitleType>): SetNotesActionType => ({type: SET_NOTES, notes})
 const setCreatedNoteId = (payload: string): SetCreatedNoteIdActionType => ({type: SET_CREATED_NOTE_ID, payload})
 
 export const deleteNote = (notebookId: string, noteId: string) => {
     return async (dispatch) => {
-        const response = await NOTE_API.deleteNote(notebookId, noteId);
+        const response = await NOTES_API.deleteNote(notebookId, noteId);
         if (response.status === 204) {
             dispatch(requestNotes(notebookId))
         } else if (isTokenExpired(response)) {
@@ -66,7 +66,7 @@ export const deleteNote = (notebookId: string, noteId: string) => {
 
 export const requestNotes = (notebookId: string) => {
     return async (dispatch) => {
-        const response = await NOTE_API.getNotes(notebookId);
+        const response = await NOTES_API.getNotes(notebookId);
         if (response.status === 200) {
             const notes: Array<NoteIdAndTitleType> = response.data
             dispatch(setNotes(notes))
@@ -90,7 +90,7 @@ export const createNewNote = (notebookId: string) => {
                 selection: {anchor: 0, head: 0}
             }
         }
-        const response = await NOTE_API.createNote(notebookId, note);
+        const response = await NOTES_API.createNote(notebookId, note);
         if (response.status === 201) {
             const newNoteId: string = response.data.id
             dispatch(setCreatedNoteId(newNoteId))

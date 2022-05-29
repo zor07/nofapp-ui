@@ -1,4 +1,4 @@
-import {NOTE_API} from "../api/api";
+import {NOTES_API} from "../api/api";
 import {isTokenExpired} from "../api/apiUtils";
 import {PrimitiveSelection, RemirrorJSON} from "remirror";
 import {currentDateString} from "../utils/dateUtils";
@@ -88,7 +88,7 @@ export const clearNoteAction = (): UnmountNoteActionType => ({type: UNMOUNT_NOTE
 
 export const getNote = (notebookId: string, noteId: string) => {
     return async (dispatch) => {
-        const response = await NOTE_API.getNote(notebookId, noteId)
+        const response = await NOTES_API.getNote(notebookId, noteId)
         if (response.status === 200) {
             const note: NoteType = response.data
             dispatch(setNote(note))
@@ -101,7 +101,7 @@ export const getNote = (notebookId: string, noteId: string) => {
 
 export const saveNote = (notebookId: string, note: NoteType) => {
     return async (dispatch) => {
-        const response = await NOTE_API.updateNote(notebookId, note)
+        const response = await NOTES_API.updateNote(notebookId, note)
         if (response.status === 202) {
             const newNote: NoteType = response.data
             dispatch(setNote(newNote))
