@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from "react";
 import {createNotebook, deleteNotebook, NotebookType, requestNotebooks} from "../../redux/notebook-reducer";
-import {Button, Card, Col, Divider, Popconfirm, Row, Typography} from "antd";
+import {Col, Divider, Row, Typography} from "antd";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import css from "./Notebooks.module.css";
 import {AppStateType} from "../../redux/redux-store";
 import {compose} from "redux";
 import {connect, useDispatch} from "react-redux";
-import {DeleteOutlined} from "@ant-design/icons";
 import NotebookForm from "./NotebookForm";
+import NotebookCard from "./NotebookCard";
 
 
 type MapStatePropsType = {
@@ -45,23 +45,9 @@ const NotebookListContainer: React.FC<NotebookListContainerType> = (props) => {
     const notebookCards = props.notebooks.map(notebook => {
         return (
             <Col span={5} key={notebook.id}>
-                <div className={css.notebookCard}>
-                    <Card title={<Title level={5}>{notebook.name}</Title>}
-                          style={{width: 250}}
-                          actions={[
-                              <Popconfirm placement="right"
-                                          title={`Are you shure you want to delete [${notebook.name}] ?`}
-                                          onConfirm={() => onDeleteNotebook(notebook.id)}
-                                          okText="Yes"
-                                          cancelText="No">
-                                  <Button danger icon={<DeleteOutlined/>}/>
-                              </Popconfirm>
-                          ]}>
-                        <p>{notebook.description}</p>
-                    </Card>
-                </div>
+                <NotebookCard notebook={notebook}
+                              onDeleteNotebook={onDeleteNotebook}/>
             </Col>
-
         )
     })
 
