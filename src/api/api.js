@@ -12,7 +12,7 @@ export const AUTH_API = {
         return instance.post(`auth/login`, {username, password})
     },
     me() {
-        return instance.get(`auth/me`, getAuthConfig(cookies.get("accessToken"))).catch((error) => {
+        return instance.get(`auth/me`, auth()).catch((error) => {
             return handleError(error)
         })
     },
@@ -27,25 +27,25 @@ export const AUTH_API = {
 
 export const TIMER_API = {
     getTimers() {
-        return instance.get(`timers`, getAuthConfig(cookies.get("accessToken")))
+        return instance.get(`timers`, auth())
             .catch((error) => {
                 return handleError(error)
             })
     },
     startTimer(timerData) {
-        return instance.post(`timers`, timerData, getAuthConfig(cookies.get("accessToken")))
+        return instance.post(`timers`, timerData, auth())
             .catch((error) => {
                 return handleError(error)
             })
     },
     stopTimer(timerId) {
-        return instance.put(`timers/${timerId}/stop`, null, getAuthConfig(cookies.get("accessToken")))
+        return instance.put(`timers/${timerId}/stop`, null, auth())
             .catch((error) => {
                 return handleError(error)
             })
     },
     deleteTimer(timerId) {
-        return instance.delete(`timers/${timerId}`, getAuthConfig(cookies.get("accessToken")))
+        return instance.delete(`timers/${timerId}`, auth())
             .catch((error) => {
                 return handleError(error)
             })
@@ -54,25 +54,25 @@ export const TIMER_API = {
 
 export const DIARY_API = {
     getDiaries() {
-        return instance.get(`diary`, getAuthConfig(cookies.get("accessToken")))
+        return instance.get(`diary`, auth())
             .catch((error) => {
                 return handleError(error)
             })
     },
     getDiary(diaryId) {
-        return instance.get(`diary/${diaryId}`, getAuthConfig(cookies.get("accessToken")))
+        return instance.get(`diary/${diaryId}`, auth())
             .catch((error) => {
                 return handleError(error)
             })
     },
     saveDiary(diary) {
-        return instance.post(`diary`, diary, getAuthConfig(cookies.get("accessToken")))
+        return instance.post(`diary`, diary, auth())
             .catch((error) => {
                 return handleError(error)
             })
     },
     deleteDiary(diaryId) {
-        return instance.delete(`diary/${diaryId}`, getAuthConfig(cookies.get("accessToken")))
+        return instance.delete(`diary/${diaryId}`, auth())
             .catch((error) => {
                 return handleError(error)
             })
@@ -81,25 +81,25 @@ export const DIARY_API = {
 
 export const NOTEBOOKS_API = {
     getNotebooks() {
-        return instance.get('notebooks', getAuthConfig(cookies.get("accessToken")))
+        return instance.get('notebooks', auth())
             .catch((error) => {
                 return handleError(error)
             })
     },
     createNotebook(notebook) {
-        return instance.post('notebooks', notebook, getAuthConfig(cookies.get("accessToken")))
+        return instance.post('notebooks', notebook, auth())
             .catch((error) => {
                 return handleError(error)
             })
     },
     updateNotebook(notebook) {
-        return instance.put('notebooks', notebook, getAuthConfig(cookies.get("accessToken")))
+        return instance.put('notebooks', notebook, auth())
             .catch((error) => {
                 return handleError(error)
             })
     },
     deleteNotebook(notebookId) {
-        return instance.delete(`notebooks/${notebookId}`, getAuthConfig(cookies.get("accessToken")))
+        return instance.delete(`notebooks/${notebookId}`, auth())
             .catch((error) => {
                 return handleError(error)
             })
@@ -108,41 +108,45 @@ export const NOTEBOOKS_API = {
 
 export const PRACTICE_API = {
     getPractices(isPublic = false) {
-        return instance.get(`practices?isPublic=${isPublic}`, getAuthConfig(cookies.get("accessToken")))
+        return instance.get(`practices?isPublic=${isPublic}`, auth())
             .catch((error) => {
                 return handleError(error)
             })
     },
     getPractice(practiceId) {
-        return instance.get(`practices/${practiceId}`, getAuthConfig(cookies.get("accessToken")))
+        return instance.get(`practices/${practiceId}`, auth())
             .catch((error) => {
                 return handleError(error)
             })
     },
     addPracticeToUser(practiceId) {
-        return instance.put(`practices/${practiceId}`, null, getAuthConfig(cookies.get("accessToken")))
+        return instance.put(`practices/${practiceId}`, null, auth())
             .catch((error) => {
                 return handleError(error)
             })
     },
     savePractice(practice) {
-        return instance.post(`practices`, practice, getAuthConfig(cookies.get("accessToken")))
+        return instance.post(`practices`, practice, auth())
             .catch((error) => {
                 return handleError(error)
             })
     },
     updatePractice(practice) {
-        return instance.put(`practices`, practice, getAuthConfig(cookies.get("accessToken")))
+        return instance.put(`practices`, practice, auth())
             .catch((error) => {
                 return handleError(error)
             })
     },
     deletePractice(practiceId) {
-        return instance.delete(`practices/${practiceId}`, getAuthConfig(cookies.get("accessToken")))
+        return instance.delete(`practices/${practiceId}`, auth())
             .catch((error) => {
                 return handleError(error)
             })
     },
+}
+
+const auth = () => {
+    return getAuthConfig(cookies.get("accessToken"))
 }
 
 const getAuthConfig = (accessToken) => {
