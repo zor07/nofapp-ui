@@ -2,8 +2,9 @@ import React from "react";
 import {NotebookType} from "../../redux/notebook-reducer";
 import css from "./Notebooks.module.css";
 import {Button, Card, Popconfirm} from "antd";
-import {DeleteOutlined} from "@ant-design/icons";
+import {DeleteOutlined, ArrowRightOutlined} from "@ant-design/icons";
 import Title from "antd/es/typography/Title";
+import {useNavigate} from "react-router-dom";
 
 type MapStatePropsType = {
     notebook: NotebookType
@@ -17,6 +18,8 @@ type NotebookCardType = MapStatePropsType & MapDispatchPropsType
 
 const NotebookCard: React.FC<NotebookCardType> = ({notebook, onDeleteNotebook}) => {
 
+    const navigate = useNavigate()
+
     return (
         <div className={css.notebookCard}>
             <Card title={<Title level={5}>{notebook.name}</Title>}
@@ -28,7 +31,9 @@ const NotebookCard: React.FC<NotebookCardType> = ({notebook, onDeleteNotebook}) 
                                   okText="Yes"
                                   cancelText="No">
                           <Button danger icon={<DeleteOutlined/>}/>
-                      </Popconfirm>
+                      </Popconfirm>,
+                      <Button onClick={() => navigate(`/notebooks/${notebook.id}/notes`)}
+                              icon={<ArrowRightOutlined />}/>
                   ]}>
                 <p>{notebook.description}</p>
             </Card>
