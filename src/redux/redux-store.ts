@@ -9,6 +9,7 @@ import {practiceReducer} from "./practice-reducer";
 import {practiceListReducer} from "./practice-list-reducer";
 import notebookReducer from "./notebook-reducer";
 import notesReducer from "./notes-reducer";
+import noteEditorReducer from "./note-editor-reducer";
 
 let rootReducer = combineReducers({
 
@@ -17,6 +18,7 @@ let rootReducer = combineReducers({
     app: appReducer,
     notebooks: notebookReducer,
     notes: notesReducer,
+    noteEditor: noteEditorReducer,
     diaries: diariesReducer,
     diary: diaryReducer,
     practice: practiceReducer,
