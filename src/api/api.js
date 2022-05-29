@@ -81,7 +81,7 @@ export const DIARY_API = {
 
 export const NOTES_API = {
     getNotes(notebookId) {
-        return instance.get(`notebooks/${notebookId}`, auth())
+        return instance.get(`notebooks/${notebookId}/notes`, auth())
             .catch((error) => {
                 return handleError(error)
             })
@@ -93,13 +93,13 @@ export const NOTES_API = {
             })
     },
     createNote(notebookId, note) {
-        return instance.post(`notebooks/${notebookId}`, note, auth())
+        return instance.post(`notebooks/${notebookId}/notes`, note, auth())
             .catch((error) => {
                 return handleError(error)
             })
     },
     updateNote(notebookId, note) {
-        return instance.put(`notebooks/${notebookId}`, note, auth())
+        return instance.put(`notebooks/${notebookId}/notes`, note, auth())
             .catch((error) => {
                 return handleError(error)
             })
