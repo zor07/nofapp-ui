@@ -79,6 +79,40 @@ export const DIARY_API = {
     }
 }
 
+export const NOTES_API = {
+    getNotes(notebookId) {
+        return instance.get(`notebooks/${notebookId}`, auth())
+            .catch((error) => {
+                return handleError(error)
+            })
+    },
+    getNote(notebookId, noteId) {
+        return instance.get(`notebooks/${notebookId}/notes/${noteId}`, auth())
+            .catch((error) => {
+                return handleError(error)
+            })
+    },
+    createNote(notebookId, note) {
+        return instance.post(`notebooks/${notebookId}`, note, auth())
+            .catch((error) => {
+                return handleError(error)
+            })
+    },
+    updateNote(notebookId, note) {
+        return instance.put(`notebooks/${notebookId}`, note, auth())
+            .catch((error) => {
+                return handleError(error)
+            })
+    },
+    deleteNote(notebookId, noteId) {
+        return instance.delete(`notebooks/${notebookId}/notes/${noteId}`, auth())
+            .catch((error) => {
+                return handleError(error)
+            })
+    }
+}
+
+
 export const NOTEBOOKS_API = {
     getNotebooks() {
         return instance.get('notebooks', auth())
