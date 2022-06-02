@@ -114,6 +114,12 @@ export const NOTES_API = {
 
 
 export const NOTEBOOKS_API = {
+    getNotebook(notebookId) {
+        return instance.get(`notebooks/${notebookId}`, auth())
+            .catch((error) => {
+                return handleError(error)
+            })
+    },
     getNotebooks() {
         return instance.get('notebooks', auth())
             .catch((error) => {
