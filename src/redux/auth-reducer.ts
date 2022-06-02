@@ -78,8 +78,8 @@ export const refreshToken = () => {
 
 const updateCookies = (accessToken: string | null, refreshToken: string | null): void => {
     const cookies = new Cookies();
-    cookies.set('accessToken', accessToken, {path: '/', sameSite: 'none'});
-    cookies.set('refreshToken', refreshToken, {path: '/', sameSite: 'none'});
+    cookies.set('accessToken', accessToken, {path: '/'});
+    cookies.set('refreshToken', refreshToken, {path: '/'});
 }
 
 export default authReducer;
