@@ -8,7 +8,6 @@ import {compose} from "redux";
 import {initializeApp} from "./redux/app-reducer.ts";
 import store from "./redux/redux-store.ts";
 import DiaryListContainer from "./components/Diary/DiaryListContainer";
-import DiaryEditorContainer from "./components/Diary/DiaryEditorContainer";
 import {Layout} from "antd";
 import 'antd/dist/antd.css';
 import HeaderContainer from "./components/Header/HeaderContainer";
@@ -48,8 +47,6 @@ class App extends Component {
                                 <Route path='/notebooks' element={<NotebookListContainer/>}/>
                                 <Route path='/notebooks/:notebookId/notes' element={<NoteListContainer/>}/>
                                 <Route path='/notebooks/:notebookId/notes/:noteId' element={<NoteEditorContainer/>}/>
-                                <Route path='/diary/editor/:diaryId' element={<DiaryEditorContainer/>}/>
-                                <Route path='/diary/editor' element={<DiaryEditorContainer/>}/>
                                 <Route path='/practices' element={<PracticeListContainer isPublic={true}/>}/>
                                 <Route path='/my-practices' element={<PracticeListContainer isPublic={false}/>}/>
                                 <Route path='/practice/:practiceId' element={<PracticeContainer/>}/>
