@@ -59,18 +59,12 @@ const NotebookForm: React.FC<NotebookFormType> = ({createNotebook}) => {
 
                 <Form.Item
                     label="Description"
-                    name="description"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please add description!',
-                        },
-                    ]}>
+                    name="description">
                     <TextArea/>
                 </Form.Item>
 
                 <Form.Item>
-                    <Button icon={<FormOutlined />} type="primary" htmlType="submit">
+                    <Button icon={<FormOutlined/>} type="primary" htmlType="submit">
                         Create new notebook
                     </Button>
                 </Form.Item>
