@@ -4,7 +4,7 @@ import {AppStateType} from "../../redux/redux-store";
 import {useNavigate, useParams} from "react-router-dom";
 import Editor from "../Editor/Editor";
 import {PrimitiveSelection, RemirrorJSON} from "remirror";
-import {message, Tabs} from "antd";
+import {message, PageHeader, Tabs} from "antd";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import css from './Note.module.css'
 import {compose} from "redux";
@@ -38,9 +38,13 @@ const NoteEditorContainer: React.FC<NoteContainerPropsType> = (props) =>  {
     useEffect(() => {
         if (params.noteId) {
             dispatch(getNote(params.notebookId, params.noteId));
+            setTimeout(() => {
+                // TODO describe types in reducers, and return promise from dispatch
+                dispatch(requestNotes(params.notebookId))
+            }, 250)
         }
         return () => {dispatch(clearNoteAction())}
-    }, [dispatch])
+    }, [])
 
     useEffect(() => {
         if (note !== props.note) {
@@ -82,7 +86,9 @@ const NoteEditorContainer: React.FC<NoteContainerPropsType> = (props) =>  {
                     content, selection
                 },
                 notebookDto: {
-                    id: params.notebookId
+                    id: params.notebookId,
+                    name: '',
+                    description: ''
                 }
             }
 
@@ -148,6 +154,11 @@ const NoteEditorContainer: React.FC<NoteContainerPropsType> = (props) =>  {
 
     return (
         <div>
+            {props.note.notebookDto &&
+            <PageHeader
+                ghost={false}
+                title={props.note.notebookDto.name}/>
+            }
             <Tabs activeKey={params.noteId}
                   tabPosition={'right'}
                   onChange={handleTabChange}

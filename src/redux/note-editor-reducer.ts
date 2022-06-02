@@ -3,12 +3,12 @@ import {isTokenExpired} from "../api/apiUtils";
 import {PrimitiveSelection, RemirrorJSON} from "remirror";
 import {currentDateString} from "../utils/dateUtils";
 import {refreshToken} from "./auth-reducer";
+import {NotebookType} from "./notebook-reducer";
 
 export type NoteType = {
     id: string | null
     title: string
-    notebookDto: {
-    }
+    notebookDto: NotebookType
     data: NoteState
 }
 
@@ -69,9 +69,13 @@ const initialState: InitialStateType = {
 const noteEditorReducer = (state: InitialStateType = initialState, action: UnmountNoteActionType | SetNoteActionType): InitialStateType => {
     switch (action.type) {
         case "NOTE/SET_NOTE":
+            const note1 = action.payload
+            note1.notebookDto = action.payload.notebookDto
+
             return {
                 ...state,
-                note: action.payload
+                note: note1
+
             }
         case "NOTE/UNMOUNT_NOTE":
             return {

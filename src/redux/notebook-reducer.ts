@@ -5,7 +5,7 @@ import {refreshToken} from "./auth-reducer";
 export type NotebookType = {
     id: string | null
     name: string
-    description: string
+    description: string | null
 }
 
 type InitialStateType =  {

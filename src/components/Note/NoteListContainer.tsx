@@ -13,11 +13,13 @@ import {
     createNewNote,
     deleteNote,
     NoteIdAndTitleType,
-    requestNotes
+    requestNotes, unmountNotes
 } from "../../redux/notes-reducer";
+import {NotebookType} from "../../redux/notebook-reducer";
 
 type MapStatePropsType = {
     notes: Array<NoteIdAndTitleType>
+    notebook: NotebookType
     createdNoteId: string | null
 }
 
@@ -26,6 +28,7 @@ type MapDispatchPropsType = {
     deleteNote: (notebookId: string, noteId: string) => void
     createNewNote: (notebookId: string) => void
     clearCreatedNoteId: () => void
+    unmountNotes: () => void
 }
 
 type OwnPropsType = {}
@@ -44,28 +47,40 @@ const NoteListContainer: React.FC<NotesListContainerPropsType> = (props) => {
         if (params.notebookId) {
             dispatch(requestNotes(params.notebookId))
         }
+        return () => {
+            dispatch(unmountNotes())
+        }
     }, [])
 
     useEffect(() => {
-        dispatch(requestNotes(params.notebookId))
-        if (props.createdNoteId) {
-            setIsCreatingNewNoteId(false)
-            const newId = props.createdNoteId
-            dispatch(clearCreatedNoteId())
-            navigate(`/notebooks/${params.notebookId}/notes/${newId}`)
+        if (params.notebookId) {
+            dispatch(requestNotes(params.notebookId))
         }
+    }, [params.notebookId])
+
+    useEffect(() => {
+        if (props.notebook && props.notebook.id) {
+            dispatch(requestNotes(props.notebook.id))
+            if (props.createdNoteId) {
+                setIsCreatingNewNoteId(false)
+                const newId = props.createdNoteId
+                dispatch(clearCreatedNoteId())
+                navigate(`/notebooks/${props.notebook.id}/notes/${newId}`)
+            }
+        }
+
     }, [props.createdNoteId])
 
     useEffect(() => {
         if (deleteNoteId !== '') {
-            dispatch(deleteNote(params.notebookId, deleteNoteId))
+            dispatch(deleteNote(props.notebook.id, deleteNoteId))
             setDeleteNoteId('')
         }
     }, [deleteNoteId])
 
     useEffect(() => {
         if (isCreatingNewNoteId) {
-            dispatch(createNewNote(params.notebookId))
+            dispatch(createNewNote(props.notebook.id))
         }
     }, [isCreatingNewNoteId])
 
@@ -79,7 +94,7 @@ const NoteListContainer: React.FC<NotesListContainerPropsType> = (props) => {
 
     return (
         <div className={css.content}>
-            <Title level={3}>Note</Title>
+            <Title level={3}>{props.notebook.name}</Title>
             <List itemLayout="vertical"
                   size="large"
                   pagination={{
@@ -101,7 +116,7 @@ const NoteListContainer: React.FC<NotesListContainerPropsType> = (props) => {
                   renderItem={item => (
                       <List.Item key={item.id}
                                  actions={[
-                                     <NavLink to={`/notebooks/${params.notebookId}/notes/${item.id}`}>
+                                     <NavLink to={`/notebooks/${props.notebook.id}/notes/${item.id}`}>
                                          <Button icon={<EditOutlined/>}>Edit</Button>
                                      </NavLink>,
 
@@ -125,11 +140,12 @@ const NoteListContainer: React.FC<NotesListContainerPropsType> = (props) => {
 let mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
         notes: state.notes.notes,
+        notebook: state.notes.notebook,
         createdNoteId: state.notes.createdNoteId
     }
 }
 
 export default compose(
     withAuthRedirect,
-    connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {requestNotes, deleteNote, createNewNote, clearCreatedNoteId})
+    connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {requestNotes, deleteNote, createNewNote, clearCreatedNoteId, unmountNotes})
 )(NoteListContainer);
