@@ -4,6 +4,7 @@ import {PrimitiveSelection, RemirrorJSON} from "remirror";
 import {currentDateString} from "../utils/dateUtils";
 import {refreshToken} from "./auth-reducer";
 import {NotebookType} from "./notebook-reducer";
+import {unmountNotes} from "./notes-reducer";
 
 export type NoteType = {
     id: string | null
@@ -89,6 +90,13 @@ const noteEditorReducer = (state: InitialStateType = initialState, action: Unmou
 
 const setNote = (payload: NoteType): SetNoteActionType => ({type: SET_NOTE, payload})
 export const clearNoteAction = (): UnmountNoteActionType => ({type: UNMOUNT_NOTE})
+
+export const unmountNote = () => {
+    return (dispatch) => {
+        dispatch(clearNoteAction())
+        dispatch(unmountNotes())
+    }
+}
 
 export const getNote = (notebookId: string, noteId: string) => {
     return async (dispatch) => {

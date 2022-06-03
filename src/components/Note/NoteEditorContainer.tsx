@@ -6,11 +6,10 @@ import Editor from "../Editor/Editor";
 import {PrimitiveSelection, RemirrorJSON} from "remirror";
 import {message, PageHeader, Tabs} from "antd";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
-import css from './Note.module.css'
 import {compose} from "redux";
 import {useDebouncedCallback} from "use-debounce";
-import {clearNoteAction, getNote, NoteType, saveNote} from "../../redux/note-editor-reducer";
-import {NoteIdAndTitleType, requestNotes} from "../../redux/notes-reducer";
+import {unmountNote, getNote, NoteType, saveNote} from "../../redux/note-editor-reducer";
+import {NoteIdAndTitleType, requestNotes, unmountNotes} from "../../redux/notes-reducer";
 
 
 type MapStatePropsType = {
@@ -22,6 +21,7 @@ type MapDispatchPropsType = {
     saveNote: (notebookId: string, note: NoteType) => void
     getNote: (notebookId: string, noteId: string) => void
     requestNotes: (notebookId: string) => void
+    unmountNote: () => void
 }
 
 
@@ -43,7 +43,7 @@ const NoteEditorContainer: React.FC<NoteContainerPropsType> = (props) =>  {
                 dispatch(requestNotes(params.notebookId))
             }, 250)
         }
-        return () => {dispatch(clearNoteAction())}
+        return () => {dispatch(unmountNote())}
     }, [])
 
     useEffect(() => {
@@ -189,5 +189,5 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
 
 export default compose(
     withAuthRedirect,
-    connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {saveNote, getNote, requestNotes})
+    connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {saveNote, getNote, requestNotes, unmountNote})
 )(NoteEditorContainer);
