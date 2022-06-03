@@ -52,33 +52,6 @@ export const TIMER_API = {
     }
 }
 
-export const DIARY_API = {
-    getDiaries() {
-        return instance.get(`diary`, auth())
-            .catch((error) => {
-                return handleError(error)
-            })
-    },
-    getDiary(diaryId) {
-        return instance.get(`diary/${diaryId}`, auth())
-            .catch((error) => {
-                return handleError(error)
-            })
-    },
-    saveDiary(diary) {
-        return instance.post(`diary`, diary, auth())
-            .catch((error) => {
-                return handleError(error)
-            })
-    },
-    deleteDiary(diaryId) {
-        return instance.delete(`diary/${diaryId}`, auth())
-            .catch((error) => {
-                return handleError(error)
-            })
-    }
-}
-
 export const NOTES_API = {
     getNotes(notebookId) {
         return instance.get(`notebooks/${notebookId}/notes`, auth())

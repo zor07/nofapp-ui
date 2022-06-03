@@ -166,13 +166,11 @@ const NoteEditorContainer: React.FC<NoteContainerPropsType> = (props) =>  {
                 {props.notes.map(noteItem => (
                     <TabPane tab={noteItem.title}
                              key={noteItem.id} >
-                        <div  className={css.editor}>
-                            <Editor selection={props.note.data.selection}
-                                    content={props.note.data.content}
-                                    setEditorState={setEditorState}
-                                    setShouldAutoSave={setShouldAutoSave}
-                                    setShouldSaveImmediately={setShouldSaveImmediately}/>
-                        </div>
+                        <Editor selection={props.note.data.selection}
+                                content={props.note.data.content}
+                                setEditorState={setEditorState}
+                                setShouldAutoSave={setShouldAutoSave}
+                                setShouldSaveImmediately={setShouldSaveImmediately}/>
                     </TabPane>
                 ))}
             </Tabs>

@@ -3,8 +3,6 @@ import thunkMiddleware from "redux-thunk";
 import authReducer from "./auth-reducer";
 import appReducer from "./app-reducer";
 import timerReducer from "./timer-reducer";
-import diariesReducer from "./diaries-reducer";
-import diaryReducer from "./diary-reducer";
 import {practiceReducer} from "./practice-reducer";
 import {practiceListReducer} from "./practice-list-reducer";
 import notebookReducer from "./notebook-reducer";
@@ -19,8 +17,6 @@ let rootReducer = combineReducers({
     notebooks: notebookReducer,
     notes: notesReducer,
     noteEditor: noteEditorReducer,
-    diaries: diariesReducer,
-    diary: diaryReducer,
     practice: practiceReducer,
     practiceList: practiceListReducer
 

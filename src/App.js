@@ -7,7 +7,6 @@ import {connect, Provider} from "react-redux";
 import {compose} from "redux";
 import {initializeApp} from "./redux/app-reducer.ts";
 import store from "./redux/redux-store.ts";
-import DiaryListContainer from "./components/Diary/DiaryListContainer";
 import {Layout} from "antd";
 import 'antd/dist/antd.css';
 import HeaderContainer from "./components/Header/HeaderContainer";
@@ -43,7 +42,6 @@ class App extends Component {
                             <Routes>
                                 <Route path='/' element={<TimerContainer/>}/>
                                 <Route path='/timer' element={<TimerContainer/>}/>
-                                <Route path='/diary' element={<DiaryListContainer/>}/>
                                 <Route path='/notebooks' element={<NotebookListContainer/>}/>
                                 <Route path='/notebooks/:notebookId/notes' element={<NoteListContainer/>}/>
                                 <Route path='/notebooks/:notebookId/notes/:noteId' element={<NoteEditorContainer/>}/>
