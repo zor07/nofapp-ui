@@ -4,7 +4,7 @@ import {AppStateType} from "../../redux/redux-store";
 import {useNavigate, useParams} from "react-router-dom";
 import Editor from "../Editor/Editor";
 import {PrimitiveSelection, RemirrorJSON} from "remirror";
-import {message, PageHeader, Tabs} from "antd";
+import {Button, message, PageHeader, Tabs} from "antd";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 import {useDebouncedCallback} from "use-debounce";
@@ -152,12 +152,25 @@ const NoteEditorContainer: React.FC<NoteContainerPropsType> = (props) =>  {
         }
     }
 
+    const goToNotes = () => {
+        navigate(`/notebooks/${props.note.notebookDto.id}/notes`)
+    }
+
+    const goToNotebooks = () => {
+        navigate(`/notebooks`)
+    }
+
     return (
         <div>
             {props.note.notebookDto &&
             <PageHeader
                 ghost={false}
-                title={props.note.notebookDto.name}/>
+                title={props.note.notebookDto.name}
+                extra={[
+                    <Button key="1" onClick={() => goToNotes()} >Back to Notes</Button>,
+                    <Button key="2" onClick={() => goToNotebooks()}>Back to Notebooks</Button>
+                ]}
+            />
             }
             <Tabs activeKey={params.noteId}
                   tabPosition={'right'}
