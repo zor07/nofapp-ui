@@ -15,6 +15,12 @@ const Navbar: React.FC<NavbarPropsType> = ({isAuth, username, logout}) => {
         <Menu theme='dark' mode='horizontal'>
             {isAuth &&
             <>
+                <Menu.Item key='my-profile'>
+                    <NavLink to='/profile'>My Profile</NavLink>
+                </Menu.Item>
+                <Menu.Item key='profiles'>
+                    <NavLink to='/profiles'>Users</NavLink>
+                </Menu.Item>
                 <Menu.Item key='timer'>
                     <NavLink to='/timer'>Timer</NavLink>
                 </Menu.Item>
