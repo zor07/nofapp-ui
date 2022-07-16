@@ -1,6 +1,7 @@
 import React from "react"
 import {ProfileType} from "../../redux/profile-reducer";
 import {RemirrorJSON} from "remirror";
+import EditorReadView from "../Editor/EditorReadView";
 
 type MapStatePropsType = {
     profile: ProfileType
@@ -8,6 +9,9 @@ type MapStatePropsType = {
 }
 
 const Profile: React.FC<MapStatePropsType> = ({profile, posts}) => {
+
+    const postElements = posts.map((post, index) => <EditorReadView key={index} data={post} displayTitle={true}/>);
+
     return (
         <div>
             <div>Profile</div>
@@ -15,7 +19,8 @@ const Profile: React.FC<MapStatePropsType> = ({profile, posts}) => {
             <div>{profile.userId}</div>
             <div>{profile.avatarUri}</div>
             <div>{profile.timerStart.toString()}</div>
-            <div>{`Got ${posts.length} posts`}</div>
+            <div>{postElements}</div>
+
         </div>
     )
 }
