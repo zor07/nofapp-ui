@@ -14,6 +14,7 @@ import {
 import {Button, Descriptions, PageHeader, Tag} from "antd";
 import {useNavigate} from "react-router-dom";
 import {EditOutlined} from "@ant-design/icons";
+import EditorReadView from "../Editor/EditorReadView";
 
 type EditorStaticPropsType = {
     content: RemirrorJSON
@@ -95,14 +96,7 @@ const PracticeData: React.FC<EditorStaticPropsType> = ({content, name, isPublic,
                 </Descriptions>
             </PageHeader>
 
-
-            <div className='remirror-theme'>
-                <RemirrorRenderer  json={dataWithoutTitle}
-                                   skipUnknownTypes={true}
-                                   skipUnknownMarks={true}
-                                   typeMap={typeMap}
-                                   markMap={markMap}  />
-            </div>
+            <EditorReadView data={data} displayTitle={false}/>
         </div>
     )
 };
