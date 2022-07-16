@@ -16,6 +16,8 @@ import PracticeEditorContainer from "./components/Practice/PracticeEditorContain
 import NotebookListContainer from "./components/Notebook/NotebookListContainer";
 import NoteListContainer from "./components/Note/NoteListContainer";
 import NoteEditorContainer from "./components/Note/NoteEditorContainer";
+import ProfileList from "./components/Profile/ProfileList";
+import Profile from "./components/Profile/Profile";
 
 class App extends Component {
 
@@ -42,6 +44,9 @@ class App extends Component {
                             <Routes>
                                 <Route path='/' element={<TimerContainer/>}/>
                                 <Route path='/timer' element={<TimerContainer/>}/>
+                                <Route path='/profiles' element={<ProfileList/>}/>
+                                <Route path='/profile' element={<Profile/>}/>
+                                <Route path='/profile/:userId' element={<Profile/>}/>
                                 <Route path='/notebooks' element={<NotebookListContainer/>}/>
                                 <Route path='/notebooks/:notebookId/notes' element={<NoteListContainer/>}/>
                                 <Route path='/notebooks/:notebookId/notes/:noteId' element={<NoteEditorContainer/>}/>
