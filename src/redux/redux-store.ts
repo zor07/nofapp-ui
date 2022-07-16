@@ -8,12 +8,14 @@ import {practiceListReducer} from "./practice-list-reducer";
 import notebookReducer from "./notebook-reducer";
 import notesReducer from "./notes-reducer";
 import noteEditorReducer from "./note-editor-reducer";
+import profileReducer from "./profile-reducer";
 
 let rootReducer = combineReducers({
 
     timerPage: timerReducer,
     auth: authReducer,
     app: appReducer,
+    profile: profileReducer,
     notebooks: notebookReducer,
     notes: notesReducer,
     noteEditor: noteEditorReducer,
