@@ -44,7 +44,42 @@ const initialState: InitialStateType = {
                     content: [
                         {
                             type: "text",
-                            text: "Some post"
+                            text: "Some post 1"
+                        }
+                    ]
+                },
+                {
+                    type: "paragraph",
+                    content: [
+                        {
+                            type: "text",
+                            text: "text text text"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            type: "doc",
+            content: [
+                {
+                    type: "heading",
+                    attrs: {
+                        "level": 1
+                    },
+                    content: [
+                        {
+                            type: "text",
+                            text: "Some post 2"
+                        }
+                    ]
+                },
+                {
+                    type: "paragraph",
+                    content: [
+                        {
+                            type: "text",
+                            text: "text text text"
                         }
                     ]
                 }
