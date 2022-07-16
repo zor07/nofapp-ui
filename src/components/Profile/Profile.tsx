@@ -1,8 +1,19 @@
 import React from "react"
+import {ProfileType} from "../../redux/profile-reducer";
 
-const Profile = () => {
+type MapStatePropsType = {
+    profile: ProfileType
+}
+
+const Profile: React.FC<MapStatePropsType> = ({profile}) => {
     return (
-        <div>Profile</div>
+        <div>
+            <div>Profile</div>
+            <div>{profile.id}</div>
+            <div>{profile.userId}</div>
+            <div>{profile.avatarUri}</div>
+            <div>{profile.timerStart.toString()}</div>
+        </div>
     )
 }
 
