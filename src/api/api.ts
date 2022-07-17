@@ -8,6 +8,15 @@ const instance = axios.create({
 
 const cookies = new Cookies()
 
+type ErrorResponse = {
+    error_message: string
+}
+
+type ResponseType<T> = {
+    status: number
+    data: T | ErrorResponse
+}
+
 export const AUTH_API = {
     login(username, password) {
         return instance.post(`auth/login`, {username, password})
@@ -27,19 +36,19 @@ export const AUTH_API = {
 }
 
 export const PROFILE_API = {
-    getProfiles() : PromiseLike<Array<ProfileType>> {
+    getProfiles() : PromiseLike<ResponseType<Array<ProfileType>>> {
         return instance.get<Array<ProfileType>>(`profiles`, auth())
             .catch((error) => {
                 return handleError(error)
             })
     },
-    getProfile(userId: string) : PromiseLike<ProfileType> {
+    getProfile(userId: string) : PromiseLike<ResponseType<ProfileType>> {
         return instance.get<ProfileType>(`profiles/${userId}`, auth())
             .catch((error) => {
                 return handleError(error)
             })
     },
-    uploadAvatar(userId: string, avatar: File) : PromiseLike<any> {
+    uploadAvatar(userId: string, avatar: File) : PromiseLike<ResponseType<any>> {
         const formData = new FormData();
         formData.append('file', avatar)
         const config = auth()
@@ -50,13 +59,13 @@ export const PROFILE_API = {
                 return handleError(error)
             })
     },
-    deleteAvatar(userId: string) : PromiseLike<any> {
+    deleteAvatar(userId: string) : PromiseLike<ResponseType<any>> {
         return instance.delete(`profiles/${userId}/avatar`, auth())
             .catch((error) => {
                 return handleError(error)
             })
     },
-    relapsed(userId: string) : PromiseLike<ProfileType> {
+    relapsed(userId: string) : PromiseLike<ResponseType<ProfileType>> {
         return instance.post<ProfileType>(`profiles/${userId}/relapsed`, auth())
             .catch((error) => {
                 return handleError(error)
