@@ -9,13 +9,13 @@ const instance = axios.create({
 const cookies = new Cookies()
 
 export type ErrorResponse = {
-    error_message: string
+    error_message: string | null
 }
 
 export type ResponseType<T> = {
     status: number
-    data: T | ErrorResponse
-}
+    data: T
+} & ErrorResponse
 
 export const AUTH_API = {
     login(username, password) {
