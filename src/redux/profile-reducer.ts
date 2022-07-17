@@ -104,6 +104,11 @@ const profileReducer = (state: InitialStateType = initialState,
                 ...state,
                 profile: action.payload
             }
+        case "PROFILE/SET_POSTS":
+            return {
+                ...state,
+                posts: action.payload
+            }
         default:
             return state;
     }
