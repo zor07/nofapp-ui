@@ -1,5 +1,6 @@
 import axios from "axios";
 import Cookies from "universal-cookie";
+import {ProfileType} from "../redux/profile-reducer";
 
 const instance = axios.create({
     baseURL: process.env.NODE_ENV === 'production' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_DEV.toString()
@@ -22,6 +23,44 @@ export const AUTH_API = {
                 "Authorization": `Bearer ${cookies.get("refreshToken")}`
             }
         })
+    }
+}
+
+export const PROFILE_API = {
+    getProfiles() : PromiseLike<Array<ProfileType>> {
+        return instance.get<Array<ProfileType>>(`profiles`, auth())
+            .catch((error) => {
+                return handleError(error)
+            })
+    },
+    getProfile(userId: string) : PromiseLike<ProfileType> {
+        return instance.get<ProfileType>(`profiles/${userId}`, auth())
+            .catch((error) => {
+                return handleError(error)
+            })
+    },
+    uploadAvatar(userId: string, avatar: File) : PromiseLike<any> {
+        const formData = new FormData();
+        formData.append('file', avatar)
+        const config = auth()
+        config.headers["Content-Type"] = "multipart/form-data"
+
+        return instance.post(`profiles/${userId}/avatar`, config)
+            .catch((error) => {
+                return handleError(error)
+            })
+    },
+    deleteAvatar(userId: string) : PromiseLike<any> {
+        return instance.delete(`profiles/${userId}/avatar`, auth())
+            .catch((error) => {
+                return handleError(error)
+            })
+    },
+    relapsed(userId: string) : PromiseLike<ProfileType> {
+        return instance.post<ProfileType>(`profiles/${userId}/relapsed`, auth())
+            .catch((error) => {
+                return handleError(error)
+            })
     }
 }
 
