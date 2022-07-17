@@ -4,7 +4,11 @@ export type ProfileType = {
     id: string | null
     avatarUri: string | null
     timerStart: Date
-    userId: string
+    user: {
+        id: string
+        name: string
+        username: string
+    }
 }
 
 type InitialStateType =  {
@@ -28,7 +32,11 @@ const SET_PROFILE = 'PROFILE/SET_PROFILE'
 const initialState: InitialStateType = {
     profile: {
         id: "some id",
-        userId: "user id",
+        user: {
+            id: "user id",
+            name: "user name",
+            username: "username"
+        },
         avatarUri: "avatar url",
         timerStart: new Date("2021-11-08T01:00:00.000"),
     },

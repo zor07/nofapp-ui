@@ -25,7 +25,8 @@ const Profile: React.FC<MapStatePropsType> = ({profile, posts}) => {
         <div>
             <div>Profile</div>
             <div>{profile.id}</div>
-            <div>{profile.userId}</div>
+            <div>{profile.user.name}</div>
+            <div>{profile.user.username}</div>
             <div>{profile.avatarUri}</div>
 
             <div>
