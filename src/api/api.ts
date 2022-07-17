@@ -8,11 +8,11 @@ const instance = axios.create({
 
 const cookies = new Cookies()
 
-type ErrorResponse = {
+export type ErrorResponse = {
     error_message: string
 }
 
-type ResponseType<T> = {
+export type ResponseType<T> = {
     status: number
     data: T | ErrorResponse
 }
