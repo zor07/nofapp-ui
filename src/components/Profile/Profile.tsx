@@ -4,6 +4,9 @@ import {RemirrorJSON} from "remirror";
 import EditorReadView from "../Editor/EditorReadView";
 import Timer from "../Timer/Timer";
 import {TimerType} from "../../redux/timer-reducer";
+import {Avatar, Button, Col, Divider, Row, Space, Typography} from "antd";
+import {UserOutlined} from "@ant-design/icons";
+import css from "./Profile.module.css"
 
 type MapStatePropsType = {
     profile: ProfileType
@@ -20,22 +23,35 @@ const Profile: React.FC<MapStatePropsType> = ({profile, posts}) => {
         start: profile.timerStart,
         description: "main"
     }
-
+    const {Title} = Typography;
     return (
-        <div>
-            <div>Profile</div>
-            <div>{profile.id}</div>
-            <div>{profile.user.name}</div>
-            <div>{profile.user.username}</div>
-            <div>{profile.avatarUri}</div>
 
-            <div>
-                <Timer timer={timer} />
-            </div>
+        <div className="space-align-container">
+            <Row>
+                <Col flex={2}>
+                    <div>
+                        <Title level={4}>{profile.user.name}</Title>
+                    </div>
+                    <Avatar shape="square" size={256} icon={<UserOutlined/>} alt={profile.avatarUri}/>
+                </Col>
+                <Col flex={4}>
 
-            <div>{postElements}</div>
+                        <div className={css.timer}>
+                            <Timer timer={timer}/>
+                        </div>
+                        <div>
+                            <Button danger >Relapsed</Button>
+                        </div>
+                </Col>
 
+            </Row>
+            <Divider/>
+            <Row>
+                <div>{postElements}</div>
+            </Row>
         </div>
+
+
     )
 }
 
