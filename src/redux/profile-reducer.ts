@@ -1,4 +1,8 @@
 import {RemirrorJSON} from "remirror";
+import {PROFILE_API} from "../api/api";
+import {isTokenExpired} from "../api/apiUtils";
+import {refreshToken} from "./auth-reducer";
+import {adjustForTimezone} from "../utils/dateUtils";
 
 export type ProfileType = {
     id: string | null
@@ -111,6 +115,22 @@ const profileReducer = (state: InitialStateType = initialState,
             }
         default:
             return state;
+    }
+}
+
+const setProfileActionCreator = (payload : ProfileType) : SetProfileActionType => ({type: SET_PROFILE, payload})
+
+export const getProfile = (userId : string) => {
+    return async (dispatch: Function) => {
+        const response = await PROFILE_API.getProfile(userId)
+        if (response.status === 200) {
+            const profile = response.data
+            profile.timerStart = new Date(adjustForTimezone(profile.timerStart.toString()))
+            dispatch(setProfileActionCreator(profile))
+        } else if (isTokenExpired(response)) {
+            dispatch(refreshToken())
+            dispatch(getProfile(userId))
+        }
     }
 }
 
