@@ -52,9 +52,9 @@ export const PROFILE_API = {
         const formData = new FormData();
         formData.append('file', avatar)
         const config = auth()
-        config.headers["Content-Type"] = "multipart/form-data"
+        config.headers["content-type"] = "multipart/form-data"
 
-        return instance.post(`profiles/${userId}/avatar`, config)
+        return instance.post(`profiles/${userId}/avatar`, formData, config)
             .catch((error) => {
                 return handleError(error)
             })
