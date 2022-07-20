@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {getProfile, ProfileType} from "../../redux/profile-reducer";
+import {getProfile, ProfileType, uploadAvatar} from "../../redux/profile-reducer";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import Profile from "./Profile";
 import {compose} from "redux";
@@ -9,6 +9,7 @@ import {RemirrorJSON} from "remirror";
 import {useParams} from "react-router-dom";
 
 type MapStatePropsType = {
+    initialized: boolean
     currentUserId: string
     profile: ProfileType
     posts: Array<RemirrorJSON>
@@ -16,11 +17,13 @@ type MapStatePropsType = {
 
 type MapDispatchPropsType = {
     getProfile: (userId: string) => void
+    uploadAvatar: (userId: string, file: File) => void
+
 }
 
 type ProfileContainerType = MapStatePropsType & MapDispatchPropsType
 
-const ProfileContainer: React.FC<ProfileContainerType> = ({currentUserId, profile, posts}) => {
+const ProfileContainer: React.FC<ProfileContainerType> = ({initialized, currentUserId, profile, posts}) => {
     const dispatch = useDispatch()
     const params = useParams()
 
@@ -28,17 +31,30 @@ const ProfileContainer: React.FC<ProfileContainerType> = ({currentUserId, profil
         if (params.userId) {
             dispatch(getProfile(params.userId))
         } else {
-            dispatch(getProfile(currentUserId))
+            if (currentUserId) {
+                dispatch(getProfile(currentUserId))
+            }
         }
     }, [])
 
+    useEffect(() => {
+        if (params.userId) {
+            dispatch(getProfile(params.userId))
+        } else {
+            if (currentUserId) {
+                dispatch(getProfile(currentUserId))
+            }
+        }
+    }, [initialized, params.userId])
+
     return (
-        <Profile profile={profile} posts={posts}/>
+        <Profile profile={profile} posts={posts} uploadAvatar={uploadAvatar}/>
     )
 }
 
 let mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
+        initialized: state.app.initialized,
         currentUserId: state.auth.id,
         profile: state.profile.profile,
         posts: state.profile.posts
@@ -47,5 +63,5 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
 
 export default compose(
     withAuthRedirect,
-    connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {getProfile})
+    connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {getProfile, uploadAvatar})
 )(ProfileContainer);

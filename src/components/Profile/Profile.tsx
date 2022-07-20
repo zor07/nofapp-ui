@@ -4,17 +4,20 @@ import {RemirrorJSON} from "remirror";
 import EditorReadView from "../Editor/EditorReadView";
 import Timer from "../Timer/Timer";
 import {TimerType} from "../../redux/timer-reducer";
-import {Avatar, Button, Col, Divider, Row, Space, Typography} from "antd";
-import {UserOutlined} from "@ant-design/icons";
+import {Button, Col, Divider, Row, Typography} from "antd";
 import css from "./Profile.module.css"
+import AvatarComponent from "./AvatarComponent";
 
 type MapStatePropsType = {
     profile: ProfileType
     posts: Array<RemirrorJSON>
 }
 
-const Profile: React.FC<MapStatePropsType> = ({profile, posts}) => {
+type MapDispatchPropsType = {
+    uploadAvatar: (userId: string, file: File) => void
+}
 
+const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({profile, posts, uploadAvatar}) => {
     const postElements = posts.map((post, index) => <EditorReadView key={index} data={post} displayTitle={true}/>);
 
     const timer: TimerType = {
@@ -32,7 +35,10 @@ const Profile: React.FC<MapStatePropsType> = ({profile, posts}) => {
                     <div>
                         <Title level={4}>{profile.user.name}</Title>
                     </div>
-                    <Avatar shape="square" size={256} icon={<UserOutlined/>} alt={profile.avatarUri}/>
+                    <AvatarComponent url={profile.avatarUri} userId={profile.user.id} uploadAvatar={uploadAvatar}/>
+                    <div>
+                        <Button type={"dashed"}>Change image</Button>
+                    </div>
                 </Col>
                 <Col flex={4}>
 
