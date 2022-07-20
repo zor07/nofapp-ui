@@ -125,8 +125,23 @@ export const getProfile = (userId : string) => {
         const response = await PROFILE_API.getProfile(userId)
         if (response.status === 200) {
             const profile = response.data
+            if (profile.avatarUri) {
+                profile.avatarUri = `http://127.0.0.1:9000/${profile.avatarUri}`
+            }
             profile.timerStart = new Date(adjustForTimezone(profile.timerStart.toString()))
             dispatch(setProfileActionCreator(profile))
+        } else if (isTokenExpired(response)) {
+            dispatch(refreshToken())
+            dispatch(getProfile(userId))
+        }
+    }
+}
+
+export const uploadAvatar = (userId: string, file: File) => {
+    return async (dispatch: Function) => {
+        const response = await PROFILE_API.uploadAvatar(userId, file);
+        if (response.status === 202) {
+            dispatch(getProfile(userId))
         } else if (isTokenExpired(response)) {
             dispatch(refreshToken())
             dispatch(getProfile(userId))
