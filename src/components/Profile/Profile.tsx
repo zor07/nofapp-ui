@@ -35,9 +35,8 @@ const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({profile, p
                     <div>
                         <Title level={4}>{profile.user.name}</Title>
                     </div>
-                    <AvatarComponent url={profile.avatarUri} userId={profile.user.id} uploadAvatar={uploadAvatar}/>
                     <div>
-                        <Button type={"dashed"}>Change image</Button>
+                        <AvatarComponent url={profile.avatarUri} userId={profile.user.id} uploadAvatar={uploadAvatar}/>
                     </div>
                 </Col>
                 <Col flex={4}>
