@@ -1,30 +1,9 @@
 import React, {useEffect, useState} from "react";
-import { message, Upload } from 'antd';
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import {Avatar, Button, message, Space, Upload} from 'antd';
+import {DeleteOutlined, UploadOutlined} from '@ant-design/icons';
 import {useDispatch} from "react-redux";
+import css from "./Profile.module.css"
 
-
-const beforeUpload = (file) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-
-    if (!isJpgOrPng) {
-        message.error('You can only upload JPG/PNG file!');
-    }
-
-    const isLt2M = file.size / 1024 / 1024 < 2;
-
-    if (!isLt2M) {
-        message.error('Image must smaller than 2MB!');
-    }
-
-    return isJpgOrPng && isLt2M;
-};
-
-const getBase64 = (img, callback) => {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
-};
 
 type MapStatePropsType = {
     userId: string
@@ -39,8 +18,6 @@ type AvatarComponentType = MapStatePropsType & MapDispatchPropsType
 
 const AvatarComponent: React.FC<AvatarComponentType> = ({url, userId, uploadAvatar}) => {
 
-    const [loading, setLoading] = useState(false);
-    // const [imageUrl, setImageUrl] = useState(url);
     const [file, setFile] = useState()
     const dispatch = useDispatch()
 
@@ -51,61 +28,66 @@ const AvatarComponent: React.FC<AvatarComponentType> = ({url, userId, uploadAvat
         }
     }, [file])
 
-    const dummyRequest = ({ file, onSuccess = null }) => {
+    const dummyRequest = ({file, onSuccess = null}) => {
         setTimeout(() => {
             onSuccess("ok");
         }, 0);
     };
 
-    const handleChange = (info) => {
-        if (info.file.status === 'uploading') {
-            setLoading(true);
-            return;
+    const beforeUpload = (file) => {
+        const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+
+        if (!isJpgOrPng) {
+            message.error('You can only upload JPG/PNG file!');
         }
 
+        const isLt2M = file.size / 1024 / 1024 < 5;
+
+        if (!isLt2M) {
+            message.error('Image must smaller than 5MB!');
+        }
+
+        return isJpgOrPng && isLt2M;
+    };
+
+    const handleChange = (info) => {
         if (info.file.status === 'done') {
-            // Get this url from response in real world.
-            setLoading(false);
             setFile(info.file.originFileObj)
-            // setImageUrl(url);
         }
     };
 
-    const uploadButton = (
-        <div>
-            {loading ? <LoadingOutlined /> : <PlusOutlined />}
-            <div
-                style={{
-                    marginTop: 8,
-                }}
-            >
-                Upload
-            </div>
-        </div>
-    );
-
     return (
-        <Upload
-            name="avatar"
-            listType="picture-card"
-            className="avatar-uploader"
-            showUploadList={false}
-            customRequest={dummyRequest}
-            beforeUpload={beforeUpload}
-            onChange={handleChange}
-        >
-            {url ? (
-                <img
-                    src={url}
-                    alt="avatar"
-                    style={{
-                        width: '100%',
-                    }}
-                />
-            ) : (
-                uploadButton
+        <div>
+
+            {url && (
+                <Avatar src={url}
+                        className={css.avatar}
+                        shape="square"
+                        draggable={true}/>
             )}
-        </Upload>
+
+            <div>
+                <Space>
+                    <Upload
+                        showUploadList={false}
+                        customRequest={dummyRequest}
+                        beforeUpload={beforeUpload}
+                        onChange={handleChange}>
+
+                        <Button icon={<UploadOutlined/>}>Upload</Button>
+                    </Upload>
+                    {url && (
+                        <Button danger icon={<DeleteOutlined/>}
+                                onClick={() => {}}>
+                            Remove
+                        </Button>
+
+                    )}
+                </Space>
+            </div>
+
+
+        </div>
     );
 }
 
