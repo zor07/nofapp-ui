@@ -1,3 +1,9 @@
 .timer {
     font: 2.8em "Courier New", monospace;
 }
+
+.avatar {
+    min-width: 300px;
+    min-height: 300px;
+    padding-bottom: 20px;
+}
