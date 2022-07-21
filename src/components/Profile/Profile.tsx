@@ -15,9 +15,10 @@ type MapStatePropsType = {
 
 type MapDispatchPropsType = {
     uploadAvatar: (userId: string, file: File) => void
+    removeAvatar: (userId: string) => void
 }
 
-const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({profile, posts, uploadAvatar}) => {
+const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({profile, posts, uploadAvatar, removeAvatar}) => {
     const postElements = posts.map((post, index) => <EditorReadView key={index} data={post} displayTitle={true}/>);
 
     const timer: TimerType = {
@@ -36,7 +37,12 @@ const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({profile, p
                         <Title level={4}>{profile.user.name}</Title>
                     </div>
                     <div>
-                        <AvatarComponent url={profile.avatarUri} userId={profile.user.id} uploadAvatar={uploadAvatar}/>
+                        <AvatarComponent
+                            url={profile.avatarUri}
+                            userId={profile.user.id}
+                            uploadAvatar={uploadAvatar}
+                            removeAvatar={removeAvatar}
+                        />
                     </div>
                 </Col>
                 <Col flex={4}>

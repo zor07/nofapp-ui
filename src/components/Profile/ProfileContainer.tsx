@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {getProfile, ProfileType, uploadAvatar} from "../../redux/profile-reducer";
+import {getProfile, ProfileType, removeAvatar, uploadAvatar} from "../../redux/profile-reducer";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import Profile from "./Profile";
 import {compose} from "redux";
@@ -18,7 +18,7 @@ type MapStatePropsType = {
 type MapDispatchPropsType = {
     getProfile: (userId: string) => void
     uploadAvatar: (userId: string, file: File) => void
-
+    removeAvatar: (userId: string) => void
 }
 
 type ProfileContainerType = MapStatePropsType & MapDispatchPropsType
@@ -48,7 +48,12 @@ const ProfileContainer: React.FC<ProfileContainerType> = ({initialized, currentU
     }, [initialized, params.userId])
 
     return (
-        <Profile profile={profile} posts={posts} uploadAvatar={uploadAvatar}/>
+        <Profile
+            profile={profile}
+            posts={posts}
+            uploadAvatar={uploadAvatar}
+            removeAvatar={removeAvatar}
+        />
     )
 }
 
@@ -63,5 +68,9 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
 
 export default compose(
     withAuthRedirect,
-    connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {getProfile, uploadAvatar})
+    connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {
+        getProfile,
+        uploadAvatar,
+        removeAvatar
+    })
 )(ProfileContainer);
