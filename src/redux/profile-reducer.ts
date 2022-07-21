@@ -144,7 +144,19 @@ export const uploadAvatar = (userId: string, file: File) => {
             dispatch(getProfile(userId))
         } else if (isTokenExpired(response)) {
             dispatch(refreshToken())
+            dispatch(uploadAvatar(userId, file))
+        }
+    }
+}
+
+export const removeAvatar = (userId: string) => {
+    return async (dispatch: Function) => {
+        const response = await PROFILE_API.deleteAvatar(userId)
+        if (response.status == 204) {
             dispatch(getProfile(userId))
+        } else if (isTokenExpired(response)) {
+            dispatch(refreshToken())
+            dispatch(removeAvatar(userId))
         }
     }
 }
