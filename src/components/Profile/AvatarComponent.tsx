@@ -12,13 +12,15 @@ type MapStatePropsType = {
 
 type MapDispatchPropsType = {
     uploadAvatar: (userId: string, file: File) => void
+    removeAvatar: (userId: string) => void
 }
 
 type AvatarComponentType = MapStatePropsType & MapDispatchPropsType
 
-const AvatarComponent: React.FC<AvatarComponentType> = ({url, userId, uploadAvatar}) => {
+const AvatarComponent: React.FC<AvatarComponentType> = ({url, userId, uploadAvatar, removeAvatar}) => {
 
     const [file, setFile] = useState()
+    const [shouldRemoveAvatar, setShouldRemoveAvatar] = useState(false)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -27,6 +29,13 @@ const AvatarComponent: React.FC<AvatarComponentType> = ({url, userId, uploadAvat
             setFile(null)
         }
     }, [file])
+
+    useEffect(() => {
+        if (shouldRemoveAvatar) {
+            dispatch(removeAvatar(userId))
+            setShouldRemoveAvatar(false)
+        }
+    }, [shouldRemoveAvatar])
 
     const dummyRequest = ({file, onSuccess = null}) => {
         setTimeout(() => {
@@ -74,11 +83,11 @@ const AvatarComponent: React.FC<AvatarComponentType> = ({url, userId, uploadAvat
                         beforeUpload={beforeUpload}
                         onChange={handleChange}>
 
-                        <Button icon={<UploadOutlined/>}>Upload</Button>
+                        <Button icon={<UploadOutlined/>}>{ url ? 'Upload' : 'Upload avatar' }</Button>
                     </Upload>
                     {url && (
                         <Button danger icon={<DeleteOutlined/>}
-                                onClick={() => {}}>
+                                onClick={() => setShouldRemoveAvatar(true)}>
                             Remove
                         </Button>
 
