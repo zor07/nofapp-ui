@@ -66,7 +66,7 @@ export const PROFILE_API = {
             })
     },
     relapsed(userId: string) : PromiseLike<ResponseType<ProfileType>> {
-        return instance.post<ProfileType>(`profiles/${userId}/relapsed`, auth())
+        return instance.post<ProfileType>(`profiles/${userId}/relapsed`, {}, auth())
             .catch((error) => {
                 return handleError(error)
             })
