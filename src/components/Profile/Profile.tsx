@@ -32,7 +32,14 @@ const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({profile, p
         }
     }, [shouldRelapse])
 
-    const postElements = posts.map((post, index) => <EditorReadView key={index} data={post} displayTitle={true}/>);
+    const postElements = posts.map((post, index) => (
+        <div>
+            <Divider/>
+            <EditorReadView key={index} data={post} displayTitle={true}/>
+        </div>
+    ))
+
+
 
     const timer: TimerType = {
         id: "",
@@ -57,9 +64,6 @@ const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({profile, p
                             removeAvatar={removeAvatar}
                         />
                     </div>
-                </Col>
-                <Col flex={4}>
-
                     <div className={css.timer}>
                         <Timer timer={timer}/>
                     </div>
@@ -67,12 +71,22 @@ const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({profile, p
                         <Button danger onClick={() => setShouldRelapse(true)}>Relapsed</Button>
                     </div>
                 </Col>
+                <Col flex={16}>
+                    <div>
+                        <Title level={1}>
+                            My Posts:
+                        </Title>
+                        <div>
+                            {postElements}
+                        </div>
+
+                    </div>
+
+                </Col>
 
             </Row>
             <Divider/>
-            <Row>
-                <div>{postElements}</div>
-            </Row>
+
         </div>
 
 
