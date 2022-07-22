@@ -1,6 +1,7 @@
 import React from "react";
 import css from './Timer.module.css'
 import {TimerType} from "../../redux/timer-reducer";
+import {adjustForTimezone} from "../../utils/dateUtils";
 
 type TimerPropsType = {
     timer: TimerType,
@@ -49,8 +50,11 @@ class Timer extends React.Component<TimerPropsType, TimerStateType> {
         const secondsMS = 1000
         const minutesMS = secondsMS * 60;
         const hoursMS = minutesMS * 60;
+        // TODO fix timers
+        const till = this.props.timer.isRunning
+            ? new Date(adjustForTimezone(new Date(Date.now()).toString())).getTime()
+            : this.props.timer.stop.getTime();
 
-        const till = this.props.timer.isRunning ? Date.now() : this.props.timer.stop.getTime();
         const diff = Math.abs(start - till);
 
         const hours = Math.floor(diff   / hoursMS)
