@@ -3,6 +3,7 @@ import {PROFILE_API} from "../api/api";
 import {isTokenExpired} from "../api/apiUtils";
 import {refreshToken} from "./auth-reducer";
 import {adjustForTimezone} from "../utils/dateUtils";
+import exp from "constants";
 
 export type ProfileType = {
     id: string | null
@@ -153,6 +154,18 @@ export const removeAvatar = (userId: string) => {
     return async (dispatch: Function) => {
         const response = await PROFILE_API.deleteAvatar(userId)
         if (response.status == 204) {
+            dispatch(getProfile(userId))
+        } else if (isTokenExpired(response)) {
+            dispatch(refreshToken())
+            dispatch(removeAvatar(userId))
+        }
+    }
+}
+
+export const relapsed = (userId : string) => {
+    return async (dispatch : Function) => {
+        const  response = await PROFILE_API.relapsed(userId)
+        if (response.status == 202) {
             dispatch(getProfile(userId))
         } else if (isTokenExpired(response)) {
             dispatch(refreshToken())
