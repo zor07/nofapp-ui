@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useEffect, useState} from "react"
 import {ProfileType} from "../../redux/profile-reducer";
 import {RemirrorJSON} from "remirror";
 import EditorReadView from "../Editor/EditorReadView";
@@ -7,6 +7,7 @@ import {TimerType} from "../../redux/timer-reducer";
 import {Button, Col, Divider, Row, Typography} from "antd";
 import css from "./Profile.module.css"
 import AvatarComponent from "./AvatarComponent";
+import {useDispatch} from "react-redux";
 
 type MapStatePropsType = {
     profile: ProfileType
@@ -16,9 +17,21 @@ type MapStatePropsType = {
 type MapDispatchPropsType = {
     uploadAvatar: (userId: string, file: File) => void
     removeAvatar: (userId: string) => void
+    relapsed: (userId: string) => void
 }
 
-const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({profile, posts, uploadAvatar, removeAvatar}) => {
+const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({profile, posts, uploadAvatar, removeAvatar, relapsed}) => {
+
+    const [shouldRelapse, setShouldRelapse] = useState(false)
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        if (shouldRelapse) {
+            dispatch(relapsed(profile.user.id))
+            setShouldRelapse(false)
+        }
+    }, [shouldRelapse])
+
     const postElements = posts.map((post, index) => <EditorReadView key={index} data={post} displayTitle={true}/>);
 
     const timer: TimerType = {
@@ -47,12 +60,12 @@ const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({profile, p
                 </Col>
                 <Col flex={4}>
 
-                        <div className={css.timer}>
-                            <Timer timer={timer}/>
-                        </div>
-                        <div>
-                            <Button danger >Relapsed</Button>
-                        </div>
+                    <div className={css.timer}>
+                        <Timer timer={timer}/>
+                    </div>
+                    <div>
+                        <Button danger onClick={() => setShouldRelapse(true)}>Relapsed</Button>
+                    </div>
                 </Col>
 
             </Row>
