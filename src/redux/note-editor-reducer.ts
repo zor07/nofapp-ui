@@ -1,10 +1,11 @@
-import {NOTES_API} from "../api/api";
+import {NOTES_API, USER_POSTS_API} from "../api/api";
 import {isTokenExpired} from "../api/apiUtils";
 import {PrimitiveSelection, RemirrorJSON} from "remirror";
 import {currentDateString} from "../utils/dateUtils";
 import {refreshToken} from "./auth-reducer";
 import {NotebookType} from "./notebook-reducer";
 import {unmountNotes} from "./notes-reducer";
+import {AppStateType} from "./redux-store";
 
 export type NoteType = {
     id: string | null
@@ -120,6 +121,16 @@ export const saveNote = (notebookId: string, note: NoteType) => {
         } else if (isTokenExpired(response)) {
             dispatch(refreshToken())
             dispatch(saveNote(notebookId, note))
+        }
+    }
+}
+
+export const addPostToUser = (noteId : string) => {
+    return async (dispatch : Function, state: AppStateType) => {
+        const response = await USER_POSTS_API.addPostToUser(state.auth.id, noteId)
+        if (isTokenExpired(response)) {
+            dispatch(refreshToken())
+            dispatch(addPostToUser(noteId))
         }
     }
 }
