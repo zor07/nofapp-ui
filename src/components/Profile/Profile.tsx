@@ -15,13 +15,18 @@ type MapDispatchPropsType = {
     uploadAvatar: (userId: string, file: File) => void
     removeAvatar: (userId: string) => void
     relapsed: (userId: string) => void
+    deleteUserPost: (userId: string, noteId: string) => void
 }
 
-const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({profile, posts, uploadAvatar, removeAvatar, relapsed}) => {
+const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({profile, posts, uploadAvatar, removeAvatar, relapsed, deleteUserPost}) => {
     const {Title} = Typography;
 
     const postElements = posts.map((post, index) => (
-        <UserPost key={index} post={post.data.content} noteId={post.id} />
+        <UserPost key={index}
+                  post={post.data.content}
+                  noteId={post.id}
+                  userId={profile.user.id}
+                  deleteUserPost={deleteUserPost}  />
     ))
 
     return (

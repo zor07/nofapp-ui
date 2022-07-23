@@ -69,6 +69,7 @@ const ProfileContainer: React.FC<ProfileContainerType> = ({initialized, currentU
             uploadAvatar={uploadAvatar}
             removeAvatar={removeAvatar}
             relapsed={relapsed}
+            deleteUserPost={deleteUserPost}
         />
     )
 }
