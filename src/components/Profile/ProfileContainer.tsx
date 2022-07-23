@@ -13,14 +13,14 @@ import Profile from "./Profile";
 import {compose} from "redux";
 import {connect, useDispatch} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
-import {RemirrorJSON} from "remirror";
 import {useParams} from "react-router-dom";
+import {NoteType} from "../../redux/note-editor-reducer";
 
 type MapStatePropsType = {
     initialized: boolean
     currentUserId: string
     profile: ProfileType
-    posts: Array<RemirrorJSON>
+    posts: Array<NoteType>
 }
 
 type MapDispatchPropsType = {

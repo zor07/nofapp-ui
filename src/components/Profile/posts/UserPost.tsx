@@ -6,13 +6,14 @@ import {DeleteOutlined} from "@ant-design/icons";
 
 type MapStatePropsType = {
     post: RemirrorJSON
+    noteId: string
 }
 
 type MapDispatchPropsType = {
 }
 
 
-const UserPost : React.FC<MapStatePropsType & MapDispatchPropsType> = ({post}) => {
+const UserPost : React.FC<MapStatePropsType & MapDispatchPropsType> = ({post, noteId}) => {
     return (
         <div>
             <Divider/>

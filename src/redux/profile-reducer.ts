@@ -1,8 +1,8 @@
-import {RemirrorJSON} from "remirror";
 import {PROFILE_API, USER_POSTS_API} from "../api/api";
 import {isTokenExpired} from "../api/apiUtils";
 import {refreshToken} from "./auth-reducer";
 import {adjustForTimezone} from "../utils/dateUtils";
+import {NoteType} from "./note-editor-reducer";
 
 export type ProfileType = {
     id: string | null
@@ -17,7 +17,7 @@ export type ProfileType = {
 
 type InitialStateType =  {
     profile: ProfileType
-    posts: Array<RemirrorJSON>
+    posts: Array<NoteType>
 };
 
 type SetProfileActionType = {
@@ -27,7 +27,7 @@ type SetProfileActionType = {
 
 type SetPostsActionType = {
     type: typeof SET_POSTS
-    payload: Array<RemirrorJSON>
+    payload: Array<NoteType>
 }
 
 const SET_POSTS = 'PROFILE/SET_POSTS'
@@ -44,60 +44,7 @@ const initialState: InitialStateType = {
         avatarUri: "avatar url",
         timerStart: new Date("2021-11-08T01:00:00.000"),
     },
-    posts: [
-        {
-            type: "doc",
-            content: [
-                {
-                    type: "heading",
-                    attrs: {
-                        "level": 1
-                    },
-                    content: [
-                        {
-                            type: "text",
-                            text: "Some post 1"
-                        }
-                    ]
-                },
-                {
-                    type: "paragraph",
-                    content: [
-                        {
-                            type: "text",
-                            text: "text text text"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            type: "doc",
-            content: [
-                {
-                    type: "heading",
-                    attrs: {
-                        "level": 1
-                    },
-                    content: [
-                        {
-                            type: "text",
-                            text: "Some post 2"
-                        }
-                    ]
-                },
-                {
-                    type: "paragraph",
-                    content: [
-                        {
-                            type: "text",
-                            text: "text text text"
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
+    posts: []
 }
 
 const profileReducer = (state: InitialStateType = initialState,
@@ -119,7 +66,7 @@ const profileReducer = (state: InitialStateType = initialState,
 }
 
 const setProfileActionCreator = (payload : ProfileType) : SetProfileActionType => ({type: SET_PROFILE, payload})
-const setProfilePostsActionCreator = (payload :  Array<RemirrorJSON>) => ({type: SET_POSTS, payload})
+const setProfilePostsActionCreator = (payload :  Array<NoteType>) => ({type: SET_POSTS, payload})
 
 export const getProfile = (userId : string) => {
     return async (dispatch: Function) => {
@@ -142,8 +89,7 @@ export const getUserPosts = (userId: string) => {
     return async (dispatch: Function) => {
         const response = await USER_POSTS_API.getUserPosts(userId)
         if (response.status === 200) {
-            const posts = response.data.map(p => p.data.content)
-            dispatch(setProfilePostsActionCreator(posts))
+            dispatch(setProfilePostsActionCreator(response.data))
         } else if (isTokenExpired(response)) {
             dispatch(refreshToken())
             dispatch(getUserPosts(userId))

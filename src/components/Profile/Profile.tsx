@@ -1,14 +1,14 @@
 import React from "react"
 import {ProfileType} from "../../redux/profile-reducer";
-import {RemirrorJSON} from "remirror";
 import {Col, Row, Typography} from "antd";
 import AvatarComponent from "./avatar/AvatarComponent";
 import UserPost from "./posts/UserPost";
 import ProfileTimer from "./timer/ProfileTimer";
+import {NoteType} from "../../redux/note-editor-reducer";
 
 type MapStatePropsType = {
     profile: ProfileType
-    posts: Array<RemirrorJSON>
+    posts: Array<NoteType>
 }
 
 type MapDispatchPropsType = {
@@ -21,7 +21,7 @@ const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({profile, p
     const {Title} = Typography;
 
     const postElements = posts.map((post, index) => (
-        <UserPost key={index} post={post} />
+        <UserPost key={index} post={post.data.content} noteId={post.id} />
     ))
 
     return (
