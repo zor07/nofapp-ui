@@ -126,8 +126,8 @@ export const saveNote = (notebookId: string, note: NoteType) => {
 }
 
 export const addPostToUser = (noteId : string) => {
-    return async (dispatch : Function, state: AppStateType) => {
-        const response = await USER_POSTS_API.addPostToUser(state.auth.id, noteId)
+    return async (dispatch : Function, getState) => {
+        const response = await USER_POSTS_API.addPostToUser(getState().auth.id, noteId)
         if (isTokenExpired(response)) {
             dispatch(refreshToken())
             dispatch(addPostToUser(noteId))
