@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Avatar, Button, message, Space, Upload} from 'antd';
 import {DeleteOutlined, UploadOutlined} from '@ant-design/icons';
 import {useDispatch} from "react-redux";
-import css from "./Profile.module.css"
+import css from "./Avatar.module.css"
 
 
 type MapStatePropsType = {

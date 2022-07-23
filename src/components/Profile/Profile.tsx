@@ -5,7 +5,7 @@ import Timer from "../Timer/Timer";
 import {TimerType} from "../../redux/timer-reducer";
 import {Button, Col, Divider, Row, Typography} from "antd";
 import css from "./Profile.module.css"
-import AvatarComponent from "./AvatarComponent";
+import AvatarComponent from "./avatar/AvatarComponent";
 import {useDispatch} from "react-redux";
 import UserPost from "./posts/UserPost";
 
