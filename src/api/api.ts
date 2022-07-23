@@ -1,6 +1,7 @@
 import axios from "axios";
 import Cookies from "universal-cookie";
 import {ProfileType} from "../redux/profile-reducer";
+import {NoteType} from "../redux/note-editor-reducer";
 
 const instance = axios.create({
     baseURL: process.env.NODE_ENV === 'production' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_DEV.toString()
@@ -67,6 +68,27 @@ export const PROFILE_API = {
     },
     relapsed(userId: string) : PromiseLike<ResponseType<ProfileType>> {
         return instance.post<ProfileType>(`profiles/${userId}/relapsed`, {}, auth())
+            .catch((error) => {
+                return handleError(error)
+            })
+    }
+}
+
+export const USER_POSTS_API = {
+    getUserPosts(userId: string) : PromiseLike<ResponseType<Array<NoteType>>> {
+        return instance.get(`profiles/${userId}/posts`, auth())
+            .catch((error) => {
+                return handleError(error)
+            })
+    },
+    addPostToUser(userId: string, noteId: string) : PromiseLike<ResponseType<any>>  {
+        return instance.post(`profiles/${userId}/posts/${noteId}`, {}, auth())
+            .catch((error) => {
+                    return handleError(error)
+                })
+    },
+    deleteUserPost(userId: string, noteId: string) : PromiseLike<ResponseType<any>>  {
+        return instance.delete(`profiles/${userId}/posts/${noteId}`,  auth())
             .catch((error) => {
                 return handleError(error)
             })
