@@ -1,5 +1,13 @@
 import React, {useEffect} from "react";
-import {getProfile, ProfileType, relapsed, removeAvatar, uploadAvatar} from "../../redux/profile-reducer";
+import {
+    deleteUserPost,
+    getProfile,
+    getUserPosts,
+    ProfileType,
+    relapsed,
+    removeAvatar,
+    uploadAvatar
+} from "../../redux/profile-reducer";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import Profile from "./Profile";
 import {compose} from "redux";
@@ -20,6 +28,8 @@ type MapDispatchPropsType = {
     uploadAvatar: (userId: string, file: File) => void
     removeAvatar: (userId: string) => void
     relapsed: (userId: string) => void
+    getUserPosts: (userId: string) => void
+    deleteUserPost: (userId: string, noteId: string) => void
 }
 
 type ProfileContainerType = MapStatePropsType & MapDispatchPropsType
@@ -31,9 +41,11 @@ const ProfileContainer: React.FC<ProfileContainerType> = ({initialized, currentU
     useEffect(() => {
         if (params.userId) {
             dispatch(getProfile(params.userId))
+            dispatch(getUserPosts(params.userId))
         } else {
             if (currentUserId) {
                 dispatch(getProfile(currentUserId))
+                dispatch(getUserPosts(currentUserId))
             }
         }
     }, [])
@@ -41,9 +53,11 @@ const ProfileContainer: React.FC<ProfileContainerType> = ({initialized, currentU
     useEffect(() => {
         if (params.userId) {
             dispatch(getProfile(params.userId))
+            dispatch(getUserPosts(params.userId))
         } else {
             if (currentUserId) {
                 dispatch(getProfile(currentUserId))
+                dispatch(getUserPosts(currentUserId))
             }
         }
     }, [initialized, params.userId])
@@ -74,6 +88,8 @@ export default compose(
         getProfile,
         uploadAvatar,
         removeAvatar,
+        getUserPosts,
+        deleteUserPost,
         relapsed
     })
 )(ProfileContainer);
