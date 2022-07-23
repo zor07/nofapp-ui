@@ -1,9 +1,8 @@
 import {RemirrorJSON} from "remirror";
-import {PROFILE_API} from "../api/api";
+import {PROFILE_API, USER_POSTS_API} from "../api/api";
 import {isTokenExpired} from "../api/apiUtils";
 import {refreshToken} from "./auth-reducer";
 import {adjustForTimezone} from "../utils/dateUtils";
-import exp from "constants";
 
 export type ProfileType = {
     id: string | null
@@ -120,6 +119,7 @@ const profileReducer = (state: InitialStateType = initialState,
 }
 
 const setProfileActionCreator = (payload : ProfileType) : SetProfileActionType => ({type: SET_PROFILE, payload})
+const setProfilePostsActionCreator = (payload :  Array<RemirrorJSON>) => ({type: SET_POSTS, payload})
 
 export const getProfile = (userId : string) => {
     return async (dispatch: Function) => {
@@ -134,6 +134,31 @@ export const getProfile = (userId : string) => {
         } else if (isTokenExpired(response)) {
             dispatch(refreshToken())
             dispatch(getProfile(userId))
+        }
+    }
+}
+
+export const getUserPosts = (userId: string) => {
+    return async (dispatch: Function) => {
+        const response = await USER_POSTS_API.getUserPosts(userId)
+        if (response.status === 200) {
+            const posts = response.data.map(p => p.data.content)
+            dispatch(setProfilePostsActionCreator(posts))
+        } else if (isTokenExpired(response)) {
+            dispatch(refreshToken())
+            dispatch(getUserPosts(userId))
+        }
+    }
+}
+
+export const deleteUserPost = (userId: string, noteId: string) => {
+    return async (dispatch : Function) => {
+        const response = await USER_POSTS_API.deleteUserPost(userId, noteId)
+        if (response.status === 204) {
+            dispatch(getUserPosts(userId))
+        } else if (isTokenExpired(response)) {
+            dispatch(refreshToken())
+            dispatch(getUserPosts(userId))
         }
     }
 }
