@@ -1,13 +1,10 @@
-import React, {useEffect, useState} from "react"
+import React from "react"
 import {ProfileType} from "../../redux/profile-reducer";
 import {RemirrorJSON} from "remirror";
-import Timer from "../Timer/Timer";
-import {TimerType} from "../../redux/timer-reducer";
-import {Button, Col, Divider, Row, Typography} from "antd";
-import css from "./Profile.module.css"
+import {Col, Row, Typography} from "antd";
 import AvatarComponent from "./avatar/AvatarComponent";
-import {useDispatch} from "react-redux";
 import UserPost from "./posts/UserPost";
+import ProfileTimer from "./timer/ProfileTimer";
 
 type MapStatePropsType = {
     profile: ProfileType
@@ -21,28 +18,12 @@ type MapDispatchPropsType = {
 }
 
 const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({profile, posts, uploadAvatar, removeAvatar, relapsed}) => {
-
-    const [shouldRelapse, setShouldRelapse] = useState(false)
-    const dispatch = useDispatch()
-
-    useEffect(() => {
-        if (shouldRelapse) {
-            dispatch(relapsed(profile.user.id))
-            setShouldRelapse(false)
-        }
-    }, [shouldRelapse])
+    const {Title} = Typography;
 
     const postElements = posts.map((post, index) => (
         <UserPost key={index} post={post} />
     ))
 
-    const timer: TimerType = {
-        id: "",
-        isRunning: true,
-        start: profile.timerStart,
-        description: "main"
-    }
-    const {Title} = Typography;
     return (
 
         <div className="space-align-container">
@@ -59,11 +40,10 @@ const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({profile, p
                             removeAvatar={removeAvatar}
                         />
                     </div>
-                    <div className={css.timer}>
-                        <Timer timer={timer}/>
-                    </div>
                     <div>
-                        <Button danger onClick={() => setShouldRelapse(true)}>Relapsed</Button>
+                        <ProfileTimer start={profile.timerStart}
+                                      userId={profile.user.id}
+                                      relapsed={relapsed}/>
                     </div>
                 </Col>
                 <Col flex={16}>
@@ -80,11 +60,7 @@ const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({profile, p
                 </Col>
 
             </Row>
-            <Divider/>
-
         </div>
-
-
     )
 }
 
