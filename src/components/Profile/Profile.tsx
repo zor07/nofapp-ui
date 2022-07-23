@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from "react"
 import {ProfileType} from "../../redux/profile-reducer";
 import {RemirrorJSON} from "remirror";
-import EditorReadView from "../Editor/EditorReadView";
 import Timer from "../Timer/Timer";
 import {TimerType} from "../../redux/timer-reducer";
 import {Button, Col, Divider, Row, Typography} from "antd";
 import css from "./Profile.module.css"
 import AvatarComponent from "./AvatarComponent";
 import {useDispatch} from "react-redux";
+import UserPost from "./posts/UserPost";
 
 type MapStatePropsType = {
     profile: ProfileType
@@ -33,13 +33,8 @@ const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({profile, p
     }, [shouldRelapse])
 
     const postElements = posts.map((post, index) => (
-        <div>
-            <Divider/>
-            <EditorReadView key={index} data={post} displayTitle={true}/>
-        </div>
+        <UserPost key={index} post={post} />
     ))
-
-
 
     const timer: TimerType = {
         id: "",
