@@ -65,7 +65,7 @@ const EditorReadView: React.FC<MapStatePropsType> = ({data, displayTitle}) => {
 
     return (
         <div className='remirror-theme'>
-            <RemirrorRenderer  json={displayTitle ? data : removeTitle(data)}
+            <RemirrorRenderer  json={displayTitle ? removeEmptyOrNull(data) : removeTitle(data)}
                                skipUnknownTypes={true}
                                skipUnknownMarks={true}
                                typeMap={typeMap}
