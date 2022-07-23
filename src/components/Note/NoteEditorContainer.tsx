@@ -8,8 +8,8 @@ import {Button, message, PageHeader, Tabs} from "antd";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 import {useDebouncedCallback} from "use-debounce";
-import {unmountNote, getNote, NoteType, saveNote} from "../../redux/note-editor-reducer";
-import {NoteIdAndTitleType, requestNotes, unmountNotes} from "../../redux/notes-reducer";
+import {addPostToUser, getNote, NoteType, saveNote, unmountNote} from "../../redux/note-editor-reducer";
+import {NoteIdAndTitleType, requestNotes} from "../../redux/notes-reducer";
 
 
 type MapStatePropsType = {
@@ -22,12 +22,13 @@ type MapDispatchPropsType = {
     getNote: (notebookId: string, noteId: string) => void
     requestNotes: (notebookId: string) => void
     unmountNote: () => void
+    addPostToUser: (noteId: string) => void
 }
 
 
 type NoteContainerPropsType = MapStatePropsType & MapDispatchPropsType
 
-const NoteEditorContainer: React.FC<NoteContainerPropsType> = (props) =>  {
+const NoteEditorContainer: React.FC<NoteContainerPropsType> = (props) => {
 
     const params = useParams()
     const navigate = useNavigate();
@@ -43,7 +44,9 @@ const NoteEditorContainer: React.FC<NoteContainerPropsType> = (props) =>  {
                 dispatch(requestNotes(params.notebookId))
             }, 250)
         }
-        return () => {dispatch(unmountNote())}
+        return () => {
+            dispatch(unmountNote())
+        }
     }, [])
 
     useEffect(() => {
@@ -69,11 +72,12 @@ const NoteEditorContainer: React.FC<NoteContainerPropsType> = (props) =>  {
         setCurrentNoteId(selectedNoteId)
     }
 
-    const { TabPane } = Tabs;
+    const {TabPane} = Tabs;
 
     const [editorState, setEditorState] = useState(null);
     const [shouldAutoSave, setShouldAutoSave] = useState(false)
     const [shouldSaveImmediately, setShouldSaveImmediately] = useState(false)
+    const [shouldAddNoteToProfile, setShouldAddNoteToProfile] = useState(false)
 
     const saveContent = (content: RemirrorJSON, selection: PrimitiveSelection, title: string) => {
         if (!title || title === '') {
@@ -113,7 +117,7 @@ const NoteEditorContainer: React.FC<NoteContainerPropsType> = (props) =>  {
     // Manual save
     useEffect(() => {
         if (shouldSaveImmediately) {
-            const currSelection =  getCurrSelection()
+            const currSelection = getCurrSelection()
             const title = getTitle()
             if (title) {
                 save(editorState.doc as unknown as RemirrorJSON, currSelection, title)
@@ -129,7 +133,7 @@ const NoteEditorContainer: React.FC<NoteContainerPropsType> = (props) =>  {
     // Auto save
     useEffect(() => {
         if (shouldAutoSave) {
-            const currSelection =  getCurrSelection()
+            const currSelection = getCurrSelection()
             const title = getTitle()
             if (title) {
                 debounced(editorState.doc, currSelection, title, save.bind(this));
@@ -137,6 +141,14 @@ const NoteEditorContainer: React.FC<NoteContainerPropsType> = (props) =>  {
             setShouldAutoSave(false)
         }
     }, [shouldAutoSave]);
+
+    useEffect(() => {
+        if (shouldAddNoteToProfile) {
+            dispatch(addPostToUser(params.noteId))
+            setShouldAddNoteToProfile(false)
+            message.info('Note posted to profile')
+        }
+    }, [shouldAddNoteToProfile])
 
     const getTitle = (): string | undefined => {
         const titleNode = editorState.doc.nodeAt(1)
@@ -163,22 +175,23 @@ const NoteEditorContainer: React.FC<NoteContainerPropsType> = (props) =>  {
     return (
         <div>
             {props.note.notebookDto &&
-            <PageHeader
-                ghost={false}
-                title={props.note.notebookDto.name}
-                extra={[
-                    <Button key="1" onClick={() => goToNotes()} >Back to Notes</Button>,
-                    <Button key="2" onClick={() => goToNotebooks()}>Back to Notebooks</Button>
-                ]}
-            />
+                <PageHeader
+                    ghost={false}
+                    title={props.note.notebookDto.name}
+                    extra={[
+                        <Button key="0" onClick={() => setShouldAddNoteToProfile(true)}>Add to profile</Button>,
+                        <Button key="1" onClick={() => goToNotes()}>Back to Notes</Button>,
+                        <Button key="2" onClick={() => goToNotebooks()}>Back to Notebooks</Button>,
+                    ]}
+                />
             }
             <Tabs activeKey={params.noteId}
                   tabPosition={'right'}
                   onChange={handleTabChange}
-                  style={{ height: "max-content"}}>
+                  style={{height: "max-content"}}>
                 {props.notes.map(noteItem => (
                     <TabPane tab={noteItem.title}
-                             key={noteItem.id} >
+                             key={noteItem.id}>
                         <Editor selection={props.note.data.selection}
                                 content={props.note.data.content}
                                 setEditorState={setEditorState}
@@ -202,5 +215,11 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
 
 export default compose(
     withAuthRedirect,
-    connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {saveNote, getNote, requestNotes, unmountNote})
+    connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {
+        saveNote,
+        getNote,
+        requestNotes,
+        unmountNote,
+        addPostToUser
+    })
 )(NoteEditorContainer);
