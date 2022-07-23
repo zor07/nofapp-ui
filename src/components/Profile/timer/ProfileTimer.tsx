@@ -34,7 +34,7 @@ const ProfileTimer : React.FC<MapStatePropsType & MapDispatchPropsType> = ({user
     }
 
     return (
-        <div>
+        <div className={css.timerComponent}>
             <div className={css.timer}>
                 <Timer timer={timer}/>
             </div>
