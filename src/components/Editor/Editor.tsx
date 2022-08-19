@@ -20,6 +20,7 @@ import {EditorComponent, Remirror, useHelpers, useKeymap, useRemirror} from "@re
 import Toolbar from "./Toolbar/Toolbar";
 import {htmlToProsemirrorNode, PrimitiveSelection, RemirrorContentType} from "remirror";
 import MyItalicExtension from "./extensions/MyItalicExtension";
+import css from './Editor.module.css';
 
 
 const hooks = [
@@ -102,20 +103,22 @@ const Editor: React.FC<EditorPropsType> = ({content, selection,  setEditorState,
     }, [state]);
 
     return (
-        <div className="remirror-theme">
-            {/* the className is used to define css variables necessary for the editor */}
-            <Remirror
-                manager={manager}
-                initialContent={state}
-                hooks={hooks}
-                onChange={handleChange}>
+        <div className={css.editor}>
+            <div className="remirror-theme">
+                {/* the className is used to define css variables necessary for the editor */}
+                <Remirror
+                    manager={manager}
+                    initialContent={state}
+                    hooks={hooks}
+                    onChange={handleChange}>
 
-                <Toolbar saveContent={() => setShouldSaveImmediately(true)}/>
+                    <Toolbar saveContent={() => setShouldSaveImmediately(true)}/>
 
-                <div className="remirror-editor remirror-a11y-dark" >
-                    <EditorComponent/>
-                </div>
-            </Remirror>
+                    <div className="remirror-editor remirror-a11y-dark" >
+                        <EditorComponent/>
+                    </div>
+                </Remirror>
+            </div>
         </div>
     );
 }

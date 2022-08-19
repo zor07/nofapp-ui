@@ -1,0 +1,8 @@
+.timer {
+    font: 2.8em "Courier New", monospace;
+}
+
+.timerComponent {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}

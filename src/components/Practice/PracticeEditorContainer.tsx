@@ -6,7 +6,6 @@ import Editor from "../Editor/Editor";
 import {RemirrorJSON} from "remirror";
 import {Button, Descriptions, message, PageHeader, Tag} from "antd";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
-import css from '../Diary/Diary.module.css' // TODO move css to Editor
 import {compose} from "redux";
 import {useDebouncedCallback} from "use-debounce";
 import {clearPracticeAction, getPractice, PracticeType, savePractice} from "../../redux/practice-reducer";
@@ -133,7 +132,7 @@ const PracticeEditorContainer: React.FC<PracticeEditorContainerPropsType> = (pro
     }
 
     return (
-        <div  className={css.editor}>
+        <div>
             <PageHeader
                 ghost={false}
                 title={'Edit practice'}>

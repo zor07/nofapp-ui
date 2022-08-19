@@ -7,14 +7,17 @@ import {connect, Provider} from "react-redux";
 import {compose} from "redux";
 import {initializeApp} from "./redux/app-reducer.ts";
 import store from "./redux/redux-store.ts";
-import DiaryListContainer from "./components/Diary/DiaryListContainer";
-import DiaryEditorContainer from "./components/Diary/DiaryEditorContainer";
 import {Layout} from "antd";
 import 'antd/dist/antd.css';
 import HeaderContainer from "./components/Header/HeaderContainer";
 import PracticeListContainer from "./components/Practice/PracticeListContainer";
 import PracticeContainer from "./components/Practice/PracticeContainer";
 import PracticeEditorContainer from "./components/Practice/PracticeEditorContainer";
+import NotebookListContainer from "./components/Notebook/NotebookListContainer";
+import NoteListContainer from "./components/Note/NoteListContainer";
+import NoteEditorContainer from "./components/Note/NoteEditorContainer";
+import ProfileList from "./components/Profile/ProfileList";
+import ProfileContainer from "./components/Profile/ProfileContainer";
 
 class App extends Component {
 
@@ -41,9 +44,12 @@ class App extends Component {
                             <Routes>
                                 <Route path='/' element={<TimerContainer/>}/>
                                 <Route path='/timer' element={<TimerContainer/>}/>
-                                <Route path='/diary' element={<DiaryListContainer/>}/>
-                                <Route path='/diary/editor/:diaryId' element={<DiaryEditorContainer/>}/>
-                                <Route path='/diary/editor' element={<DiaryEditorContainer/>}/>
+                                <Route path='/profiles' element={<ProfileList/>}/>
+                                <Route path='/profile' element={<ProfileContainer/>}/>
+                                <Route path='/profile/:userId' element={<ProfileContainer/>}/>
+                                <Route path='/notebooks' element={<NotebookListContainer/>}/>
+                                <Route path='/notebooks/:notebookId/notes' element={<NoteListContainer/>}/>
+                                <Route path='/notebooks/:notebookId/notes/:noteId' element={<NoteEditorContainer/>}/>
                                 <Route path='/practices' element={<PracticeListContainer isPublic={true}/>}/>
                                 <Route path='/my-practices' element={<PracticeListContainer isPublic={false}/>}/>
                                 <Route path='/practice/:practiceId' element={<PracticeContainer/>}/>
