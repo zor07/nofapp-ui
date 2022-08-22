@@ -1,4 +1,4 @@
-import {PROFILE_API, USER_POSTS_API} from "../api/api";
+import {PROFILE_API, USER_POSTS_API, RELAPSE_LOG_API} from "../api/api";
 import {isTokenExpired} from "../api/apiUtils";
 import {refreshToken} from "./auth-reducer";
 import {adjustForTimezone} from "../utils/dateUtils";
@@ -155,7 +155,7 @@ export const removeAvatar = (userId: string) => {
 
 export const relapsed = (userId : string) => {
     return async (dispatch : Function) => {
-        const  response = await PROFILE_API.relapsed(userId)
+        const  response = await RELAPSE_LOG_API.relapsed(userId)
         if (response.status == 202) {
             dispatch(getProfile(userId))
         } else if (isTokenExpired(response)) {

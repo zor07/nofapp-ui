@@ -66,12 +66,6 @@ export const PROFILE_API = {
                 return handleError(error)
             })
     },
-    relapsed(userId: string) : PromiseLike<ResponseType<ProfileType>> {
-        return instance.post<ProfileType>(`profiles/${userId}/relapsed`, {}, auth())
-            .catch((error) => {
-                return handleError(error)
-            })
-    }
 }
 
 export const USER_POSTS_API = {
@@ -89,6 +83,15 @@ export const USER_POSTS_API = {
     },
     deleteUserPost(userId: string, noteId: string) : PromiseLike<ResponseType<any>>  {
         return instance.delete(`profiles/${userId}/posts/${noteId}`,  auth())
+            .catch((error) => {
+                return handleError(error)
+            })
+    }
+}
+
+export const RELAPSE_LOG_API = {
+    relapsed(userId: string) : PromiseLike<ResponseType<ProfileType>> {
+        return instance.post<ProfileType>(`profiles/${userId}/relapsed`, {}, auth())
             .catch((error) => {
                 return handleError(error)
             })
