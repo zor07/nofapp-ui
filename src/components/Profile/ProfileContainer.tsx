@@ -2,9 +2,11 @@ import React, {useEffect} from "react";
 import {
     deleteUserPost,
     getProfile,
+    getRelapseLogs,
     getUserPosts,
     ProfileType,
     relapsed,
+    RelapseLog,
     removeAvatar,
     uploadAvatar
 } from "../../redux/profile-reducer";
@@ -21,6 +23,7 @@ type MapStatePropsType = {
     currentUserId: string
     profile: ProfileType
     posts: Array<NoteType>
+    relapseLogs: Array<RelapseLog>
 }
 
 type MapDispatchPropsType = {
@@ -30,42 +33,50 @@ type MapDispatchPropsType = {
     relapsed: (userId: string) => void
     getUserPosts: (userId: string) => void
     deleteUserPost: (userId: string, noteId: string) => void
+    getRelapseLogs: (userId: string) => void
 }
 
 type ProfileContainerType = MapStatePropsType & MapDispatchPropsType
 
-const ProfileContainer: React.FC<ProfileContainerType> = ({initialized, currentUserId, profile, posts}) => {
+const ProfileContainer: React.FC<ProfileContainerType> = ({
+                                                              initialized,
+                                                              currentUserId,
+                                                              profile,
+                                                              posts,
+                                                              relapseLogs
+                                                          }) => {
     const dispatch = useDispatch()
     const params = useParams()
 
-    useEffect(() => {
+    const getProfileData = () => {
         if (params.userId) {
-            dispatch(getProfile(params.userId))
-            dispatch(getUserPosts(params.userId))
+            getProfileDataByUserId(params.userId)
         } else {
             if (currentUserId) {
-                dispatch(getProfile(currentUserId))
-                dispatch(getUserPosts(currentUserId))
+                getProfileDataByUserId(currentUserId)
             }
         }
+    }
+
+    const getProfileDataByUserId = (userId: string) => {
+        dispatch(getProfile(userId))
+        dispatch(getUserPosts(userId))
+        dispatch(getRelapseLogs(userId))
+    }
+
+    useEffect(() => {
+        getProfileData()
     }, [])
 
     useEffect(() => {
-        if (params.userId) {
-            dispatch(getProfile(params.userId))
-            dispatch(getUserPosts(params.userId))
-        } else {
-            if (currentUserId) {
-                dispatch(getProfile(currentUserId))
-                dispatch(getUserPosts(currentUserId))
-            }
-        }
+        getProfileData()
     }, [initialized, params.userId])
 
     return (
         <Profile
             profile={profile}
             posts={posts}
+            relapseLogs={relapseLogs}
             uploadAvatar={uploadAvatar}
             removeAvatar={removeAvatar}
             relapsed={relapsed}
@@ -79,7 +90,8 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
         initialized: state.app.initialized,
         currentUserId: state.auth.id,
         profile: state.profile.profile,
-        posts: state.profile.posts
+        posts: state.profile.posts,
+        relapseLogs: state.profile.relapseLogs
     }
 }
 
@@ -91,6 +103,7 @@ export default compose(
         removeAvatar,
         getUserPosts,
         deleteUserPost,
-        relapsed
+        relapsed,
+        getRelapseLogs
     })
 )(ProfileContainer);
