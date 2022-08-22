@@ -21,7 +21,7 @@ type InitialStateType =  {
     relapseLogs: Array<RelapseLog>
 };
 
-type RelapseLog = {
+export type RelapseLog = {
     id: string
     start: Date
     stop: Date

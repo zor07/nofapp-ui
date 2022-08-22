@@ -1,6 +1,6 @@
 import axios from "axios";
 import Cookies from "universal-cookie";
-import {ProfileType} from "../redux/profile-reducer";
+import {ProfileType, RelapseLog} from "../redux/profile-reducer";
 import {NoteType} from "../redux/note-editor-reducer";
 
 const instance = axios.create({
@@ -90,8 +90,20 @@ export const USER_POSTS_API = {
 }
 
 export const RELAPSE_LOG_API = {
+    getRelapseLogEntries(userId: string): PromiseLike<ResponseType<Array<RelapseLog>>> {
+        return instance.get(`profiles/${userId}/relapsed`, auth())
+            .catch((error) => {
+                return handleError(error)
+            })
+    },
     relapsed(userId: string) : PromiseLike<ResponseType<ProfileType>> {
         return instance.post<ProfileType>(`profiles/${userId}/relapsed`, {}, auth())
+            .catch((error) => {
+                return handleError(error)
+            })
+    },
+    deleteRelapseLogEntry(userId: string, relapseLogId: string) {
+        return instance.get(`profiles/${userId}/relapsed/${relapseLogId}`, auth())
             .catch((error) => {
                 return handleError(error)
             })
