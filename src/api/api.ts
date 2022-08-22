@@ -91,7 +91,7 @@ export const USER_POSTS_API = {
 
 export const RELAPSE_LOG_API = {
     getRelapseLogEntries(userId: string): PromiseLike<ResponseType<Array<RelapseLog>>> {
-        return instance.get(`profiles/${userId}/relapsed`, auth())
+        return instance.get(`profiles/${userId}/relapses`, auth())
             .catch((error) => {
                 return handleError(error)
             })
@@ -103,7 +103,7 @@ export const RELAPSE_LOG_API = {
             })
     },
     deleteRelapseLogEntry(userId: string, relapseLogId: string) {
-        return instance.get(`profiles/${userId}/relapsed/${relapseLogId}`, auth())
+        return instance.get(`profiles/${userId}/relapses/${relapseLogId}`, auth())
             .catch((error) => {
                 return handleError(error)
             })
