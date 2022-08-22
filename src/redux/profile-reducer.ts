@@ -153,10 +153,22 @@ export const removeAvatar = (userId: string) => {
     }
 }
 
+export const getRelapseLogs = (userId: string) => {
+    return async (dispatch: Function) => {
+        const response = await RELAPSE_LOG_API.getRelapseLogEntries(userId)
+        if (response.status === 200) {
+            dispatch(setRelapseLogsActionCreator(response.data))
+        } else if (isTokenExpired(response)) {
+            dispatch(refreshToken())
+            dispatch(removeAvatar(userId))
+        }
+    }
+}
+
 export const relapsed = (userId : string) => {
     return async (dispatch : Function) => {
         const  response = await RELAPSE_LOG_API.relapsed(userId)
-        if (response.status == 202) {
+        if (response.status === 202) {
             dispatch(getProfile(userId))
         } else if (isTokenExpired(response)) {
             dispatch(refreshToken())
