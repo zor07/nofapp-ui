@@ -1,5 +1,5 @@
 import React from "react"
-import {ProfileType} from "../../redux/profile-reducer";
+import {ProfileType, RelapseLog} from "../../redux/profile-reducer";
 import {Col, Row, Typography} from "antd";
 import AvatarComponent from "./avatar/AvatarComponent";
 import UserPost from "./posts/UserPost";
@@ -10,6 +10,7 @@ import css from "./Profile.module.css"
 type MapStatePropsType = {
     profile: ProfileType
     posts: Array<NoteType>
+    relapseLogs: Array<RelapseLog>
 }
 
 type MapDispatchPropsType = {
@@ -22,10 +23,11 @@ type MapDispatchPropsType = {
 const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({
                                                                          profile,
                                                                          posts,
+                                                                         relapseLogs,
                                                                          uploadAvatar,
                                                                          removeAvatar,
                                                                          relapsed,
-                                                                         deleteUserPost
+                                                                         deleteUserPost,
                                                                      }) => {
     const {Title} = Typography;
 
@@ -36,6 +38,12 @@ const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({
                   userId={profile.user.id}
                   deleteUserPost={deleteUserPost}/>
     ))
+
+    const relapseLogElements = relapseLogs.map((relapseLog) => <tr>
+        <td>{relapseLog.id}</td>
+        <td>{relapseLog.start}</td>
+        <td>{relapseLog.stop}</td>
+    </tr>)
 
     return (
         <div className={css.profile}>
@@ -60,6 +68,21 @@ const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({
                         </div>
                     </Col>
                     <Col flex={16}>
+                        <div>
+                            <Title level={1}>
+                                Relapse Log:
+                            </Title>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>start</th>
+                                        <th>stop</th>
+                                    </tr>
+                                </thead>
+                                {relapseLogElements}
+                            </table>
+                        </div>
                         <div>
                             <Title level={1}>
                                 My Posts:
