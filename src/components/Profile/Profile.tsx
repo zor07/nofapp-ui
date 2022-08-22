@@ -6,6 +6,7 @@ import UserPost from "./posts/UserPost";
 import ProfileTimer from "./timer/ProfileTimer";
 import {NoteType} from "../../redux/note-editor-reducer";
 import css from "./Profile.module.css"
+import RelapseLogTable from "./relapse-log/RelapseLogTable";
 
 type MapStatePropsType = {
     profile: ProfileType
@@ -39,12 +40,6 @@ const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({
                   deleteUserPost={deleteUserPost}/>
     ))
 
-    const relapseLogElements = relapseLogs.map((relapseLog) => <tr>
-        <td>{relapseLog.id}</td>
-        <td>{relapseLog.start}</td>
-        <td>{relapseLog.stop}</td>
-    </tr>)
-
     return (
         <div className={css.profile}>
             <div className="space-align-container">
@@ -69,19 +64,7 @@ const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({
                     </Col>
                     <Col flex={16}>
                         <div>
-                            <Title level={1}>
-                                Relapse Log:
-                            </Title>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>id</th>
-                                        <th>start</th>
-                                        <th>stop</th>
-                                    </tr>
-                                </thead>
-                                {relapseLogElements}
-                            </table>
+                            <RelapseLogTable relapseLogs={relapseLogs} />
                         </div>
                         <div>
                             <Title level={1}>
