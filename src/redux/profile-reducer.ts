@@ -170,6 +170,7 @@ export const relapsed = (userId : string) => {
         const  response = await RELAPSE_LOG_API.relapsed(userId)
         if (response.status === 202) {
             dispatch(getProfile(userId))
+            dispatch(getRelapseLogs(userId))
         } else if (isTokenExpired(response)) {
             dispatch(refreshToken())
             dispatch(removeAvatar(userId))
