@@ -18,7 +18,14 @@ export type ProfileType = {
 type InitialStateType =  {
     profile: ProfileType
     posts: Array<NoteType>
+    relapseLogs: Array<RelapseLog>
 };
+
+type RelapseLog = {
+    id: string
+    start: Date
+    stop: Date
+}
 
 type SetProfileActionType = {
     type: typeof SET_PROFILE
@@ -30,8 +37,14 @@ type SetPostsActionType = {
     payload: Array<NoteType>
 }
 
+type SetRelapseLogsActionType = {
+    type: typeof SET_RELAPSE_LOGS
+    payload: Array<RelapseLog>
+}
+
 const SET_POSTS = 'PROFILE/SET_POSTS'
 const SET_PROFILE = 'PROFILE/SET_PROFILE'
+const SET_RELAPSE_LOGS = 'PROFILE/SET_RELAPSE_LOGS'
 
 const initialState: InitialStateType = {
     profile: {
@@ -44,21 +57,27 @@ const initialState: InitialStateType = {
         avatarUri: "avatar url",
         timerStart: new Date("2021-11-08T01:00:00.000"),
     },
-    posts: []
+    posts: [],
+    relapseLogs: []
 }
 
 const profileReducer = (state: InitialStateType = initialState,
-                        action: SetProfileActionType | SetPostsActionType): InitialStateType => {
+                        action: SetProfileActionType | SetPostsActionType | SetRelapseLogsActionType): InitialStateType => {
     switch (action.type) {
-        case "PROFILE/SET_PROFILE":
+        case SET_PROFILE:
             return {
                 ...state,
                 profile: action.payload
             }
-        case "PROFILE/SET_POSTS":
+        case SET_POSTS:
             return {
                 ...state,
                 posts: action.payload
+            }
+        case SET_RELAPSE_LOGS:
+            return {
+                ...state,
+                relapseLogs: action.payload
             }
         default:
             return state;
@@ -67,6 +86,7 @@ const profileReducer = (state: InitialStateType = initialState,
 
 const setProfileActionCreator = (payload : ProfileType) : SetProfileActionType => ({type: SET_PROFILE, payload})
 const setProfilePostsActionCreator = (payload :  Array<NoteType>) => ({type: SET_POSTS, payload})
+const setRelapseLogsActionCreator = (payload : Array<RelapseLog>) => ({type: SET_RELAPSE_LOGS, payload})
 
 export const getProfile = (userId : string) => {
     return async (dispatch: Function) => {
