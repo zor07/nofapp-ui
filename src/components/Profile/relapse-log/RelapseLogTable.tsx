@@ -1,6 +1,6 @@
 import React from "react"
 import {RelapseLog} from "../../../redux/profile-reducer";
-import {Typography} from "antd";
+import {Table} from "antd";
 
 
 type MapStatePropsType = {
@@ -10,29 +10,28 @@ type MapStatePropsType = {
 type MapDispatchPropsType = {}
 
 const RelapseLogTable: React.FC<MapStatePropsType & MapDispatchPropsType> = ({relapseLogs}) => {
-    const {Title} = Typography;
-
-    const relapseLogElements = relapseLogs.map((relapseLog) => <tr>
-        <td>{relapseLog.id}</td>
-        <td>{relapseLog.start}</td>
-        <td>{relapseLog.stop}</td>
-    </tr>)
+    const datasource = relapseLogs
+    const columns = [
+        {
+            title: 'Id',
+            dataIndex: 'id',
+            key: 'id'
+        },
+        {
+            title: 'Start',
+            dataIndex: 'start',
+            key: 'start'
+        },
+        {
+            title: 'Stop',
+            dataIndex: 'stop',
+            key: 'stop'
+        }
+    ]
 
     return (
         <div>
-            <Title level={1}>
-                Relapse Log:
-            </Title>
-            <table>
-                <thead>
-                <tr>
-                    <th>id</th>
-                    <th>start</th>
-                    <th>stop</th>
-                </tr>
-                </thead>
-                {relapseLogElements}
-            </table>
+            <Table dataSource={datasource} columns={columns} />
         </div>
     )
 }
