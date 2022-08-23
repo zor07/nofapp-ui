@@ -95,6 +95,7 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
     }
 }
 
+
 export default compose(
     withAuthRedirect,
     connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {
