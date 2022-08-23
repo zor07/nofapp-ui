@@ -160,7 +160,7 @@ export const getRelapseLogs = (userId: string) => {
             dispatch(setRelapseLogsActionCreator(response.data))
         } else if (isTokenExpired(response)) {
             dispatch(refreshToken())
-            dispatch(removeAvatar(userId))
+            dispatch(getRelapseLogs(userId))
         }
     }
 }
@@ -173,7 +173,19 @@ export const relapsed = (userId : string) => {
             dispatch(getRelapseLogs(userId))
         } else if (isTokenExpired(response)) {
             dispatch(refreshToken())
-            dispatch(removeAvatar(userId))
+            dispatch(relapsed(userId))
+        }
+    }
+}
+
+export const deleteRelapseLog = (userId: string, relapseLogId: string) => {
+    return async (dispatch: Function) => {
+        const response = await RELAPSE_LOG_API.deleteRelapseLogEntry(userId, relapseLogId)
+        if (response.status === 204) {
+            dispatch(getRelapseLogs(userId))
+        } else if (isTokenExpired(response)) {
+            dispatch(refreshToken())
+            dispatch(deleteRelapseLog(userId, relapseLogId))
         }
     }
 }
