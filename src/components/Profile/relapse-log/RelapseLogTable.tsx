@@ -1,6 +1,7 @@
 import React from "react"
 import {RelapseLog} from "../../../redux/profile-reducer";
 import {Table} from "antd";
+import {DeleteOutlined} from "@ant-design/icons";
 
 
 type MapStatePropsType = {
@@ -26,6 +27,13 @@ const RelapseLogTable: React.FC<MapStatePropsType & MapDispatchPropsType> = ({re
             title: 'Stop',
             dataIndex: 'stop',
             key: 'stop'
+        },
+        {
+            title: 'Action',
+            key: 'action',
+            render: (_, record: RelapseLog) => (
+                <DeleteOutlined onClick={() => alert(record.id)}/>
+            )
         }
     ]
 
