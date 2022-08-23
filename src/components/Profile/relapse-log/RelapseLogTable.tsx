@@ -8,7 +8,9 @@ type MapStatePropsType = {
     relapseLogs: Array<RelapseLog>
 }
 
-type MapDispatchPropsType = {}
+type MapDispatchPropsType = {
+    deleteRelapseLog: (userId: string, relapseLogId: string) => void
+}
 
 const RelapseLogTable: React.FC<MapStatePropsType & MapDispatchPropsType> = ({relapseLogs}) => {
     const datasource = relapseLogs
