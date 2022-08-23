@@ -1,5 +1,6 @@
 import React, {useEffect} from "react";
 import {
+    deleteRelapseLog,
     deleteUserPost,
     getProfile,
     getRelapseLogs,
@@ -34,6 +35,7 @@ type MapDispatchPropsType = {
     getUserPosts: (userId: string) => void
     deleteUserPost: (userId: string, noteId: string) => void
     getRelapseLogs: (userId: string) => void
+    deleteRelapseLog: (userId: string, relapseLogId: string) => void
 }
 
 type ProfileContainerType = MapStatePropsType & MapDispatchPropsType
@@ -95,7 +97,6 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
     }
 }
 
-
 export default compose(
     withAuthRedirect,
     connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {
@@ -105,6 +106,7 @@ export default compose(
         getUserPosts,
         deleteUserPost,
         relapsed,
-        getRelapseLogs
+        getRelapseLogs,
+        deleteRelapseLog
     })
 )(ProfileContainer);
