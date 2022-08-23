@@ -18,14 +18,20 @@ type RelapseLogString = {
     id: string
     start: string
     stop: string
+    duration: string
 }
 
 const RelapseLogTable: React.FC<MapStatePropsType & MapDispatchPropsType> = ({userId, relapseLogs}) => {
     const datasource: Array<RelapseLogString> = relapseLogs.map(rec => {
+        const start  = moment(rec.start)
+        const stop  = moment(rec.stop)
+        const diff = stop.diff(start)
+        const duration = moment.utc(diff).format('HH:mm:ss')
         return {
             id: rec.id,
-            start: moment(rec.start).format('DD-MM-YYYY HH:mm'),
-            stop: moment(rec.stop).format('DD-MM-YYYY HH:mm')
+            start: start.format('DD-MM-YYYY HH:mm'),
+            stop: stop.format('DD-MM-YYYY HH:mm'),
+            duration: duration
         }
     })
 
@@ -55,6 +61,11 @@ const RelapseLogTable: React.FC<MapStatePropsType & MapDispatchPropsType> = ({us
             title: 'Stop',
             dataIndex: 'stop',
             key: 'stop'
+        },
+        {
+            title: 'Duration',
+            dataIndex: 'duration',
+            key: 'duration'
         },
         {
             title: 'Action',
