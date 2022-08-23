@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react"
 import {deleteRelapseLog, RelapseLog} from "../../../redux/profile-reducer";
-import {Button, Popconfirm, Table} from "antd";
+import {Popconfirm, Table, Typography} from "antd";
 import {DeleteOutlined} from "@ant-design/icons";
 import {useDispatch} from "react-redux";
 
@@ -16,6 +16,7 @@ type MapDispatchPropsType = {
 
 const RelapseLogTable: React.FC<MapStatePropsType & MapDispatchPropsType> = ({userId, relapseLogs}) => {
     const datasource = relapseLogs
+    const {Title} = Typography;
     const dispatch = useDispatch()
     const [toDeleteRelapseLog, setToDeleteRelapseLog] = useState(null)
 
@@ -51,7 +52,7 @@ const RelapseLogTable: React.FC<MapStatePropsType & MapDispatchPropsType> = ({us
                             onConfirm={() => setToDeleteRelapseLog(record.id)}
                             okText="Yes"
                             cancelText="No">
-                    <Button danger icon={<DeleteOutlined/>} />
+                    <DeleteOutlined/>
                 </Popconfirm>
             )
         }
@@ -59,7 +60,14 @@ const RelapseLogTable: React.FC<MapStatePropsType & MapDispatchPropsType> = ({us
 
     return (
         <div>
-            <Table dataSource={datasource} columns={columns} />
+            {
+                datasource && datasource.length > 0 &&
+                <Table dataSource={datasource}
+                       columns={columns}
+                       title={() => <Title> Relapse Log </Title>}
+                />
+            }
+
         </div>
     )
 }
