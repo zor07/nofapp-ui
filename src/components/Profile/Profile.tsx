@@ -1,5 +1,5 @@
 import React from "react"
-import {ProfileType, RelapseLog} from "../../redux/profile-reducer";
+import {deleteRelapseLog, ProfileType, RelapseLog} from "../../redux/profile-reducer";
 import {Col, Row, Typography} from "antd";
 import AvatarComponent from "./avatar/AvatarComponent";
 import UserPost from "./posts/UserPost";
@@ -19,6 +19,7 @@ type MapDispatchPropsType = {
     removeAvatar: (userId: string) => void
     relapsed: (userId: string) => void
     deleteUserPost: (userId: string, noteId: string) => void
+    deleteRelapseLog: (userId: string, relapseLogId: string) => void
 }
 
 const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({
@@ -29,6 +30,7 @@ const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({
                                                                          removeAvatar,
                                                                          relapsed,
                                                                          deleteUserPost,
+                                                                         deleteRelapseLog
                                                                      }) => {
     const {Title} = Typography;
 
