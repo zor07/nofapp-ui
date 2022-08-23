@@ -103,7 +103,7 @@ export const RELAPSE_LOG_API = {
             })
     },
     deleteRelapseLogEntry(userId: string, relapseLogId: string) {
-        return instance.get(`profiles/${userId}/relapses/${relapseLogId}`, auth())
+        return instance.delete(`profiles/${userId}/relapses/${relapseLogId}`, auth())
             .catch((error) => {
                 return handleError(error)
             })
