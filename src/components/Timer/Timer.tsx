@@ -11,6 +11,7 @@ type TimerStateType = {
     timePassed: string,
 }
 
+
 class Timer extends React.Component<TimerPropsType, TimerStateType> {
 
     private intervalId: any;
