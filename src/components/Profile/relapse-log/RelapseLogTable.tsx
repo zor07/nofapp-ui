@@ -3,7 +3,7 @@ import {deleteRelapseLog, RelapseLog} from "../../../redux/profile-reducer";
 import {Popconfirm, Table, Typography} from "antd";
 import {DeleteOutlined} from "@ant-design/icons";
 import {useDispatch} from "react-redux";
-
+import moment from 'moment';
 
 type MapStatePropsType = {
     userId: string
@@ -14,8 +14,21 @@ type MapDispatchPropsType = {
     deleteRelapseLog: (userId: string, relapseLogId: string) => void
 }
 
+type RelapseLogString = {
+    id: string
+    start: string
+    stop: string
+}
+
 const RelapseLogTable: React.FC<MapStatePropsType & MapDispatchPropsType> = ({userId, relapseLogs}) => {
-    const datasource = relapseLogs
+    const datasource: Array<RelapseLogString> = relapseLogs.map(rec => {
+        return {
+            id: rec.id,
+            start: moment(rec.start).format('DD-MM-YYYY HH:mm'),
+            stop: moment(rec.stop).format('DD-MM-YYYY HH:mm')
+        }
+    })
+
     const {Title} = Typography;
     const dispatch = useDispatch()
     const [toDeleteRelapseLog, setToDeleteRelapseLog] = useState(null)
@@ -46,7 +59,7 @@ const RelapseLogTable: React.FC<MapStatePropsType & MapDispatchPropsType> = ({us
         {
             title: 'Action',
             key: 'action',
-            render: (_, record: RelapseLog) => (
+            render: (_, record: RelapseLogString) => (
                 <Popconfirm placement="right"
                             title={`Are you shure you want to this log ?`}
                             onConfirm={() => setToDeleteRelapseLog(record.id)}
