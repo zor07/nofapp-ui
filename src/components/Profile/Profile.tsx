@@ -62,6 +62,7 @@ const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({
                                           relapsed={relapsed}/>
                         </div>
                     </Col>
+
                     <Col flex={16}>
                         <div>
                             <RelapseLogTable relapseLogs={relapseLogs} />
