@@ -11,6 +11,7 @@ type TimerCardPropsType = {
     deleteTimer: (timerId: string) => void
 }
 
+
 const TimerCard: React.FC<TimerCardPropsType> = ({timer, stopTimer, deleteTimer}) => {
 
     const onStopClick = () => {
