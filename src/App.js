@@ -16,7 +16,7 @@ import PracticeEditorContainer from "./components/Practice/PracticeEditorContain
 import NotebookListContainer from "./components/Notebook/NotebookListContainer";
 import NoteListContainer from "./components/Note/NoteListContainer";
 import NoteEditorContainer from "./components/Note/NoteEditorContainer";
-import ProfileList from "./components/Profile/ProfileList";
+import ProfileList from "./components/Profile/list/ProfileListContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 
 class App extends Component {
