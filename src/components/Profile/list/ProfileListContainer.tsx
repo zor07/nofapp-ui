@@ -27,6 +27,7 @@ const ProfileListContainer: React.FC<ProfileListContainerPropsType> = ({profiles
 
     const profileElements = profiles.map(p => (
         <div>
+            {/*TODO use <List> here*/}
             <div>{p.id}</div>
             <div>{p.user.name}</div>
             <div><img src={p.avatarUri}/> </div>
