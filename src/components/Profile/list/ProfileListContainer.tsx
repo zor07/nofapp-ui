@@ -5,6 +5,13 @@ import {AppStateType} from "../../../redux/redux-store";
 import {compose} from "redux";
 import {connect, useDispatch} from "react-redux";
 import {getProfiles} from "../../../redux/profile-list-reducer";
+import {List} from "antd";
+import VirtualList from 'rc-virtual-list';
+import Avatar from "antd/es/avatar/avatar";
+import {NavLink} from "react-router-dom";
+import ProfileTimer from "../timer/ProfileTimer";
+import {TimerType} from "../../../redux/timer-reducer";
+import Timer from "../../Timer/Timer";
 
 
 type MapStatePropsType = {
@@ -25,18 +32,43 @@ const ProfileListContainer: React.FC<ProfileListContainerPropsType> = ({profiles
         dispatch(getProfiles())
     }, [])
 
-    const profileElements = profiles.map(p => (
-        <div>
-            {/*TODO use <List> here*/}
-            <div>{p.id}</div>
-            <div>{p.user.name}</div>
-            <div><img src={p.avatarUri}/> </div>
-            <div>{p.timerStart.toDateString()}</div>
-        </div>
-    ))
+    const getTimer = (profile: ProfileType): TimerType => {
+        return {
+            id: "",
+            isRunning: true,
+            start: profile.timerStart,
+            description: "main"
+        }
+    }
 
     return (
-        <div>{profileElements}</div>
+        <div>
+            <List>
+                <VirtualList
+                    data={profiles}
+                    itemHeight={600}
+                    itemKey="id"
+                >
+                    {(profile) => (
+                        <List.Item key={profile.id}>
+                            <List.Item.Meta
+                                avatar={
+                                    <Avatar src={profile.avatarUri}/>
+                                }
+                                title={
+                                    <NavLink to={`/profile/${profile.id}`}>
+                                        {profile.user.name}
+                                    </NavLink>
+                                }
+                                description={
+                                    <Timer timer={getTimer(profile)}/>
+                                }
+                            />
+                        </List.Item>
+                    )}
+                </VirtualList>
+            </List>
+        </div>
     )
 }
 
