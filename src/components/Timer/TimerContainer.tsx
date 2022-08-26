@@ -2,13 +2,18 @@ import React from "react";
 import {connect} from "react-redux";
 import {compose} from "redux";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
-import {deleteTimer, requestTimers, startTimer, stopTimer, TimerFormDataType, TimerType} from "../../redux/timer-reducer";
+import {
+    deleteTimer,
+    requestTimers,
+    startTimer,
+    stopTimer,
+    TimerFormDataType,
+    TimerType
+} from "../../redux/timer-reducer";
 import TimerCard from "./TimerCard";
 import {AppStateType} from "../../redux/redux-store";
-import {Col, Divider, Row, Typography} from "antd";
+import {Col, Divider, PageHeader, Row} from "antd";
 import TimerForm from "./TimerForm";
-
-const {Title} = Typography;
 
 type MapStatePropsType = {
     timers: Array<TimerType>
@@ -63,7 +68,7 @@ class TimerContainer extends React.Component<TimerContainerPropsType> {
 
         return (
             <div>
-                <Title level={3}>Timers</Title>
+                <PageHeader title={"Timers"} />
                 <Row justify="start">
                     {runningItems}
                 </Row>
