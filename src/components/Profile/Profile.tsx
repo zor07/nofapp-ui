@@ -1,6 +1,6 @@
 import React from "react"
 import {deleteRelapseLog, ProfileType, RelapseLog} from "../../redux/profile-reducer";
-import {Col, Row, Typography} from "antd";
+import {Col, PageHeader, Row, Typography} from "antd";
 import AvatarComponent from "./avatar/AvatarComponent";
 import UserPost from "./posts/UserPost";
 import ProfileTimer from "./timer/ProfileTimer";
@@ -44,12 +44,10 @@ const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({
 
     return (
         <div className={css.profile}>
+            <PageHeader title={profile.user.name} />
             <div className="space-align-container">
                 <Row>
                     <Col flex={2}>
-                        <div>
-                            <Title level={4}>{profile.user.name}</Title>
-                        </div>
                         <div>
                             <AvatarComponent
                                 url={profile.avatarUri}
