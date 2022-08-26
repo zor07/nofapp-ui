@@ -27,17 +27,18 @@ const ProfileList: React.FC<ProfileListPropsType> = ({profiles}) => {
 
     return (
         <div>
-            <List>
+            <List itemLayout="vertical"
+                  size="small">
                 <VirtualList
                     data={profiles}
-                    itemHeight={600}
+                    itemHeight={6000}
                     itemKey="id"
                 >
                     {(profile) => (
                         <List.Item key={profile.id}>
                             <List.Item.Meta
                                 avatar={
-                                    <Avatar src={profile.avatarUri}/>
+                                    <Avatar size={90} src={profile.avatarUri}/>
                                 }
                                 title={
                                     <NavLink to={`/profile/${profile.id}`}>
