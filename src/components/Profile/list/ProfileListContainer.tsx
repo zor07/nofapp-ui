@@ -9,7 +9,6 @@ import {List} from "antd";
 import VirtualList from 'rc-virtual-list';
 import Avatar from "antd/es/avatar/avatar";
 import {NavLink} from "react-router-dom";
-import ProfileTimer from "../timer/ProfileTimer";
 import {TimerType} from "../../../redux/timer-reducer";
 import Timer from "../../Timer/Timer";
 
