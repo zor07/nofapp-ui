@@ -3,7 +3,7 @@ import {AppStateType} from "../../redux/redux-store";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 import {connect, useDispatch} from "react-redux";
-import {Avatar, Button, List, message, Popconfirm, Tag, Typography} from 'antd';
+import {Avatar, Button, List, message, PageHeader, Popconfirm, Tag} from 'antd';
 import {
     addPracticeToUser,
     clearCreatedPracticeId,
@@ -37,7 +37,6 @@ type OwnPropsType = {
 type PracticeListContainerPropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
 
 const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPublic, publicPractices, userPractices, createdPracticeId}) => {
-    const {Title} = Typography
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [isCreatingNewPractice, setIsCreatingNewPractice] = useState(false)
@@ -139,7 +138,7 @@ const PracticeListContainer: React.FC<PracticeListContainerPropsType> = ({isPubl
 
     return (
         <div className={css.content}>
-            <Title level={3}>{ isPublic ? 'All Practices' : 'My Practices' }</Title>
+            <PageHeader title={isPublic ? 'All Practices' : 'My Practices'} />
             <List itemLayout="horizontal"
                   size="large"
                   pagination={{
