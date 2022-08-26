@@ -4,7 +4,7 @@ import {AppStateType} from "../../redux/redux-store";
 import {NavLink, useNavigate, useParams} from "react-router-dom";
 import {compose} from "redux";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
-import {Button, List, Popconfirm} from "antd";
+import {Button, List, PageHeader, Popconfirm} from "antd";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import {Typography} from 'antd';
 import css from './Note.module.css'
@@ -94,7 +94,7 @@ const NoteListContainer: React.FC<NotesListContainerPropsType> = (props) => {
 
     return (
         <div className={css.content}>
-            <Title level={3}>{props.notebook.name}</Title>
+            <PageHeader title={props.notebook.name} />
             <List itemLayout="vertical"
                   size="large"
                   pagination={{
