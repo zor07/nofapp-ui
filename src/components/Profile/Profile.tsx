@@ -1,5 +1,5 @@
 import React from "react"
-import {deleteRelapseLog, ProfileType, RelapseLog} from "../../redux/profile-reducer";
+import {ProfileType, RelapseLog} from "../../redux/profile-reducer";
 import {Col, PageHeader, Row, Typography} from "antd";
 import AvatarComponent from "./avatar/AvatarComponent";
 import UserPost from "./posts/UserPost";
