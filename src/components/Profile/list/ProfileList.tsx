@@ -1,6 +1,6 @@
 import React from "react"
 import {ProfileType} from "../../../redux/profile-reducer";
-import {List} from "antd";
+import {Button, List, PageHeader} from "antd";
 import VirtualList from 'rc-virtual-list';
 import Avatar from "antd/es/avatar/avatar";
 import {NavLink} from "react-router-dom";
@@ -27,6 +27,7 @@ const ProfileList: React.FC<ProfileListPropsType> = ({profiles}) => {
 
     return (
         <div>
+            <PageHeader title={"Users"} />
             <List itemLayout="vertical"
                   size="small">
                 <VirtualList
