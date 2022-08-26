@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {createNotebook, deleteNotebook, NotebookType, requestNotebooks} from "../../redux/notebook-reducer";
-import {Col, Divider, Row, Typography} from "antd";
+import {Col, Divider, PageHeader, Row} from "antd";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import css from "./Notebooks.module.css";
 import {AppStateType} from "../../redux/redux-store";
@@ -23,7 +23,6 @@ type MapDispatchPropsType = {
 type NotebookListContainerType = MapStatePropsType & MapDispatchPropsType
 
 const NotebookListContainer: React.FC<NotebookListContainerType> = (props) => {
-    const {Title} = Typography;
     const [deleteNotebookId, setDeleteNotebookId] = useState('')
     const dispatch = useDispatch()
 
@@ -53,8 +52,7 @@ const NotebookListContainer: React.FC<NotebookListContainerType> = (props) => {
 
     return (
         <div className={css.content}>
-            <Title level={3}>Notebooks</Title>
-
+            <PageHeader title={"Notebooks"} />
             <Row justify="start">
                 {notebookCards}
             </Row>
