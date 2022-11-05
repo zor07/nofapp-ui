@@ -1,6 +1,6 @@
 import React from "react"
 import {ProfileType} from "../../../redux/profile-reducer";
-import {Button, List, PageHeader} from "antd";
+import {List, PageHeader} from "antd";
 import VirtualList from 'rc-virtual-list';
 import Avatar from "antd/es/avatar/avatar";
 import {NavLink} from "react-router-dom";
@@ -42,7 +42,7 @@ const ProfileList: React.FC<ProfileListPropsType> = ({profiles}) => {
                                     <Avatar size={90} src={profile.avatarUri}/>
                                 }
                                 title={
-                                    <NavLink to={`/profile/${profile.id}`}>
+                                    <NavLink key={profile.id} to={`/profile/${profile.id}`}>
                                         {profile.user.name}
                                     </NavLink>
                                 }
