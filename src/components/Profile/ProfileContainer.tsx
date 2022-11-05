@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {
     deleteRelapseLog,
     deleteUserPost,
@@ -47,32 +47,21 @@ const ProfileContainer: React.FC<ProfileContainerType> = ({
                                                               posts,
                                                               relapseLogs
                                                           }) => {
+    const [userId, setUserId] = useState('')
     const dispatch = useDispatch()
     const params = useParams()
 
-    const getProfileData = () => {
-        if (params.userId) {
-            getProfileDataByUserId(params.userId)
-        } else {
-            if (currentUserId) {
-                getProfileDataByUserId(currentUserId)
-            }
-        }
-    }
-
-    const getProfileDataByUserId = (userId: string) => {
-        dispatch(getProfile(userId))
-        dispatch(getUserPosts(userId))
-        dispatch(getRelapseLogs(userId))
-    }
-
     useEffect(() => {
-        getProfileData()
+        setUserId(params.userId ? params.userId : currentUserId)
     }, [])
 
     useEffect(() => {
-        getProfileData()
-    }, [initialized, params.userId])
+        if (userId !== null && userId !== '') {
+            dispatch(getProfile(userId))
+            dispatch(getUserPosts(userId))
+            dispatch(getRelapseLogs(userId))
+        }
+    }, [initialized, userId])
 
     return (
         <Profile
