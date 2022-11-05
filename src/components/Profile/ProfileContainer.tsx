@@ -20,7 +20,6 @@ import {useParams} from "react-router-dom";
 import {NoteType} from "../../redux/note-editor-reducer";
 
 type MapStatePropsType = {
-    initialized: boolean
     currentUserId: string
     profile: ProfileType
     posts: Array<NoteType>
@@ -41,45 +40,58 @@ type MapDispatchPropsType = {
 type ProfileContainerType = MapStatePropsType & MapDispatchPropsType
 
 const ProfileContainer: React.FC<ProfileContainerType> = ({
-                                                              initialized,
                                                               currentUserId,
                                                               profile,
                                                               posts,
                                                               relapseLogs
                                                           }) => {
-    const [userId, setUserId] = useState('')
+    const [ready, setReady] = useState(false)
     const dispatch = useDispatch()
     const params = useParams()
 
     useEffect(() => {
-        setUserId(params.userId ? params.userId : currentUserId)
+        fetchData()
     }, [])
 
     useEffect(() => {
-        if (userId !== null && userId !== '') {
-            dispatch(getProfile(userId))
-            dispatch(getUserPosts(userId))
-            dispatch(getRelapseLogs(userId))
+        fetchData()
+    }, [params.userId, currentUserId])
+
+    const fetchData = () => {
+        setReady(false)
+        const id = params.userId != null ? params.userId : currentUserId
+
+        const fetch = async (id: string) => {
+            await dispatch(getProfile(id))
+            await dispatch(getUserPosts(id))
+            await dispatch(getRelapseLogs(id))
         }
-    }, [initialized, userId])
+
+        if (id !== null && id !== '') {
+            fetch(id).then(() => setReady(true))
+        }
+    }
 
     return (
-        <Profile
-            profile={profile}
-            posts={posts}
-            relapseLogs={relapseLogs}
-            uploadAvatar={uploadAvatar}
-            removeAvatar={removeAvatar}
-            relapsed={relapsed}
-            deleteUserPost={deleteUserPost}
-            deleteRelapseLog={deleteRelapseLog}
-        />
+        <div>
+            {ready &&
+                <Profile
+                    profile={profile}
+                    posts={posts}
+                    relapseLogs={relapseLogs}
+                    uploadAvatar={uploadAvatar}
+                    removeAvatar={removeAvatar}
+                    relapsed={relapsed}
+                    deleteUserPost={deleteUserPost}
+                    deleteRelapseLog={deleteRelapseLog}
+                />
+            }
+        </div>
     )
 }
 
 let mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
-        initialized: state.app.initialized,
         currentUserId: state.auth.id,
         profile: state.profile.profile,
         posts: state.profile.posts,
