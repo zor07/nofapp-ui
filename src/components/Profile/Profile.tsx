@@ -7,6 +7,7 @@ import ProfileTimer from "./timer/ProfileTimer";
 import {NoteType} from "../../redux/note-editor-reducer";
 import css from "./Profile.module.css"
 import RelapseLogTable from "./relapse-log/RelapseLogTable";
+import ReactPlayer from 'react-player'
 
 type MapStatePropsType = {
     profile: ProfileType
@@ -44,7 +45,7 @@ const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({
 
     return (
         <div className={css.profile}>
-            <PageHeader title={profile.user.name} />
+            <PageHeader title={profile.user.name}/>
             <div className="space-align-container">
                 <Row>
                     <Col flex={2}>
@@ -65,7 +66,8 @@ const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({
 
                     <Col flex={16}>
                         <div>
-                            <RelapseLogTable userId={profile.user.id} relapseLogs={relapseLogs} deleteRelapseLog={deleteRelapseLog} />
+                            <RelapseLogTable userId={profile.user.id} relapseLogs={relapseLogs}
+                                             deleteRelapseLog={deleteRelapseLog}/>
                         </div>
                         <div>
                             <Title level={1}>
@@ -76,6 +78,21 @@ const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({
                             </div>
 
                         </div>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col flex={2}>
+                        <ReactPlayer
+                            // playing={showVideo}
+                            className='react-player'
+                            url={[
+                                {
+                                    src: "http://127.0.0.1:9000/video/Sample-Video-File-For-Testing.mp4",
+                                    type: "video/mp4"
+                                },
+                            ]}
+                            // width='100%'
+                            controls={true}/>
                     </Col>
                 </Row>
             </div>
