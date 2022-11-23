@@ -91,7 +91,6 @@ const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({
                                     type: "video/mp4"
                                 },
                             ]}
-                            // width='100%'
                             controls={true}/>
                     </Col>
                 </Row>
