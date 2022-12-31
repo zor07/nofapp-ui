@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {compose} from "redux";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
-import css from './Note.module.css'
+import css from './Levels.module.css'
 import {LevelType} from "../../redux/levels-reducer";
 
 type MapStatePropsType = {
@@ -16,13 +16,13 @@ type MapDispatchPropsType = {
 
 type OwnPropsType = {}
 
-type NotesListContainerPropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
+type LevelsListContainerPropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
 
-const LevelContainer: React.FC<NotesListContainerPropsType> = (props) => {
+const LevelsContainer: React.FC<LevelsListContainerPropsType> = (props) => {
 
     return (
         <div className={css.content}>
-
+            levels
         </div>
     )
 }
@@ -37,4 +37,4 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
 export default compose(
     withAuthRedirect,
     connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {})
-)(LevelContainer);
+)(LevelsContainer);

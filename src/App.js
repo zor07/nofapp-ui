@@ -18,6 +18,7 @@ import NoteListContainer from "./components/Note/NoteListContainer";
 import NoteEditorContainer from "./components/Note/NoteEditorContainer";
 import ProfileList from "./components/Profile/list/ProfileListContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
+import LevelsContainer from "./components/Levels/LevelsContainer";
 
 class App extends Component {
 
@@ -54,6 +55,7 @@ class App extends Component {
                                 <Route path='/my-practices' element={<PracticeListContainer isPublic={false}/>}/>
                                 <Route path='/practice/:practiceId' element={<PracticeContainer/>}/>
                                 <Route path='/practice/editor/:practiceId' element={<PracticeEditorContainer/>}/>
+                                <Route path='/config/levels' element={<LevelsContainer/>}/>
                                 <Route path='/login' element={<Login/>}/>
                             </Routes>
                         </Content>

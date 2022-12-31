@@ -26,6 +26,8 @@ const levelsReducer = (state: LevelsStateType = initialState, action: SetLevelsA
                 ...state,
                 levels: action.payload
             }
+        default:
+            return state
     }
 }
 
