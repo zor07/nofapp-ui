@@ -48,6 +48,12 @@ export const LEVEL_API = {
             .catch((error) => {
                 return handleError(error)
             })
+    },
+    updateLevel(level: LevelType) {
+        return instance.put(`/levels`, level, auth())
+            .catch((error) => {
+                return handleError(error)
+            })
     }
 }
 
