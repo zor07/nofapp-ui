@@ -36,6 +36,10 @@ export const AUTH_API = {
     }
 }
 
+export const LEVEL_API = {
+
+}
+
 export const PROFILE_API = {
     getProfiles() : PromiseLike<ResponseType<Array<ProfileType>>> {
         return instance.get<Array<ProfileType>>(`profiles`, auth())
