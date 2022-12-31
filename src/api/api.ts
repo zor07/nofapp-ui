@@ -50,7 +50,7 @@ export const LEVEL_API = {
             })
     },
     updateLevel(level: LevelType): PromiseLike<ResponseType<LevelType>>  {
-        return instance.put(`/levels`, level, auth())
+        return instance.put(`/levels/${level.id}`, level, auth())
             .catch((error) => {
                 return handleError(error)
             })
