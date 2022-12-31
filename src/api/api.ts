@@ -38,7 +38,7 @@ export const AUTH_API = {
 }
 
 export const LEVEL_API = {
-    getLevels() {
+    getLevels(): PromiseLike<ResponseType<Array<LevelType>>>  {
         return instance.get(`/levels`, auth()).catch((error) => {
             return handleError(error)
         })
