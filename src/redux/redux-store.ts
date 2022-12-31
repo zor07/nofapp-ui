@@ -10,6 +10,7 @@ import notesReducer from "./notes-reducer";
 import noteEditorReducer from "./note-editor-reducer";
 import profileReducer from "./profile-reducer";
 import profileListReducer from "./profile-list-reducer";
+import levelsReducer from "./levels-reducer";
 
 let rootReducer = combineReducers({
 
@@ -17,6 +18,7 @@ let rootReducer = combineReducers({
     auth: authReducer,
     app: appReducer,
     profile: profileReducer,
+    levels: levelsReducer,
     profileList: profileListReducer,
     notebooks: notebookReducer,
     notes: notesReducer,
