@@ -131,7 +131,7 @@ const NoteListContainer: React.FC<NotesListContainerPropsType> = (props) => {
                                  ]}>
                           <Title level={5}>{item.title}</Title>
                       </List.Item>
-                  )}/>
+            )}/>
         </div>
     )
 }

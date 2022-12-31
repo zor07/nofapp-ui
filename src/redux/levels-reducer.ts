@@ -1,3 +1,7 @@
+import {LEVELS_API} from "../api/api";
+import {isTokenExpired} from "../api/apiUtils";
+import {refreshToken} from "./auth-reducer";
+
 export type LevelType = {
     id: string
     name: string
@@ -28,6 +32,20 @@ const levelsReducer = (state: LevelsStateType = initialState, action: SetLevelsA
             }
         default:
             return state
+    }
+}
+
+const setLevels = (payload: Array<LevelType>): SetLevelsActionType => ({type: SET_LEVELS, payload})
+
+export const requestLevels = () => {
+    return async (dispatch) => {
+        const response = await LEVELS_API.getLevels()
+        if (response.status === 200) {
+            dispatch(setLevels(response.data))
+        } else if (isTokenExpired(response)) {
+            dispatch(refreshToken())
+            dispatch(requestLevels())
+        }
     }
 }
 
