@@ -1,13 +1,14 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {connect, useDispatch} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {compose} from "redux";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import css from './Levels.module.css'
-import {LevelType, requestLevels} from "../../redux/levels-reducer";
+import {createLevel, LevelType, requestLevels} from "../../redux/levels-reducer";
 import {Button, List, PageHeader, Popconfirm, Typography} from "antd";
 import {NavLink} from "react-router-dom";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
+import NewLevelForm from "./NewLevelForm";
 
 
 type MapStatePropsType = {
@@ -16,6 +17,7 @@ type MapStatePropsType = {
 
 type MapDispatchPropsType = {
     requestLevels: () => void
+    createLevel: (level: LevelType) => void
 }
 
 type OwnPropsType = {}
@@ -25,13 +27,29 @@ type LevelsListContainerPropsType = MapStatePropsType & MapDispatchPropsType & O
 const LevelsContainer: React.FC<LevelsListContainerPropsType> = ({levels}) => {
     const {Title} = Typography;
     const dispatch = useDispatch()
+    const [levelToCreate, setLevelToCreate] = useState(null)
 
     useEffect(() => {
         dispatch(requestLevels())
     }, [])
 
+    useEffect(() => {
+        dispatch(requestLevels())
+    }, [levels])
+
+    useEffect(() => {
+        if (levelToCreate != null) {
+            dispatch(createLevel(levelToCreate))
+        }
+        setLevelToCreate(null)
+    }, [levelToCreate])
+
     const onDeleteLevel = (levelId: string) => {
         alert(levelId)
+    }
+
+    const onLevelCreate = (level: LevelType) => {
+        setLevelToCreate(level)
     }
 
     levels.sort((a, b) => a.order - b.order)
@@ -47,6 +65,11 @@ const LevelsContainer: React.FC<LevelsListContainerPropsType> = ({levels}) => {
                       },
                       pageSize: 10,
                   }}
+                  footer={
+                      <div>
+                          <NewLevelForm createLevel={onLevelCreate}/>
+                      </div>
+                  }
                   dataSource={levels}
                   renderItem = { level => (
                       <List.Item key={level.id}
@@ -80,5 +103,7 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
 
 export default compose(
     withAuthRedirect,
-    connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {requestLevels})
+    connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {
+        requestLevels, createLevel
+    })
 )(LevelsContainer);
