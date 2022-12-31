@@ -2,6 +2,7 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 import {ProfileType, RelapseLog} from "../redux/profile-reducer";
 import {NoteType} from "../redux/note-editor-reducer";
+import {LevelType} from "../redux/levels-reducer";
 
 const instance = axios.create({
     baseURL: process.env.NODE_ENV === 'production' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_DEV.toString()
@@ -38,26 +39,32 @@ export const AUTH_API = {
 
 export const LEVEL_API = {
     getLevels() {
-        return instance.get(`/levels`).catch((error) => {
+        return instance.get(`/levels`, auth()).catch((error) => {
             return handleError(error)
         })
+    },
+    createLevel(level: LevelType) {
+        return instance.post(`/levels`, level, auth())
+            .catch((error) => {
+                return handleError(error)
+            })
     }
 }
 
 export const PROFILE_API = {
-    getProfiles() : PromiseLike<ResponseType<Array<ProfileType>>> {
+    getProfiles(): PromiseLike<ResponseType<Array<ProfileType>>> {
         return instance.get<Array<ProfileType>>(`profiles`, auth())
             .catch((error) => {
                 return handleError(error)
             })
     },
-    getProfile(userId: string) : PromiseLike<ResponseType<ProfileType>> {
+    getProfile(userId: string): PromiseLike<ResponseType<ProfileType>> {
         return instance.get<ProfileType>(`profiles/${userId}`, auth())
             .catch((error) => {
                 return handleError(error)
             })
     },
-    uploadAvatar(userId: string, avatar: File) : PromiseLike<ResponseType<any>> {
+    uploadAvatar(userId: string, avatar: File): PromiseLike<ResponseType<any>> {
         const formData = new FormData();
         formData.append('file', avatar)
         const config = auth()
@@ -68,7 +75,7 @@ export const PROFILE_API = {
                 return handleError(error)
             })
     },
-    deleteAvatar(userId: string) : PromiseLike<ResponseType<any>> {
+    deleteAvatar(userId: string): PromiseLike<ResponseType<any>> {
         return instance.delete(`profiles/${userId}/avatar`, auth())
             .catch((error) => {
                 return handleError(error)
@@ -77,20 +84,20 @@ export const PROFILE_API = {
 }
 
 export const USER_POSTS_API = {
-    getUserPosts(userId: string) : PromiseLike<ResponseType<Array<NoteType>>> {
+    getUserPosts(userId: string): PromiseLike<ResponseType<Array<NoteType>>> {
         return instance.get(`profiles/${userId}/posts`, auth())
             .catch((error) => {
                 return handleError(error)
             })
     },
-    addPostToUser(userId: string, noteId: string) : PromiseLike<ResponseType<any>>  {
+    addPostToUser(userId: string, noteId: string): PromiseLike<ResponseType<any>> {
         return instance.post(`profiles/${userId}/posts/${noteId}`, {}, auth())
             .catch((error) => {
-                    return handleError(error)
-                })
+                return handleError(error)
+            })
     },
-    deleteUserPost(userId: string, noteId: string) : PromiseLike<ResponseType<any>>  {
-        return instance.delete(`profiles/${userId}/posts/${noteId}`,  auth())
+    deleteUserPost(userId: string, noteId: string): PromiseLike<ResponseType<any>> {
+        return instance.delete(`profiles/${userId}/posts/${noteId}`, auth())
             .catch((error) => {
                 return handleError(error)
             })
@@ -104,7 +111,7 @@ export const RELAPSE_LOG_API = {
                 return handleError(error)
             })
     },
-    relapsed(userId: string) : PromiseLike<ResponseType<ProfileType>> {
+    relapsed(userId: string): PromiseLike<ResponseType<ProfileType>> {
         return instance.post<ProfileType>(`profiles/${userId}/relapsed`, {}, auth())
             .catch((error) => {
                 return handleError(error)
