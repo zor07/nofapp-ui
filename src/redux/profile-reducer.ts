@@ -47,16 +47,7 @@ const SET_PROFILE = 'PROFILE/SET_PROFILE'
 const SET_RELAPSE_LOGS = 'PROFILE/SET_RELAPSE_LOGS'
 
 const initialState: InitialStateType = {
-    profile: {
-        id: "some id",
-        user: {
-            id: "user id",
-            name: "user name",
-            username: "username"
-        },
-        avatarUri: "avatar url",
-        timerStart: new Date("2021-11-08T01:00:00.000"),
-    },
+    profile: null,
     posts: [],
     relapseLogs: []
 }
