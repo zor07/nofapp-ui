@@ -37,7 +37,11 @@ export const AUTH_API = {
 }
 
 export const LEVEL_API = {
-
+    getLevels() {
+        return instance.get(`/levels`).catch((error) => {
+            return handleError(error)
+        })
+    }
 }
 
 export const PROFILE_API = {
