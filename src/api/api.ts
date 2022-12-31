@@ -43,7 +43,7 @@ export const LEVEL_API = {
             return handleError(error)
         })
     },
-    createLevel(level: LevelType) {
+    createLevel(level: LevelType): PromiseLike<ResponseType<LevelType>> {
         return instance.post(`/levels`, level, auth())
             .catch((error) => {
                 return handleError(error)
