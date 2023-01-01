@@ -1,0 +1,80 @@
+import {TASKS_API} from "../api/api";
+import {isTokenExpired} from "../api/apiUtils";
+import {refreshToken} from "./auth-reducer";
+import {LevelType} from "./levels-reducer";
+import {AppDispatch} from "./redux-store";
+
+export type TaskType = {
+    id: string,
+    order: 0,
+    name: string,
+    description: string,
+    level: LevelType,
+}
+
+type SetTasksActionType = {
+    type: typeof SET_TASKS
+    payload: Array<TaskType>
+}
+
+type TasksStateType = {
+    tasks: Array<TaskType>
+}
+
+const initialState: TasksStateType = {
+    tasks: []
+}
+
+const SET_TASKS = 'TASKS/SET_TASKS'
+
+const tasksReducer = (state: TasksStateType = initialState, action: SetTasksActionType): TasksStateType => {
+    switch (action.type) {
+        case SET_TASKS:
+            return {
+                ...state,
+                tasks: action.payload
+            }
+        default:
+            return state
+    }
+}
+
+const setTasks = (payload: Array<TaskType>): SetTasksActionType => ({type: SET_TASKS, payload})
+
+export const requestTasks = (levelId: string) => {
+    return async (dispatch: AppDispatch) => {
+        const response = await TASKS_API.getLevelTasks(levelId)
+        if (response.status === 200) {
+            await dispatch(setTasks(response.data))
+        } else if (isTokenExpired(response)) {
+            dispatch(refreshToken())
+                .then(() => dispatch(setTasks(response.data)))
+        }
+    }
+}
+
+export const createLevelTask = (levelId: string, task: TaskType) => {
+    return async (dispatch: AppDispatch) => {
+        const response = await TASKS_API.createLevelTask(levelId, task)
+        if (response.status === 201) {
+            await dispatch(requestTasks(levelId))
+        } else if (isTokenExpired(response)) {
+            dispatch(refreshToken())
+                .then(() => dispatch(requestTasks(levelId)))
+        }
+    }
+}
+
+export const deleteTask = (levelId: string, taskId: string) => {
+    return async (dispatch) => {
+        const response = await TASKS_API.deleteTask(levelId, taskId)
+        if (response.status === 204) {
+            await dispatch(requestTasks(levelId))
+        } else if (isTokenExpired(response)) {
+            dispatch(refreshToken())
+                .then(() => deleteTask(levelId, taskId))
+        }
+    }
+}
+
+export default tasksReducer
