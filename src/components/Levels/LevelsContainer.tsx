@@ -10,7 +10,6 @@ import {NavLink} from "react-router-dom";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import NewLevelForm from "./NewLevelForm";
 import LevelItem from "./LevelItem";
-import {ThunkDispatch} from "redux-thunk";
 
 
 type MapStatePropsType = {
