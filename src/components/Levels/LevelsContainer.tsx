@@ -5,10 +5,11 @@ import {compose} from "redux";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import css from './Levels.module.css'
 import {createLevel, LevelType, requestLevels} from "../../redux/levels-reducer";
-import {Button, List, PageHeader, Popconfirm, Typography} from "antd";
+import {Button, List, PageHeader, Popconfirm} from "antd";
 import {NavLink} from "react-router-dom";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import NewLevelForm from "./NewLevelForm";
+import LevelItem from "./LevelItem";
 
 
 type MapStatePropsType = {
@@ -25,7 +26,6 @@ type OwnPropsType = {}
 type LevelsListContainerPropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
 
 const LevelsContainer: React.FC<LevelsListContainerPropsType> = ({levels}) => {
-    const {Title} = Typography;
     const dispatch = useDispatch()
     const [levelToCreate, setLevelToCreate] = useState(null)
 
@@ -86,7 +86,7 @@ const LevelsContainer: React.FC<LevelsListContainerPropsType> = ({levels}) => {
                                          <Button danger icon={<DeleteOutlined/>}> Delete </Button>
                                      </Popconfirm>
                                  ]}>
-                          <Title level={5}>{level.name}</Title>
+                            <LevelItem level={level} />
                       </List.Item>
 
                   )}/>
