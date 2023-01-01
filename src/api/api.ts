@@ -3,6 +3,7 @@ import Cookies from "universal-cookie";
 import {ProfileType, RelapseLog} from "../redux/profile-reducer";
 import {NoteType} from "../redux/note-editor-reducer";
 import {LevelType} from "../redux/levels-reducer";
+import {TaskType} from "../redux/tasks-reducer";
 
 const instance = axios.create({
     baseURL: process.env.NODE_ENV === 'production' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_DEV.toString()
@@ -57,6 +58,32 @@ export const LEVELS_API = {
     },
     deleteLevel(levelId: string): PromiseLike<ResponseType<any>>  {
         return instance.delete(`/levels/${levelId}`, auth())
+            .catch((error) => {
+                return handleError(error)
+            })
+    }
+}
+
+export const TASKS_API = {
+    getLevelTasks(levelId: string): PromiseLike<ResponseType<Array<TaskType>>>  {
+        return instance.get(`/levels/${levelId}/tasks`, auth()).catch((error) => {
+            return handleError(error)
+        })
+    },
+    createLevelTask(levelId: string, task: TaskType): PromiseLike<ResponseType<LevelType>> {
+        return instance.post(`/levels/${levelId}/tasks`, task, auth())
+            .catch((error) => {
+                return handleError(error)
+            })
+    },
+    updateLevelTask(levelId: string, taskId: string, task: TaskType): PromiseLike<ResponseType<LevelType>> {
+        return instance.put(`/levels/${levelId}/tasks/${taskId}`, task, auth())
+            .catch((error) => {
+                return handleError(error)
+            })
+    },
+    deleteTask(levelId: string, taskId: string): PromiseLike<ResponseType<any>>  {
+        return instance.delete(`/levels/${levelId}/tasks/${taskId}`, auth())
             .catch((error) => {
                 return handleError(error)
             })
