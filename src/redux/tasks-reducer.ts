@@ -17,22 +17,35 @@ type SetTasksActionType = {
     payload: Array<TaskType>
 }
 
+type UnmountTasksActionType = {
+    type: typeof UNMOUNT_TASKS
+}
+
+
 type TasksStateType = {
     tasks: Array<TaskType>
 }
+
+
 
 const initialState: TasksStateType = {
     tasks: []
 }
 
 const SET_TASKS = 'TASKS/SET_TASKS'
+const UNMOUNT_TASKS = 'TASKS/UNMOUNT_TASKS'
 
-const tasksReducer = (state: TasksStateType = initialState, action: SetTasksActionType): TasksStateType => {
+const tasksReducer = (state: TasksStateType = initialState, action: SetTasksActionType | UnmountTasksActionType): TasksStateType => {
     switch (action.type) {
         case SET_TASKS:
             return {
                 ...state,
                 tasks: action.payload
+            }
+        case UNMOUNT_TASKS:
+            return {
+                ...state,
+                tasks: []
             }
         default:
             return state
@@ -40,6 +53,7 @@ const tasksReducer = (state: TasksStateType = initialState, action: SetTasksActi
 }
 
 const setTasks = (payload: Array<TaskType>): SetTasksActionType => ({type: SET_TASKS, payload})
+const unmountTasksAction = (): UnmountTasksActionType => ({type: UNMOUNT_TASKS})
 
 export const requestTasks = (levelId: string) => {
     return async (dispatch: AppDispatch) => {
@@ -74,6 +88,12 @@ export const deleteTask = (levelId: string, taskId: string) => {
             dispatch(refreshToken())
                 .then(() => deleteTask(levelId, taskId))
         }
+    }
+}
+
+export const unmountTasks = () => {
+    return (dispatch) => {
+        dispatch(unmountTasksAction())
     }
 }
 
