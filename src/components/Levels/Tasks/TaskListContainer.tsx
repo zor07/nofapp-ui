@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {connect, useDispatch} from "react-redux";
 import {compose} from "redux";
 import {withAuthRedirect} from "../../../hoc/withAuthRedirect";
-import css from './Levels.module.css'
+import css from './Tasks.module.css'
 import {Button, List, PageHeader, Popconfirm, Typography} from "antd";
 import {NavLink, useParams} from "react-router-dom";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
@@ -92,7 +92,6 @@ const LevelsContainer: React.FC<LevelsListContainerPropsType> = ({tasks}) => {
                   }}
                   footer={
                       <div>
-                          new task form here
                           <NewTaskForm createTask={onCreateTask}/>
                       </div>
                   }

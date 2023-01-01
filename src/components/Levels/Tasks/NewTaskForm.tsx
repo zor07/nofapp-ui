@@ -19,7 +19,7 @@ const NewLevelForm: React.FC<NewLevelFormType> = ({createTask}) => {
 
     return (
         <div>
-            <Title level={5}>Create new level</Title>
+            <Title level={5}>Create new task</Title>
             <Form
                 size={'middle'}
                 form={form}
