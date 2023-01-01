@@ -25,7 +25,7 @@ const SET_LEVELS = 'LEVELS/SET_LEVELS'
 
 const levelsReducer = (state: LevelsStateType = initialState, action: SetLevelsActionType): LevelsStateType => {
     switch (action.type) {
-        case "LEVELS/SET_LEVELS":
+        case SET_LEVELS:
             return {
                 ...state,
                 levels: action.payload
