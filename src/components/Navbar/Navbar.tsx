@@ -39,6 +39,9 @@ const Navbar: React.FC<NavbarPropsType> = ({isAuth, username, logout}) => {
                     <Menu.Item key='logout' icon={<LogoutOutlined/>} onClick={logout}>
                         Logout
                     </Menu.Item>
+                    <Menu.Item key='config' icon={<LogoutOutlined/>}>
+                        <NavLink to='/config/levels'>Edit levels</NavLink>
+                    </Menu.Item>
                 </SubMenu>
             </>
             }
