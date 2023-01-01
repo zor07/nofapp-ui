@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 import {Avatar, Menu} from 'antd';
-import {LoginOutlined, LogoutOutlined} from '@ant-design/icons';
+import {LoginOutlined, LogoutOutlined, SettingOutlined} from '@ant-design/icons';
 
 type NavbarPropsType = {
     isAuth: boolean
@@ -39,7 +39,7 @@ const Navbar: React.FC<NavbarPropsType> = ({isAuth, username, logout}) => {
                     <Menu.Item key='logout' icon={<LogoutOutlined/>} onClick={logout}>
                         Logout
                     </Menu.Item>
-                    <Menu.Item key='config' icon={<LogoutOutlined/>}>
+                    <Menu.Item key='config' icon={<SettingOutlined />}>
                         <NavLink to='/config/levels'>Edit levels</NavLink>
                     </Menu.Item>
                 </SubMenu>
