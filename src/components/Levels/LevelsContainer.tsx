@@ -1,15 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {connect, useDispatch} from "react-redux";
-import {AppStateType} from "../../redux/redux-store";
+import {AppDispatch, AppStateType} from "../../redux/redux-store";
 import {compose} from "redux";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import css from './Levels.module.css'
-import {createLevel, LevelType, requestLevels} from "../../redux/levels-reducer";
+import {createLevel, deleteLevel, LevelType, requestLevels} from "../../redux/levels-reducer";
 import {Button, List, PageHeader, Popconfirm} from "antd";
 import {NavLink} from "react-router-dom";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import NewLevelForm from "./NewLevelForm";
 import LevelItem from "./LevelItem";
+import {ThunkDispatch} from "redux-thunk";
 
 
 type MapStatePropsType = {
@@ -19,6 +20,7 @@ type MapStatePropsType = {
 type MapDispatchPropsType = {
     requestLevels: () => void
     createLevel: (level: LevelType) => void
+    deleteLevel: (levelId: string) => void
 }
 
 type OwnPropsType = {}
@@ -26,26 +28,33 @@ type OwnPropsType = {}
 type LevelsListContainerPropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
 
 const LevelsContainer: React.FC<LevelsListContainerPropsType> = ({levels}) => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
     const [levelToCreate, setLevelToCreate] = useState(null)
+    const [levelToDelete, setLevelToDelete] = useState(null)
 
     useEffect(() => {
-        dispatch(requestLevels())
+        dispatch(requestLevels()).then()
     }, [])
 
     useEffect(() => {
-        dispatch(requestLevels())
-    }, [levels])
-
-    useEffect(() => {
-        if (levelToCreate != null) {
+        if (levelToCreate) {
             dispatch(createLevel(levelToCreate))
+                .then(() => dispatch(requestLevels()).then())
+
         }
         setLevelToCreate(null)
     }, [levelToCreate])
 
+    useEffect(() => {
+        if (levelToDelete != null) {
+            dispatch(deleteLevel(levelToDelete))
+                .then(() => dispatch(requestLevels()).then())
+        }
+        setLevelToDelete(null)
+    }, [levelToDelete])
+
     const onDeleteLevel = (levelId: string) => {
-        alert(levelId)
+        setLevelToDelete(levelId)
     }
 
     const onLevelCreate = (level: LevelType) => {
@@ -104,6 +113,6 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
 export default compose(
     withAuthRedirect,
     connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {
-        requestLevels, createLevel
+        requestLevels, createLevel, deleteLevel
     })
 )(LevelsContainer);

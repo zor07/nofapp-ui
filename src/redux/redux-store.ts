@@ -1,5 +1,5 @@
 import {applyMiddleware, combineReducers, compose, createStore} from "redux";
-import thunkMiddleware from "redux-thunk";
+import thunkMiddleware, {ThunkDispatch} from "redux-thunk";
 import authReducer from "./auth-reducer";
 import appReducer from "./app-reducer";
 import timerReducer from "./timer-reducer";
@@ -11,6 +11,7 @@ import noteEditorReducer from "./note-editor-reducer";
 import profileReducer from "./profile-reducer";
 import profileListReducer from "./profile-list-reducer";
 import levelsReducer from "./levels-reducer";
+import {TypedUseSelectorHook, useSelector} from "react-redux";
 
 let rootReducer = combineReducers({
 
@@ -36,6 +37,10 @@ export type AppStateType = ReturnType<RootReducerType>
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMiddleware)));
 
+export type RootState = ReturnType<typeof rootReducer>;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+type AppAction = ReturnType<typeof store.dispatch>;
+export type AppDispatch = ThunkDispatch<RootState, any, AppAction>;
 // @ts-ignore
 window.__store__ = store;
 

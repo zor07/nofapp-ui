@@ -61,6 +61,17 @@ export const createLevel = (level: LevelType) => {
     }
 }
 
+export const deleteLevel = (levelId: string) => {
+    return async (dispatch) => {
+        const response = await LEVELS_API.deleteLevel(levelId)
+        if (response.status === 204) {
+            dispatch(requestLevels)
+        } else if (isTokenExpired(response)) {
+            dispatch(refreshToken())
+            dispatch(deleteLevel(levelId))
+        }
+    }
+}
 
 
 

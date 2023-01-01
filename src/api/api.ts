@@ -56,7 +56,7 @@ export const LEVELS_API = {
             })
     },
     deleteLevel(levelId: string): PromiseLike<ResponseType<any>>  {
-        return instance.put(`/levels/${levelId}`, auth())
+        return instance.delete(`/levels/${levelId}`, auth())
             .catch((error) => {
                 return handleError(error)
             })
