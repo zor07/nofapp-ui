@@ -81,7 +81,7 @@ const LevelsContainer: React.FC<LevelsListContainerPropsType> = ({tasks}) => {
 
     return (
         <div className={css.content}>
-            <PageHeader title='Levels' />
+            <PageHeader title='Tasks' />
             <List itemLayout="vertical"
                   size="large"
                   pagination={{
