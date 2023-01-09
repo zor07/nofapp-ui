@@ -3,7 +3,8 @@ import Cookies from "universal-cookie";
 import {ProfileType, RelapseLog} from "../redux/profile-reducer";
 import {NoteType} from "../redux/note-editor-reducer";
 import {LevelType} from "../redux/levels-reducer";
-import {TaskContentType, TaskType} from "../redux/tasks-reducer";
+import {TaskType} from "../redux/tasks-reducer";
+import {TaskContentType} from "../redux/task-content-list-reducer";
 
 const instance = axios.create({
     baseURL: process.env.NODE_ENV === 'production' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_DEV.toString()
