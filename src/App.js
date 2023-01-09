@@ -20,6 +20,7 @@ import ProfileList from "./components/Profile/list/ProfileListContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import LevelsContainer from "./components/Levels/LevelsContainer";
 import TaskListContainer from "./components/Levels/Tasks/TaskListContainer";
+import TaskContentListContainer from "./components/Levels/Tasks/TaskContent/TaskContentListContainer";
 
 class App extends Component {
 
@@ -58,6 +59,7 @@ class App extends Component {
                                 <Route path='/practice/editor/:practiceId' element={<PracticeEditorContainer/>}/>
                                 <Route path='/config/levels' element={<LevelsContainer/>}/>
                                 <Route path='/config/levels/:levelId/tasks' element={<TaskListContainer/>}/>
+                                <Route path='/config/levels/:levelId/tasks/:taskId/content' element={<TaskContentListContainer/>}/>
                                 <Route path='/login' element={<Login/>}/>
                             </Routes>
                         </Content>
