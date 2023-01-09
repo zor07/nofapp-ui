@@ -3,7 +3,6 @@ import {isTokenExpired} from "../api/apiUtils";
 import {refreshToken} from "./auth-reducer";
 import {LevelType} from "./levels-reducer";
 import {AppDispatch} from "./redux-store";
-import {RemirrorJSON} from "remirror";
 
 export type TaskType = {
     id: string,
@@ -11,15 +10,6 @@ export type TaskType = {
     name: string,
     description: string,
     level: LevelType,
-}
-
-export type TaskContentType = {
-    id: string,
-    title: string,
-    order: number,
-    fileUri: string | null,
-    data: RemirrorJSON | null,
-    task: TaskType
 }
 
 type SetTasksActionType = {
