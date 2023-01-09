@@ -102,7 +102,7 @@ export const TASK_CONTENT_API = {
         taskId: string,
         taskContent: TaskContentType
     ): PromiseLike<ResponseType<TaskContentType>> {
-        return instance.post(`/levels/${levelId}/tasks${taskId}/content`, taskContent, auth())
+        return instance.post(`/levels/${levelId}/tasks/${taskId}/content`, taskContent, auth())
             .catch((error) => {
                 return handleError(error)
             })
@@ -113,7 +113,7 @@ export const TASK_CONTENT_API = {
         taskContentId: string,
         taskContent: TaskContentType
     ): PromiseLike<ResponseType<TaskContentType>> {
-        return instance.put(`/levels/${levelId}/tasks${taskId}/content/${taskContentId}`, taskContent, auth())
+        return instance.put(`/levels/${levelId}/tasks/${taskId}/content/${taskContentId}`, taskContent, auth())
             .catch((error) => {
                 return handleError(error)
             })
@@ -123,7 +123,7 @@ export const TASK_CONTENT_API = {
         taskId: string,
         taskContentId: string,
     ): PromiseLike<ResponseType<any>> {
-        return instance.delete(`/levels/${levelId}/tasks${taskId}/content/${taskContentId}`, auth())
+        return instance.delete(`/levels/${levelId}/tasks/${taskId}/content/${taskContentId}`, auth())
             .catch((error) => {
                 return handleError(error)
             })
@@ -139,7 +139,7 @@ export const TASK_CONTENT_API = {
         const config = auth()
         config.headers["content-type"] = "multipart/form-data"
 
-        return instance.post(`/levels/${levelId}/tasks${taskId}/content/${taskContentId}/video`, formData, config)
+        return instance.post(`/levels/${levelId}/tasks/${taskId}/content/${taskContentId}/video`, formData, config)
             .catch((error) => {
                 return handleError(error)
             })
