@@ -26,12 +26,12 @@ type OwnPropsType = {}
 
 type LevelsListContainerPropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
 
-const LevelsContainer: React.FC<LevelsListContainerPropsType> = ({tasks}) => {
+const TaskListContainer: React.FC<LevelsListContainerPropsType> = ({tasks}) => {
     const dispatch = useDispatch<AppDispatch>()
     const params = useParams()
     const levelId = params.levelId
     const [taskToCreate, setTaskToCreate] = useState(null)
-    const [taskToDelete, setTaskToDelete] = useState(null)
+    const [taskIdToDelete, setTaskIdToDelete] = useState(null)
 
     const {Title} = Typography;
     const {Text} = Typography;
@@ -62,15 +62,15 @@ const LevelsContainer: React.FC<LevelsListContainerPropsType> = ({tasks}) => {
     }, [taskToCreate])
 
     useEffect(() => {
-        if (taskToDelete != null) {
-            dispatch(deleteTask(levelId, taskToDelete))
+        if (taskIdToDelete != null) {
+            dispatch(deleteTask(levelId, taskIdToDelete))
                 .then(() => dispatch(requestTasks(levelId)).then())
         }
-        setTaskToDelete(null)
-    }, [taskToDelete])
+        setTaskIdToDelete(null)
+    }, [taskIdToDelete])
 
-    const onDeleteTask = (levelId: string) => {
-        setTaskToDelete(levelId)
+    const onDeleteTask = (taskId: string) => {
+        setTaskIdToDelete(taskId)
     }
 
     const onCreateTask = (task: TaskType) => {
@@ -133,4 +133,4 @@ export default compose(
     connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {
         requestTasks, createLevelTask, deleteTask, unmountTasks
     })
-)(LevelsContainer);
+)(TaskListContainer);

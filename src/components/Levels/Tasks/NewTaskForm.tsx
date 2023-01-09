@@ -5,11 +5,11 @@ import {TaskType} from "../../../redux/tasks-reducer";
 
 const {Title} = Typography;
 
-type NewLevelFormType = {
+type NewTaskFormType = {
     createTask: (task: TaskType) => void
 }
 
-const NewLevelForm: React.FC<NewLevelFormType> = ({createTask}) => {
+const NewTaskForm: React.FC<NewTaskFormType> = ({createTask}) => {
     const [form] = Form.useForm()
 
     const onFinish = (task: TaskType) => {
@@ -84,4 +84,4 @@ const NewLevelForm: React.FC<NewLevelFormType> = ({createTask}) => {
 }
 
 
-export default NewLevelForm;
+export default NewTaskForm;
