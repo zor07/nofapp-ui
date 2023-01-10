@@ -92,6 +92,11 @@ export const TASKS_API = {
 }
 
 export const TASK_CONTENT_API = {
+    getTaskContent(levelId: string, taskId: string, taskContentId): PromiseLike<ResponseType<TaskContentType>> {
+        return instance.get(`/levels/${levelId}/tasks/${taskId}/content/${taskContentId}`, auth()).catch((error) => {
+            return handleError(error)
+        })
+    },
     getTaskContents(levelId: string, taskId: string): PromiseLike<ResponseType<Array<TaskContentType>>> {
         return instance.get(`/levels/${levelId}/tasks/${taskId}/content`, auth()).catch((error) => {
             return handleError(error)

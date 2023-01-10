@@ -14,6 +14,7 @@ import levelsReducer from "./levels-reducer";
 import {TypedUseSelectorHook, useSelector} from "react-redux";
 import tasksReducer from "./tasks-reducer";
 import taskContentListReducer from "./task-content-list-reducer";
+import taskContentReducer from "./task-content-reducer";
 
 let rootReducer = combineReducers({
 
@@ -23,7 +24,8 @@ let rootReducer = combineReducers({
     profile: profileReducer,
     levels: levelsReducer,
     tasks: tasksReducer,
-    taskContentListReducer: taskContentListReducer,
+    taskContentList: taskContentListReducer,
+    taskContent: taskContentReducer,
     profileList: profileListReducer,
     notebooks: notebookReducer,
     notes: notesReducer,

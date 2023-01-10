@@ -130,7 +130,7 @@ const LevelsContainer: React.FC<LevelsListContainerPropsType> = ({taskContentLis
 
 let mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
-        taskContentList: state.taskContentListReducer.taskContentList,
+        taskContentList: state.taskContentList.taskContentList,
     }
 }
 

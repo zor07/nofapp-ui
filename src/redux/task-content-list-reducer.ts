@@ -23,18 +23,18 @@ type UnmountTaskContentListActionType = {
     type: typeof UNMOUNT_TASK_CONTENT_LIST
 }
 
-type TasksStateType = {
+type TaskContentListStateType = {
     taskContentList: Array<TaskContentType>
 }
 
-const initialState: TasksStateType = {
+const initialState: TaskContentListStateType = {
     taskContentList: []
 }
 
-const SET_TASK_CONTENT_LIST = 'TASK_CONTENTS/SET_TASK_CONTENTS'
-const UNMOUNT_TASK_CONTENT_LIST = 'TASK_CONTENTS/UNMOUNT_TASK_CONTENTS'
+const SET_TASK_CONTENT_LIST = 'TASK_CONTENT_LIST/SET_TASK_CONTENT_LIST'
+const UNMOUNT_TASK_CONTENT_LIST = 'TASK_CONTENT_LIST/UNMOUNT_TASK_CONTENT_LIST'
 
-const taskContentListReducer = (state: TasksStateType = initialState, action: SetTaskContentListActionType | UnmountTaskContentListActionType): TasksStateType => {
+const taskContentListReducer = (state: TaskContentListStateType = initialState, action: SetTaskContentListActionType | UnmountTaskContentListActionType): TaskContentListStateType => {
     switch (action.type) {
         case SET_TASK_CONTENT_LIST:
             return {
