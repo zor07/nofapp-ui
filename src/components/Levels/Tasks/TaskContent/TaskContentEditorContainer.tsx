@@ -3,7 +3,7 @@ import {connect, useDispatch} from "react-redux";
 import {AppDispatch, AppStateType} from "../../../../redux/redux-store";
 import {useNavigate, useParams} from "react-router-dom";
 import {RemirrorJSON} from "remirror";
-import {Button, Descriptions, message, PageHeader} from "antd";
+import {Button, Col, Descriptions, message, PageHeader, Row} from "antd";
 import {ArrowLeftOutlined} from "@ant-design/icons";
 import {withAuthRedirect} from "../../../../hoc/withAuthRedirect";
 import {compose} from "redux";
@@ -11,6 +11,7 @@ import {useDebouncedCallback} from "use-debounce";
 import {TaskContentType} from "../../../../redux/task-content-list-reducer";
 import {requestTaskContent, unmountTaskContent, updateTaskContent} from "../../../../redux/task-content-reducer";
 import Editor from "../../../Editor/Editor";
+import css from './TaskContent.module.css'
 
 
 type MapStatePropsType = {
@@ -127,7 +128,7 @@ const PracticeEditorContainer: React.FC<TaskContentEditorContainerPropsType> = (
     }
 
     return (
-        <div>
+        <div className={css.content}>
             <PageHeader
                 ghost={false}
                 title={`Task content`}>
@@ -139,15 +140,23 @@ const PracticeEditorContainer: React.FC<TaskContentEditorContainerPropsType> = (
             </PageHeader>
             {taskContent
                 ? <div>
-                    <Editor selection={{anchor: 0, head: 0}}
-                            content={taskContent.data}
-                            setEditorState={setEditorState}
-                            setShouldAutoSave={setShouldAutoSave}
-                            setShouldSaveImmediately={setShouldSaveImmediately}/>
-                    <div>
-                        <span>Video:</span>
-                        {taskContent.fileUri}
-                    </div>
+                    <Row>
+                        <Col span={24}>
+                            <Editor selection={{anchor: 0, head: 0}}
+                                    content={taskContent.data}
+                                    setEditorState={setEditorState}
+                                    setShouldAutoSave={setShouldAutoSave}
+                                    setShouldSaveImmediately={setShouldSaveImmediately}/>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span={24}>
+                            <div className={css.video}>
+                                <span>Video:</span>
+                                {taskContent.fileUri}
+                            </div>
+                        </Col>
+                    </Row>
                 </div>
                 : <div>Loading...</div>
             }

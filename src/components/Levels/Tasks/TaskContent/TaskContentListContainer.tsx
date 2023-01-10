@@ -2,12 +2,11 @@ import React, {useEffect, useState} from 'react';
 import {connect, useDispatch} from "react-redux";
 import {compose} from "redux";
 import {withAuthRedirect} from "../../../../hoc/withAuthRedirect";
-import css from './TaskList.module.css'
+import css from './TaskContent.module.css'
 import {Button, List, PageHeader, Popconfirm, Typography} from "antd";
 import {NavLink, useParams} from "react-router-dom";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import {AppDispatch, AppStateType} from "../../../../redux/redux-store";
-import {TaskType} from "../../../../redux/tasks-reducer";
 import {
     createTaskContent,
     deleteTaskContent,
