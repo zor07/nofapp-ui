@@ -9,9 +9,15 @@ import {withAuthRedirect} from "../../../../hoc/withAuthRedirect";
 import {compose} from "redux";
 import {useDebouncedCallback} from "use-debounce";
 import {TaskContentType} from "../../../../redux/task-content-list-reducer";
-import {requestTaskContent, unmountTaskContent, updateTaskContent} from "../../../../redux/task-content-reducer";
+import {
+    requestTaskContent,
+    unmountTaskContent,
+    updateTaskContent,
+    uploadVideo
+} from "../../../../redux/task-content-reducer";
 import Editor from "../../../Editor/Editor";
 import css from './TaskContent.module.css'
+import TaskContentVideoComponent from "./TaskContentVideoComponent";
 
 
 type MapStatePropsType = {
@@ -22,6 +28,7 @@ type MapDispatchPropsType = {
     updateTaskContent: (levelId: string, taskId: string, taskContentId: string, taskContent: TaskContentType) => void
     requestTaskContent: (levelId: string, taskId: string, taskContentId: string) => void
     unmountTaskContent: () => void
+    uploadVideo: (levelId: string, taskId: string, taskContentId: string, file: File) => void
 }
 
 
@@ -32,6 +39,8 @@ const PracticeEditorContainer: React.FC<TaskContentEditorContainerPropsType> = (
     const params = useParams()
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>()
+    const [video, setVideo] = useState(null)
+    const [shouldDeleteVideo, setShouldDeleteVideo] = useState(false)
     const [contentToUpdate, setContentToUpdate] = useState(null)
     const levelId = params.levelId
     const taskId = params.taskId
@@ -45,6 +54,20 @@ const PracticeEditorContainer: React.FC<TaskContentEditorContainerPropsType> = (
             dispatch(unmountTaskContent())
         }
     }, [dispatch])
+
+    useEffect(() => {
+        if (video) {
+            dispatch(uploadVideo(levelId, taskId, taskContentId, video))
+                .then(() => setVideo(null));
+        }
+    }, [video])
+
+    useEffect(() => {
+        if (shouldDeleteVideo) {
+            //TODO implement
+            setShouldDeleteVideo(false)
+        }
+    }, [shouldDeleteVideo])
 
     useEffect(() => {
         if (contentToUpdate) {
@@ -62,6 +85,14 @@ const PracticeEditorContainer: React.FC<TaskContentEditorContainerPropsType> = (
                 .then(() => setContentToUpdate(null))
         }
     }, [contentToUpdate])
+
+    const onUploadVideo = (file: File) => {
+        setVideo(file)
+    }
+
+    const onDeleteVideo = () => {
+        setShouldDeleteVideo(true)
+    }
 
 
     const [editorState, setEditorState] = useState(null);
@@ -151,10 +182,9 @@ const PracticeEditorContainer: React.FC<TaskContentEditorContainerPropsType> = (
                     </Row>
                     <Row>
                         <Col span={24}>
-                            <div className={css.video}>
-                                <span>Video:</span>
-                                {taskContent.fileUri}
-                            </div>
+                            <TaskContentVideoComponent taskContent={taskContent}
+                                                       onDeleteVideo={onDeleteVideo}
+                                                       onUploadVideo={onUploadVideo} />
                         </Col>
                     </Row>
                 </div>
@@ -175,6 +205,7 @@ export default compose(
     connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {
         requestTaskContent,
         updateTaskContent,
-        unmountTaskContent
+        unmountTaskContent,
+        uploadVideo
     })
 )(PracticeEditorContainer);

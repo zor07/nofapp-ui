@@ -1,4 +1,4 @@
-import {TASK_CONTENT_API} from "../api/api";
+import {PROFILE_API, TASK_CONTENT_API} from "../api/api";
 import {isTokenExpired} from "../api/apiUtils";
 import {refreshToken} from "./auth-reducer";
 import {AppDispatch} from "./redux-store";
@@ -6,6 +6,7 @@ import {RemirrorJSON} from "remirror";
 import {TaskType} from "./tasks-reducer";
 import {TaskContentType} from "./task-content-list-reducer";
 import {PracticeType, setPractice} from "./practice-reducer";
+import {getProfile} from "./profile-reducer";
 
 type SetTaskContentActionType = {
     type: typeof SET_TASK_CONTENT
@@ -73,6 +74,9 @@ export const requestTaskContent = (levelId: string, taskId: string, taskContentI
             if (!taskContent.data) {
                 taskContent.data = JSON.parse(DEFAULT_TASK_CONTENT_DATA)
             }
+            if (taskContent.fileUri) {
+                taskContent.fileUri = `http://127.0.0.1:9000/${taskContent.fileUri}`
+            }
             await dispatch(setTaskContent(taskContent))
         } else if (isTokenExpired(response)) {
             dispatch(refreshToken())
@@ -89,10 +93,25 @@ export const updateTaskContent = (levelId: string, taskId: string, taskContentId
             if (!taskContent.data) {
                 taskContent.data = JSON.parse(DEFAULT_TASK_CONTENT_DATA)
             }
+            if (taskContent.fileUri) {
+                taskContent.fileUri = `http://127.0.0.1:9000/${taskContent.fileUri}`
+            }
             await dispatch(setTaskContent(taskContent))
         } else if (isTokenExpired(response)) {
             dispatch(refreshToken())
                 .then(() => dispatch(updateTaskContent(levelId, taskId, taskContentId, taskContent)))
+        }
+    }
+}
+
+export const uploadVideo = (levelId: string, taskId: string, taskContentId: string, file: File) => {
+    return async (dispatch: AppDispatch) => {
+        const response = await TASK_CONTENT_API.uploadMediaToTaskContent(levelId, taskId, taskContentId, file);
+        if (response.status === 200) {
+            await dispatch(requestTaskContent(levelId, taskId, taskContentId))
+        } else if (isTokenExpired(response)) {
+            dispatch(refreshToken())
+                .then(() => dispatch(uploadVideo(levelId, taskId, taskContentId, file)))
         }
     }
 }
