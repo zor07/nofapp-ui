@@ -152,6 +152,23 @@ export const TASK_CONTENT_API = {
 
 }
 
+export const USER_PROGRESS_API = {
+
+    getCurrentTaskContent(): PromiseLike<Array<TaskContentType>> {
+        return instance.get<Array<TaskContentType>>(`progress`, auth())
+            .catch((error) => {
+                return handleError(error)
+            })
+    },
+    nextTask(): PromiseLike<ResponseType<any>> {
+        return instance.put(`nextTask`, null, auth())
+            .catch((error) => {
+                return handleError(error)
+            })
+    }
+
+}
+
 export const PROFILE_API = {
     getProfiles(): PromiseLike<ResponseType<Array<ProfileType>>> {
         return instance.get<Array<ProfileType>>(`profiles`, auth())
