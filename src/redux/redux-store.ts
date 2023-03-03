@@ -15,6 +15,7 @@ import {TypedUseSelectorHook, useSelector} from "react-redux";
 import tasksReducer from "./tasks-reducer";
 import taskContentListReducer from "./task-content-list-reducer";
 import taskContentReducer from "./task-content-reducer";
+import therapyReducer from "./therapy-reducer";
 
 let rootReducer = combineReducers({
 
@@ -22,6 +23,7 @@ let rootReducer = combineReducers({
     auth: authReducer,
     app: appReducer,
     profile: profileReducer,
+    therapy: therapyReducer,
     levels: levelsReducer,
     tasks: tasksReducer,
     taskContentList: taskContentListReducer,

@@ -18,6 +18,9 @@ const Navbar: React.FC<NavbarPropsType> = ({isAuth, username, logout}) => {
                 <Menu.Item key='my-profile'>
                     <NavLink to='/profile'>My Profile</NavLink>
                 </Menu.Item>
+                <Menu.Item key='therapy'>
+                    <NavLink to='/therapy'>Therapy</NavLink>
+                </Menu.Item>
                 <Menu.Item key='profiles'>
                     <NavLink to='/profiles'>Users</NavLink>
                 </Menu.Item>

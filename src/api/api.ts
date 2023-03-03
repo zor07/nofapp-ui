@@ -154,7 +154,7 @@ export const TASK_CONTENT_API = {
 
 export const USER_PROGRESS_API = {
 
-    getCurrentTaskContent(): PromiseLike<Array<TaskContentType>> {
+    getCurrentTaskContent(): PromiseLike<ResponseType<Array<TaskContentType>>> {
         return instance.get<Array<TaskContentType>>(`progress`, auth())
             .catch((error) => {
                 return handleError(error)
