@@ -41,6 +41,11 @@ export const getTaskContentListForUser = () => {
     return async (dispatch: AppDispatch) => {
         const response = await USER_PROGRESS_API.getCurrentTaskContent()
         if (response.status === 200) {
+            const data = response.data.map(taskContent => {
+                if (taskContent.fileUri) {
+                    taskContent.fileUri = `http://127.0.0.1:9000/${taskContent.fileUri}`
+                }
+            })
             dispatch(setTaskContentListActionCreator(response.data))
         } else if (isTokenExpired(response)) {
             dispatch(refreshToken())
