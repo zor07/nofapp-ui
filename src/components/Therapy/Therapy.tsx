@@ -1,10 +1,9 @@
 import React from "react";
-import {PageHeader, Typography} from "antd";
-import ReactPlayer from "react-player";
+import {PageHeader} from "antd";
 import css from "./Therapy.module.css";
 import {TaskContentType} from "../../redux/task-content-list-reducer";
+import TaskContentViewer from "./TaskContentViewer";
 
-const {Title} = Typography;
 
 type MapStatePropsType = {
     taskContentList: Array<TaskContentType>
@@ -18,26 +17,14 @@ type LevelsListContainerPropsType = MapStatePropsType & MapDispatchPropsType & O
 
 const Therapy: React.FC<LevelsListContainerPropsType> = ({taskContentList}) => {
 
-    console.log(taskContentList)
+    const taskContentElements = taskContentList.map((taskContent, index) => (
+        <TaskContentViewer key={index} taskContent={taskContent}/>
+    ))
 
     return (
         <div className={css.therapy}>
-            <PageHeader title='This is Therapy' />
-            <div>
-                <Title>Length is: {taskContentList ? taskContentList.length : 0}</Title>
-
-
-                <ReactPlayer
-                    // playing={showVideo}
-                    className='react-player'
-                    url={[
-                        {
-                            src: "http://127.0.0.1:9000/video/Sample-Video-File-For-Testing.mp4",
-                            type: "video/mp4"
-                        },
-                    ]}
-                    controls={true}/>
-            </div>
+            <PageHeader title='Therapy' />
+            {taskContentElements}
         </div>
     )
 
