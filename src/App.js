@@ -22,7 +22,7 @@ import LevelsContainer from "./components/Levels/LevelsContainer";
 import TaskListContainer from "./components/Levels/Tasks/TaskListContainer";
 import TaskContentListContainer from "./components/Levels/Tasks/TaskContent/TaskContentListContainer";
 import TaskContentEditorContainer from "./components/Levels/Tasks/TaskContent/TaskContentEditorContainer";
-import Therapy from "./components/Therapy/Therapy";
+import TherapyContainer from "./components/Therapy/TherapyContainer";
 
 class App extends Component {
 
@@ -63,7 +63,7 @@ class App extends Component {
                                 <Route path='/config/levels/:levelId/tasks' element={<TaskListContainer/>}/>
                                 <Route path='/config/levels/:levelId/tasks/:taskId/content' element={<TaskContentListContainer/>}/>
                                 <Route path='/config/levels/:levelId/tasks/:taskId/content/:taskContentId' element={<TaskContentEditorContainer/>}/>
-                                <Route path='/therapy' element={<Therapy/>}/>
+                                <Route path='/therapy' element={<TherapyContainer/>}/>
                                 <Route path='/login' element={<Login/>}/>
                             </Routes>
                         </Content>

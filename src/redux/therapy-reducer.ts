@@ -37,14 +37,14 @@ const setTaskContentListActionCreator = (payload: Array<TaskContentType>): SetTa
     payload
 })
 
-export const getTaskContentList = () => {
+export const getTaskContentListForUser = () => {
     return async (dispatch: AppDispatch) => {
         const response = await USER_PROGRESS_API.getCurrentTaskContent()
         if (response.status === 200) {
             dispatch(setTaskContentListActionCreator(response.data))
         } else if (isTokenExpired(response)) {
             dispatch(refreshToken())
-                .then(() => dispatch(getTaskContentList()))
+                .then(() => dispatch(getTaskContentListForUser()))
         }
     }
 }
@@ -53,10 +53,10 @@ export const nextTask = () => {
     return async (dispatch: AppDispatch) => {
         const response = await USER_PROGRESS_API.nextTask()
         if (response.status === 201) {
-            dispatch(getTaskContentList)
+            dispatch(getTaskContentListForUser)
         } else if (isTokenExpired(response)) {
             dispatch(refreshToken())
-                .then(() => dispatch(getTaskContentList()))
+                .then(() => dispatch(getTaskContentListForUser()))
         }
     }
 }
