@@ -3,6 +3,7 @@ import {TaskContentType} from "../../redux/task-content-list-reducer";
 import {Typography} from "antd";
 import ReactPlayer from "react-player";
 import EditorReadView from "../Editor/EditorReadView";
+import css from './Therapy.module.css'
 
 type MapStatePropsType = {
     taskContent: TaskContentType
@@ -18,9 +19,12 @@ const TaskContentViewer: React.FC<TaskContentViewerPropsType> = ({taskContent}) 
 
     const hasData = taskContent.data || taskContent.fileUri
     return (
-        <div>
+        <div className={css.taskContent}>
             {hasData && (
                 <div>
+
+                    <Title level={5}>{taskContent.title}</Title>
+
                     {taskContent.data && (
                         <EditorReadView data={taskContent.data} displayTitle={true}/>
                     )}
