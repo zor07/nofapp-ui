@@ -71,6 +71,18 @@ export const TASKS_API = {
             return handleError(error)
         })
     },
+    getNextTask(task: TaskType): PromiseLike<ResponseType<TaskType>> {
+        return instance.get(`/levels/${task.level.id}/tasks/${task.id}/next`, auth())
+            .catch((error) => {
+                return handleError(error)
+            })
+    },
+    getPrevTask(task: TaskType): PromiseLike<ResponseType<TaskType>> {
+        return instance.get(`/levels/${task.level.id}/tasks/${task.id}/prev`, auth())
+            .catch((error) => {
+                return handleError(error)
+            })
+    },
     createLevelTask(levelId: string, task: TaskType): PromiseLike<ResponseType<LevelType>> {
         return instance.post(`/levels/${levelId}/tasks`, task, auth())
             .catch((error) => {
@@ -97,7 +109,7 @@ export const TASK_CONTENT_API = {
             return handleError(error)
         })
     },
-    getTaskContents(levelId: string, taskId: string): PromiseLike<ResponseType<Array<TaskContentType>>> {
+    getTaskContentList(levelId: string, taskId: string): PromiseLike<ResponseType<Array<TaskContentType>>> {
         return instance.get(`/levels/${levelId}/tasks/${taskId}/content`, auth()).catch((error) => {
             return handleError(error)
         })
@@ -154,14 +166,15 @@ export const TASK_CONTENT_API = {
 
 export const USER_PROGRESS_API = {
 
-    getCurrentTaskContent(): PromiseLike<ResponseType<Array<TaskContentType>>> {
+    getCurrentUserTask(): PromiseLike<ResponseType<TaskType>> {
         return instance.get<Array<TaskContentType>>(`progress`, auth())
             .catch((error) => {
                 return handleError(error)
             })
     },
-    nextTask(): PromiseLike<ResponseType<any>> {
-        return instance.put(`nextTask`, null, auth())
+    // todo rename endpoint to finishTask
+    finishCurrentTask(): PromiseLike<ResponseType<any>> {
+        return instance.put(`progress/nextTask`, null, auth())
             .catch((error) => {
                 return handleError(error)
             })

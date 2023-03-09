@@ -56,7 +56,7 @@ const unmountTaskContentListAction = (): UnmountTaskContentListActionType => ({t
 
 export const requestTaskContentList = (levelId: string, taskId: string) => {
     return async (dispatch: AppDispatch) => {
-        const response = await TASK_CONTENT_API.getTaskContents(levelId, taskId)
+        const response = await TASK_CONTENT_API.getTaskContentList(levelId, taskId)
         if (response.status === 200) {
             await dispatch(setTaskContentList(response.data))
         } else if (isTokenExpired(response)) {
