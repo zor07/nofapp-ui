@@ -80,20 +80,20 @@ const Profile: React.FC<MapStatePropsType & MapDispatchPropsType> = ({
                         </div>
                     </Col>
                 </Row>
-                <Row>
-                    <Col flex={2}>
-                        <ReactPlayer
-                            // playing={showVideo}
-                            className='react-player'
-                            url={[
-                                {
-                                    src: "http://127.0.0.1:9000/video/Sample-Video-File-For-Testing.mp4",
-                                    type: "video/mp4"
-                                },
-                            ]}
-                            controls={true}/>
-                    </Col>
-                </Row>
+                {/*<Row>*/}
+                {/*    <Col flex={2}>*/}
+                {/*        <ReactPlayer*/}
+                {/*            // playing={showVideo}*/}
+                {/*            className='react-player'*/}
+                {/*            url={[*/}
+                {/*                {*/}
+                {/*                    src: "http://127.0.0.1:9000/video/Sample-Video-File-For-Testing.mp4",*/}
+                {/*                    type: "video/mp4"*/}
+                {/*                },*/}
+                {/*            ]}*/}
+                {/*            controls={true}/>*/}
+                {/*    </Col>*/}
+                {/*</Row>*/}
             </div>
         </div>
     )
