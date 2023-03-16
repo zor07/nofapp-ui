@@ -1,11 +1,13 @@
 import {LEVELS_API} from "../api/api";
 import {isTokenExpired} from "../api/apiUtils";
 import {refreshToken} from "./auth-reducer";
+import {TaskType} from "./tasks-reducer";
 
 export type LevelType = {
     id: string
     name: string
     order: number
+    tasks: Array<TaskType> | null
 }
 
 type SetLevelsActionType = {

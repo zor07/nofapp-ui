@@ -7,7 +7,7 @@ import {Button, List, PageHeader, Popconfirm, Typography} from "antd";
 import {NavLink, useParams} from "react-router-dom";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import {AppDispatch, AppStateType} from "../../../redux/redux-store";
-import {createLevelTask, deleteTask, requestTasks, TaskType, unmountTasks} from "../../../redux/tasks-reducer";
+import {createTask, deleteTask, requestTasks, TaskType, unmountTasks} from "../../../redux/tasks-reducer";
 import NewTaskForm from "./NewTaskForm";
 
 
@@ -54,7 +54,7 @@ const TaskListContainer: React.FC<LevelsListContainerPropsType> = ({tasks}) => {
 
     useEffect(() => {
         if (taskToCreate) {
-            dispatch(createLevelTask(levelId, taskToCreate))
+            dispatch(createTask(levelId, taskToCreate))
                 .then(() => dispatch(requestTasks(levelId)).then())
 
         }
@@ -131,6 +131,6 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
 export default compose(
     withAuthRedirect,
     connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {
-        requestTasks, createLevelTask, deleteTask, unmountTasks
+        requestTasks, createLevelTask: createTask, deleteTask, unmountTasks
     })
 )(TaskListContainer);

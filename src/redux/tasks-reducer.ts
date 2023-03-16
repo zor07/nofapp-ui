@@ -67,7 +67,7 @@ export const requestTasks = (levelId: string) => {
     }
 }
 
-export const createLevelTask = (levelId: string, task: TaskType) => {
+export const createTask = (levelId: string, task: TaskType) => {
     return async (dispatch: AppDispatch) => {
         const response = await TASKS_API.createLevelTask(levelId, task)
         if (response.status === 201) {

@@ -95,6 +95,21 @@ export const TASKS_API = {
                 return handleError(error)
             })
     },
+    uploadMediaToTaskContent(
+        levelId: string,
+        taskId: string,
+        file: File
+    ): PromiseLike<ResponseType<any>> {
+        const formData = new FormData();
+        formData.append('file', file)
+        const config = auth()
+        config.headers["content-type"] = "multipart/form-data"
+
+        return instance.post(`/api/v1/levels/${levelId}/tasks/${taskId}/video`, formData, config)
+            .catch((error) => {
+                return handleError(error)
+            })
+    },
     deleteTask(levelId: string, taskId: string): PromiseLike<ResponseType<any>>  {
         return instance.delete(`/levels/${levelId}/tasks/${taskId}`, auth())
             .catch((error) => {
