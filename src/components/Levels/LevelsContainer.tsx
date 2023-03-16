@@ -5,12 +5,12 @@ import {compose} from "redux";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import css from './Levels.module.css'
 import {createLevel, deleteLevel, LevelType, requestLevels} from "../../redux/levels-reducer";
-import {Button, List, PageHeader, Popconfirm, Space} from "antd";
-import {NavLink} from "react-router-dom";
+import {Button, Form, List, Modal, PageHeader, Popconfirm, Space} from "antd";
 import {DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
 import LevelItem from "./LevelItem";
 import {createTask, deleteTask, TaskType} from "../../redux/tasks-reducer";
 import LevelTasks from "./Tasks/LevelTasks";
+import NewLevelForm from "./NewLevelForm";
 
 
 type MapStatePropsType = {
@@ -31,8 +31,12 @@ type LevelsListContainerPropsType = MapStatePropsType & MapDispatchPropsType & O
 
 const LevelsContainer: React.FC<LevelsListContainerPropsType> = ({levels}) => {
     const dispatch = useDispatch<AppDispatch>()
+    const [levelForm] = Form.useForm();
+
     const [levelToCreate, setLevelToCreate] = useState(null)
+    const [levelToEdit, setLevelToEdit] = useState(null)
     const [levelToDelete, setLevelToDelete] = useState(null)
+    const [levelFormVisible, setLevelFormVisible] = useState(false);
 
     useEffect(() => {
         dispatch(requestLevels()).then()
@@ -59,9 +63,28 @@ const LevelsContainer: React.FC<LevelsListContainerPropsType> = ({levels}) => {
         setLevelToDelete(levelId)
     }
 
-    const onLevelCreate = (level: LevelType) => {
-        setLevelToCreate(level)
+    const showLevelFormModal = () => {
+        setLevelFormVisible(true)
     }
+
+    const onEditLevel = (level: LevelType) => {
+
+        setLevelToEdit(level)
+        showLevelFormModal()
+    }
+
+    const onLevelFormSubmit = (level: LevelType) => {
+        setLevelToCreate(level)
+        setLevelFormVisible(false)
+        setLevelToEdit(null)
+        levelForm.resetFields()
+    }
+
+    const onLevelFormCancel = () => {
+        setLevelFormVisible(false)
+        setLevelToEdit(null)
+        levelForm.resetFields()
+    };
 
     levels.sort((a, b) => a.order - b.order)
 
@@ -72,10 +95,10 @@ const LevelsContainer: React.FC<LevelsListContainerPropsType> = ({levels}) => {
                   size="small"
                   footer={
                       <div>
-                          {/*<NewLevelForm createLevel={onLevelCreate}/>*/}
                           <Button block
                                   size={'large'}
                                   type={"dashed"}
+                                  onClick={showLevelFormModal}
                                   icon={<PlusOutlined />}  >
                               Add Level
                           </Button>
@@ -86,11 +109,10 @@ const LevelsContainer: React.FC<LevelsListContainerPropsType> = ({levels}) => {
                       <List.Item key={level.id}
                                  extra={[
                                      <Space direction={'vertical'}>
-                                         <NavLink to={`/config/levels/${level.id}/tasks/`}>
-                                             <Button size={'small'}
-                                                     type={'dashed'}
-                                                     icon={<EditOutlined/>} />
-                                         </NavLink>
+                                         <Button size={'small'}
+                                                 type={'dashed'}
+                                                 onClick={() => onEditLevel(level)}
+                                                 icon={<EditOutlined/>} />
                                          <Popconfirm placement="right"
                                                      title={`Are you shure you want to delete [${level.name}] ?`}
                                                      onConfirm={() => onDeleteLevel(level.id)}
@@ -109,6 +131,9 @@ const LevelsContainer: React.FC<LevelsListContainerPropsType> = ({levels}) => {
                                         deleteTask={deleteTask} />
                       </List.Item>
                   )}/>
+            <Modal visible={levelFormVisible} onOk={levelForm.submit} onCancel={onLevelFormCancel} title={'Create new level'}>
+                <NewLevelForm form={levelForm} level={levelToEdit} handleSubmit={onLevelFormSubmit} />
+            </Modal>
         </div>
     )
 }
