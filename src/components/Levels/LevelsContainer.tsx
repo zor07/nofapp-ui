@@ -4,12 +4,12 @@ import {AppDispatch, AppStateType} from "../../redux/redux-store";
 import {compose} from "redux";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import css from './Levels.module.css'
-import {createLevel, deleteLevel, LevelType, requestLevels} from "../../redux/levels-reducer";
+import {saveLevel, deleteLevel, LevelType, requestLevels} from "../../redux/levels-reducer";
 import {Button, Form, List, Modal, PageHeader, Popconfirm, Space} from "antd";
 import {DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
 import LevelItem from "./LevelItem";
-import {createTask, deleteTask, TaskType} from "../../redux/tasks-reducer";
-import LevelTasks from "./Tasks/LevelTasks";
+import {saveTask, deleteTask, TaskType} from "../../redux/tasks-reducer";
+import LevelTasks from "./LevelTasks";
 import NewLevelForm from "./NewLevelForm";
 
 
@@ -19,9 +19,9 @@ type MapStatePropsType = {
 
 type MapDispatchPropsType = {
     requestLevels: () => void
-    createLevel: (level: LevelType) => void
+    saveLevel: (level: LevelType) => void
     deleteLevel: (levelId: string) => void
-    createTask: (levelId: string, task: TaskType) => void
+    saveTask: (levelId: string, task: TaskType) => void
     deleteTask: (levelId: string, taskId: string) => void
 }
 
@@ -33,23 +33,27 @@ const LevelsContainer: React.FC<LevelsListContainerPropsType> = ({levels}) => {
     const dispatch = useDispatch<AppDispatch>()
     const [levelForm] = Form.useForm();
 
-    const [levelToCreate, setLevelToCreate] = useState(null)
+    const [levelToSave, setLevelToSave] = useState(null)
     const [levelToEdit, setLevelToEdit] = useState(null)
     const [levelToDelete, setLevelToDelete] = useState(null)
-    const [levelFormVisible, setLevelFormVisible] = useState(false);
+    const [levelFormVisible, setLevelFormVisible] = useState(false)
+
+    const [taskToSave, setTaskToSave] = useState(null)
+    const [taskToDelete, setTaskToDelete] = useState(null)
+
 
     useEffect(() => {
         dispatch(requestLevels()).then()
     }, [])
 
     useEffect(() => {
-        if (levelToCreate) {
-            dispatch(createLevel(levelToCreate))
+        if (levelToSave) {
+            dispatch(saveLevel(levelToSave))
                 .then(() => dispatch(requestLevels()).then())
 
         }
-        setLevelToCreate(null)
-    }, [levelToCreate])
+        setLevelToSave(null)
+    }, [levelToSave])
 
     useEffect(() => {
         if (levelToDelete != null) {
@@ -58,6 +62,26 @@ const LevelsContainer: React.FC<LevelsListContainerPropsType> = ({levels}) => {
         }
         setLevelToDelete(null)
     }, [levelToDelete])
+
+    useEffect(() => {
+        if (taskToSave) {
+            dispatch(saveTask(taskToSave.level.id, taskToSave))
+                .then(() => dispatch(requestLevels()).then())
+
+        }
+        setTaskToSave(null)
+    }, [taskToSave])
+
+    useEffect(() => {
+        if (taskToDelete) {
+            dispatch(deleteTask(taskToDelete.level.id, taskToDelete.id))
+                .then(() => dispatch(requestLevels()).then())
+        }
+        setTaskToDelete(null)
+    }, [taskToDelete])
+
+
+
 
     const onDeleteLevel = (levelId: string) => {
         setLevelToDelete(levelId)
@@ -74,7 +98,7 @@ const LevelsContainer: React.FC<LevelsListContainerPropsType> = ({levels}) => {
     }
 
     const onLevelFormSubmit = (level: LevelType) => {
-        setLevelToCreate(level)
+        setLevelToSave(level)
         setLevelFormVisible(false)
         setLevelToEdit(null)
         levelForm.resetFields()
@@ -127,11 +151,15 @@ const LevelsContainer: React.FC<LevelsListContainerPropsType> = ({levels}) => {
                                  ]}>
                             <LevelItem level={level} />
                             <LevelTasks level={level}
-                                        createTask={createTask}
-                                        deleteTask={deleteTask} />
+                                        saveTask={(task) => setTaskToSave(task)}
+                                        deleteTask={(task) => setTaskToDelete(task)} />
                       </List.Item>
                   )}/>
-            <Modal visible={levelFormVisible} onOk={levelForm.submit} onCancel={onLevelFormCancel} title={'Create new level'}>
+            <Modal visible={levelFormVisible}
+                   onOk={levelForm.submit}
+                   onCancel={onLevelFormCancel}
+                   width={'1000px'}
+                   title={'Create new level'}>
                 <NewLevelForm form={levelForm} level={levelToEdit} handleSubmit={onLevelFormSubmit} />
             </Modal>
         </div>
@@ -148,6 +176,6 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
 export default compose(
     withAuthRedirect,
     connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {
-        requestLevels, createLevel, deleteLevel, createTask, deleteTask
+        requestLevels, saveLevel, deleteLevel, saveTask, deleteTask
     })
 )(LevelsContainer);

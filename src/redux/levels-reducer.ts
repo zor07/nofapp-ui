@@ -51,14 +51,14 @@ export const requestLevels = () => {
     }
 }
 
-export const createLevel = (level: LevelType) => {
+export const saveLevel = (level: LevelType) => {
     return async (dispatch) => {
         const response = await LEVELS_API.createLevel(level)
         if (response.status === 201) {
             dispatch(requestLevels)
         } else if (isTokenExpired(response)) {
             dispatch(refreshToken())
-            dispatch(createLevel(level))
+            dispatch(saveLevel(level))
         }
     }
 }

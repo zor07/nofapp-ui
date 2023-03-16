@@ -7,8 +7,7 @@ import {Button, List, PageHeader, Popconfirm, Typography} from "antd";
 import {NavLink, useParams} from "react-router-dom";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import {AppDispatch, AppStateType} from "../../../redux/redux-store";
-import {createTask, deleteTask, requestTasks, TaskType, unmountTasks} from "../../../redux/tasks-reducer";
-import NewTaskForm from "./NewTaskForm";
+import {deleteTask, requestTasks, saveTask, TaskType, unmountTasks} from "../../../redux/tasks-reducer";
 
 
 type MapStatePropsType = {
@@ -54,7 +53,7 @@ const TaskListContainer: React.FC<LevelsListContainerPropsType> = ({tasks}) => {
 
     useEffect(() => {
         if (taskToCreate) {
-            dispatch(createTask(levelId, taskToCreate))
+            dispatch(saveTask(levelId, taskToCreate))
                 .then(() => dispatch(requestTasks(levelId)).then())
 
         }
@@ -73,10 +72,6 @@ const TaskListContainer: React.FC<LevelsListContainerPropsType> = ({tasks}) => {
         setTaskIdToDelete(taskId)
     }
 
-    const onCreateTask = (task: TaskType) => {
-        setTaskToCreate(task)
-    }
-
     tasks.sort((a, b) => a.order - b.order)
 
     return (
@@ -90,11 +85,6 @@ const TaskListContainer: React.FC<LevelsListContainerPropsType> = ({tasks}) => {
                       },
                       pageSize: 10,
                   }}
-                  footer={
-                      <div>
-                          <NewTaskForm createTask={onCreateTask}/>
-                      </div>
-                  }
                   dataSource={tasks}
                   renderItem = { task => (
                       <List.Item key={task.id}
@@ -131,6 +121,6 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
 export default compose(
     withAuthRedirect,
     connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {
-        requestTasks, createLevelTask: createTask, deleteTask, unmountTasks
+        requestTasks, createLevelTask: saveTask, deleteTask, unmountTasks
     })
 )(TaskListContainer);

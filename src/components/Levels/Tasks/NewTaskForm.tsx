@@ -1,85 +1,85 @@
 import React from "react";
-import {Button, Form, Input, Typography} from "antd";
-import {PlaySquareOutlined} from "@ant-design/icons";
+import {Form, FormInstance, Input} from "antd";
 import {TaskType} from "../../../redux/tasks-reducer";
+import {LevelType} from "../../../redux/levels-reducer";
 
-const {Title} = Typography;
 
 type NewTaskFormType = {
-    createTask: (task: TaskType) => void
+    task: TaskType | null
+    level: LevelType | null
+    handleSubmit: (task: TaskType) => void
+    form: FormInstance<TaskType>
 }
 
-const NewTaskForm: React.FC<NewTaskFormType> = ({createTask}) => {
-    const [form] = Form.useForm()
-
-    const onFinish = (task: TaskType) => {
-        createTask(task)
-        form.resetFields()
-    };
+const NewTaskForm: React.FC<NewTaskFormType> = ({task, level, handleSubmit, form}) => {
 
     return (
-        <div>
-            <Title level={5}>Create new task</Title>
-            <Form
-                size={'middle'}
-                form={form}
-                name="newTaskForm"
-                layout={'horizontal'}
-                labelCol={{
-                    span: 4,
-                }}
-                wrapperCol={{
-                    span: 10,
-                }}
-                onFinish={onFinish}
-                autoComplete="off">
-                <Form.Item
-                    label="Name"
-                    name="name"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please set name!',
-                        },
-                    ]}>
-                    <Input/>
-                </Form.Item>
+        <Form
+            size={'middle'}
+            form={form}
+            name="newTaskForm"
+            layout={'horizontal'}
+            labelCol={{
+                span: 4,
+            }}
+            wrapperCol={{
+                span: 10,
+            }}
+            onFinish={handleSubmit}
+            autoComplete="off">
+            <Form.Item
+                label="Id"
+                name="id"
+                initialValue={task && task.id}
+                hidden={true}>
+                <Input/>
+            </Form.Item>
+            <Form.Item
+                label="Level"
+                name="level"
+                initialValue={level && level}
+                hidden={true}>
+                <Input/>
+            </Form.Item>
+            <Form.Item
+                label="Name"
+                name="name"
+                initialValue={task && task.name}
+                rules={[
+                    {
+                        required: true,
+                        message: 'Please set name!',
+                    },
+                ]}>
+                <Input/>
+            </Form.Item>
 
-                <Form.Item
-                    label="Description"
-                    name="description"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please set description!',
-                        },
-                    ]}>
-                    <Input/>
-                </Form.Item>
+            <Form.Item
+                label="Description"
+                name="description"
+                initialValue={task && task.description}
+                rules={[
+                    {
+                        required: true,
+                        message: 'Please set description!',
+                    },
+                ]}>
+                <Input/>
+            </Form.Item>
 
-                <Form.Item
-                    label="Order"
-                    name="order"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please set order!',
-                        },
-                    ]}>
-                    <Input type={'number'}/>
-                </Form.Item>
-
-                <Form.Item
-                    wrapperCol={{
-                        offset: 4,
-                        span: 10,
-                    }}>
-                    <Button icon={<PlaySquareOutlined />} type="primary" htmlType="submit">
-                        Create task
-                    </Button>
-                </Form.Item>
-            </Form>
-        </div>
+            <Form.Item
+                label="Order"
+                name="order"
+                initialValue={task && task.order}
+                rules={[
+                    {
+                        required: true,
+                        message: 'Please set order!',
+                    },
+                ]}>
+                <Input type={'number'}/>
+            </Form.Item>
+        </Form>
     );
 }
 

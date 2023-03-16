@@ -1,10 +1,11 @@
-import React from 'react';
-import css from './Tasks.module.css'
-import {TaskType} from "../../../redux/tasks-reducer";
-import {Button, List, Popconfirm, Space, Typography} from "antd";
+import React, {useState} from 'react';
+import css from './Tasks/Tasks.module.css'
+import {TaskType} from "../../redux/tasks-reducer";
+import {Button, Form, List, Modal, Popconfirm, Space, Typography} from "antd";
 import {NavLink} from "react-router-dom";
 import {DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
-import {LevelType} from "../../../redux/levels-reducer";
+import {LevelType} from "../../redux/levels-reducer";
+import NewTaskForm from "./Tasks/NewTaskForm";
 
 
 type MapStatePropsType = {
@@ -12,8 +13,8 @@ type MapStatePropsType = {
 }
 
 type MapDispatchPropsType = {
-    createTask: (levelId: string, task: TaskType) => void
-    deleteTask: (levelId: string, taskId: string) => void
+    saveTask: (task: TaskType) => void
+    deleteTask: (task: TaskType) => void
 }
 
 type OwnPropsType = {}
@@ -22,7 +23,7 @@ type LevelTasksPropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsTy
 
 const LevelTasks: React.FC<LevelTasksPropsType> = ({
        level,
-       createTask,
+       saveTask,
        deleteTask,
     }) => {
 
@@ -31,7 +32,27 @@ const LevelTasks: React.FC<LevelTasksPropsType> = ({
 
     const {Title} = Typography;
     const {Text} = Typography;
-    const {Paragraph} = Typography;
+
+    const [taskForm] = Form.useForm();
+    const [taskToEdit, setTaskToEdit] = useState(null)
+    const [taskFormVisible, setTaskFormVisible] = useState(false)
+
+    const showTaskFormModal = () => {
+        setTaskFormVisible(true)
+    }
+
+    const onTaskFormSubmit = (task: TaskType) => {
+        saveTask(task)
+        setTaskFormVisible(false)
+        setTaskToEdit(null)
+        taskForm.resetFields()
+    }
+
+    const onTaskFormCancel = () => {
+        setTaskFormVisible(false)
+        setTaskToEdit(null)
+        taskForm.resetFields()
+    };
 
     return (
         <div className={css.content}>
@@ -41,6 +62,7 @@ const LevelTasks: React.FC<LevelTasksPropsType> = ({
                       <Button block
                               size={'large'}
                               icon={<PlusOutlined />}
+                              onClick={showTaskFormModal}
                               type={"dashed"} >
                           Add task
                       </Button>
@@ -57,7 +79,7 @@ const LevelTasks: React.FC<LevelTasksPropsType> = ({
                                          </NavLink>
                                          <Popconfirm placement="right"
                                                      title={`Are you shure you want to delete [${task.name}] ?`}
-                                                     onConfirm={() => deleteTask(level.id, task.id)}
+                                                     onConfirm={() => deleteTask(task)}
                                                      okText="Yes"
                                                      cancelText="No">
                                              <Button danger
@@ -76,6 +98,13 @@ const LevelTasks: React.FC<LevelTasksPropsType> = ({
                           </div>
                       </List.Item>
                   )}/>
+            <Modal visible={taskFormVisible}
+                   width={'600px'}
+                   onOk={taskForm.submit}
+                   onCancel={onTaskFormCancel}
+                   title={'Create new task'}>
+                <NewTaskForm form={taskForm} task={taskToEdit} level={level} handleSubmit={onTaskFormSubmit} />
+            </Modal>
         </div>
     )
 }
