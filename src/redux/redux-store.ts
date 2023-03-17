@@ -13,9 +13,7 @@ import profileListReducer from "./profile-list-reducer";
 import levelsReducer from "./levels-reducer";
 import {TypedUseSelectorHook, useSelector} from "react-redux";
 import tasksReducer from "./tasks-reducer";
-import taskContentListReducer from "./task-content-list-reducer";
-import taskContentReducer from "./task-content-reducer";
-import therapyReducer from "./therapy-reducer";
+// import therapyReducer from "./therapy-reducer";
 import taskEditorReducer from "./task-editor-reducer";
 
 let rootReducer = combineReducers({
@@ -24,12 +22,10 @@ let rootReducer = combineReducers({
     auth: authReducer,
     app: appReducer,
     profile: profileReducer,
-    therapy: therapyReducer,
+    // therapy: therapyReducer,
     levels: levelsReducer,
     tasks: tasksReducer,
     taskEditor: taskEditorReducer,
-    taskContentList: taskContentListReducer,
-    taskContent: taskContentReducer,
     profileList: profileListReducer,
     notebooks: notebookReducer,
     notes: notesReducer,

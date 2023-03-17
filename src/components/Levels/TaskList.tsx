@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import css from './Tasks/Tasks.module.css'
+import css from './Levels.module.css'
 import {TaskType} from "../../redux/tasks-reducer";
 import {Button, Form, List, Modal, Popconfirm, Space, Typography} from "antd";
 import {DeleteOutlined, EditOutlined, AlignCenterOutlined, PlusOutlined} from "@ant-design/icons";

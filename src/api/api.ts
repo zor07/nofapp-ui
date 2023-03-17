@@ -4,7 +4,6 @@ import {ProfileType, RelapseLog} from "../redux/profile-reducer";
 import {NoteType} from "../redux/note-editor-reducer";
 import {LevelType} from "../redux/levels-reducer";
 import {TaskType} from "../redux/tasks-reducer";
-import {TaskContentType} from "../redux/task-content-list-reducer";
 
 const instance = axios.create({
     baseURL: process.env.NODE_ENV === 'production' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_DEV.toString()
@@ -123,71 +122,10 @@ export const TASKS_API = {
     }
 }
 
-export const TASK_CONTENT_API = {
-    getTaskContent(levelId: string, taskId: string, taskContentId): PromiseLike<ResponseType<TaskContentType>> {
-        return instance.get(`/levels/${levelId}/tasks/${taskId}/content/${taskContentId}`, auth()).catch((error) => {
-            return handleError(error)
-        })
-    },
-    getTaskContentList(levelId: string, taskId: string): PromiseLike<ResponseType<Array<TaskContentType>>> {
-        return instance.get(`/levels/${levelId}/tasks/${taskId}/content`, auth()).catch((error) => {
-            return handleError(error)
-        })
-    },
-    createTaskContent(
-        levelId: string,
-        taskId: string,
-        taskContent: TaskContentType
-    ): PromiseLike<ResponseType<TaskContentType>> {
-        return instance.post(`/levels/${levelId}/tasks/${taskId}/content`, taskContent, auth())
-            .catch((error) => {
-                return handleError(error)
-            })
-    },
-    updateTaskContent(
-        levelId: string,
-        taskId: string,
-        taskContentId: string,
-        taskContent: TaskContentType
-    ): PromiseLike<ResponseType<TaskContentType>> {
-        return instance.put(`/levels/${levelId}/tasks/${taskId}/content/${taskContentId}`, taskContent, auth())
-            .catch((error) => {
-                return handleError(error)
-            })
-    },
-    deleteTaskContent(
-        levelId: string,
-        taskId: string,
-        taskContentId: string,
-    ): PromiseLike<ResponseType<any>> {
-        return instance.delete(`/levels/${levelId}/tasks/${taskId}/content/${taskContentId}`, auth())
-            .catch((error) => {
-                return handleError(error)
-            })
-    },
-    uploadMediaToTaskContent(
-        levelId: string,
-        taskId: string,
-        taskContentId: string,
-        file: File
-    ): PromiseLike<ResponseType<any>> {
-        const formData = new FormData();
-        formData.append('file', file)
-        const config = auth()
-        config.headers["content-type"] = "multipart/form-data"
-
-        return instance.post(`/levels/${levelId}/tasks/${taskId}/content/${taskContentId}/video`, formData, config)
-            .catch((error) => {
-                return handleError(error)
-            })
-    },
-
-}
-
 export const USER_PROGRESS_API = {
 
     getCurrentUserTask(): PromiseLike<ResponseType<TaskType>> {
-        return instance.get<Array<TaskContentType>>(`progress`, auth())
+        return instance.get<Array<TaskType>>(`progress`, auth())
             .catch((error) => {
                 return handleError(error)
             })

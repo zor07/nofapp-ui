@@ -1,12 +1,8 @@
-import {TASK_CONTENT_API, TASKS_API} from "../api/api";
+import {TASKS_API} from "../api/api";
 import {isTokenExpired} from "../api/apiUtils";
 import {refreshToken} from "./auth-reducer";
-import {LevelType} from "./levels-reducer";
 import {AppDispatch} from "./redux-store";
-import {RemirrorJSON} from "remirror";
-import {requestTasks, TaskType} from "./tasks-reducer";
-import {TaskContentType} from "./task-content-list-reducer";
-import {DEFAULT_TASK_CONTENT_DATA, requestTaskContent} from "./task-content-reducer";
+import {TaskType} from "./tasks-reducer";
 
 type SetTaskActionType = {
     type: typeof SET_TASK
@@ -71,7 +67,7 @@ export const saveTask = (levelId: string, task: TaskType) => {
         if (response.status === 201) {
             const responseTask: TaskType = response.data
             if (!responseTask.data) {
-                responseTask.data = JSON.parse(DEFAULT_TASK_CONTENT_DATA)
+                responseTask.data = JSON.parse(DEFAULT_TASK_DATA)
             }
             if (responseTask.fileUri) {
                 responseTask.fileUri = `http://127.0.0.1:9000/${responseTask.fileUri}`
@@ -91,7 +87,7 @@ export const requestTask = (levelId: string, taskId: string) => {
         if (response.status === 200) {
             const task: TaskType = response.data
             if (!task.data) {
-                task.data = JSON.parse(DEFAULT_TASK_CONTENT_DATA)
+                task.data = JSON.parse(DEFAULT_TASK_DATA)
             }
             if (task.fileUri) {
                 task.fileUri = `http://127.0.0.1:9000/${task.fileUri}`
