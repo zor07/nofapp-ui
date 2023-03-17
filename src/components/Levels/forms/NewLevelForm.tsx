@@ -1,6 +1,6 @@
 import React from "react";
 import {Form, FormInstance, Input} from "antd";
-import {LevelType} from "../../redux/levels-reducer";
+import {LevelType} from "../../../redux/levels-reducer";
 
 
 type NewLevelFormType = {

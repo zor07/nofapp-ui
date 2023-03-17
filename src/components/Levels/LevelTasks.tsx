@@ -5,7 +5,7 @@ import {Button, Form, List, Modal, Popconfirm, Space, Typography} from "antd";
 import {NavLink} from "react-router-dom";
 import {DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
 import {LevelType} from "../../redux/levels-reducer";
-import NewTaskForm from "./NewTaskForm";
+import NewTaskForm from "./forms/NewTaskForm";
 
 
 type MapStatePropsType = {

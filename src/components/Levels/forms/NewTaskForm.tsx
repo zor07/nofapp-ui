@@ -1,7 +1,7 @@
 import React from "react";
 import {Form, FormInstance, Input} from "antd";
-import {TaskType} from "../../redux/tasks-reducer";
-import {LevelType} from "../../redux/levels-reducer";
+import {TaskType} from "../../../redux/tasks-reducer";
+import {LevelType} from "../../../redux/levels-reducer";
 
 
 type NewTaskFormType = {

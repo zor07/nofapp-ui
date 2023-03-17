@@ -10,7 +10,7 @@ import {DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
 import LevelItem from "./LevelItem";
 import {saveTask, deleteTask, TaskType} from "../../redux/tasks-reducer";
 import LevelTasks from "./LevelTasks";
-import NewLevelForm from "./NewLevelForm";
+import NewLevelForm from "./forms/NewLevelForm";
 
 
 type MapStatePropsType = {
