@@ -4,11 +4,10 @@ import {AppDispatch, AppStateType} from "../../redux/redux-store";
 import {compose} from "redux";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import css from './Levels.module.css'
-import {saveLevel, deleteLevel, LevelType, requestLevels} from "../../redux/levels-reducer";
-import {Button, Form, List, Modal, PageHeader, Popconfirm, Space} from "antd";
+import {deleteLevel, LevelType, requestLevels, saveLevel} from "../../redux/levels-reducer";
+import {Button, Form, List, Modal, PageHeader, Popconfirm, Space, Typography} from "antd";
 import {DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
-import LevelItem from "./LevelItem";
-import {saveTask, deleteTask, TaskType} from "../../redux/tasks-reducer";
+import {deleteTask, saveTask, TaskType} from "../../redux/tasks-reducer";
 import TaskList from "./TaskList";
 import NewLevelForm from "./forms/NewLevelForm";
 
@@ -112,6 +111,9 @@ const LevelListContainer: React.FC<LevelsListContainerPropsType> = ({levels}) =>
 
     levels.sort((a, b) => a.order - b.order)
 
+    const {Title} = Typography;
+    const {Text} = Typography;
+
     return (
         <div className={css.content}>
             <PageHeader title='Levels' />
@@ -149,7 +151,8 @@ const LevelListContainer: React.FC<LevelsListContainerPropsType> = ({levels}) =>
                                          </Popconfirm>
                                      </Space>
                                  ]}>
-                            <LevelItem level={level} />
+                            <Title level={5}>{level.name}</Title>
+                            <Text>Order: {level.order}</Text>
                             <TaskList level={level}
                                       saveTask={(task) => setTaskToSave(task)}
                                       deleteTask={(task) => setTaskToDelete(task)} />
