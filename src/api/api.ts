@@ -71,6 +71,11 @@ export const TASKS_API = {
             return handleError(error)
         })
     },
+    getLevelTask(levelId: string, taskId: string): PromiseLike<ResponseType<TaskType>>  {
+        return instance.get(`/levels/${levelId}/tasks/${taskId}`, auth()).catch((error) => {
+            return handleError(error)
+        })
+    },
     getNextTask(task: TaskType): PromiseLike<ResponseType<TaskType>> {
         return instance.get(`/levels/${task.level.id}/tasks/${task.id}/next`, auth())
             .catch((error) => {
@@ -83,19 +88,19 @@ export const TASKS_API = {
                 return handleError(error)
             })
     },
-    createLevelTask(levelId: string, task: TaskType): PromiseLike<ResponseType<LevelType>> {
+    createLevelTask(levelId: string, task: TaskType): PromiseLike<ResponseType<TaskType>> {
         return instance.post(`/levels/${levelId}/tasks`, task, auth())
             .catch((error) => {
                 return handleError(error)
             })
     },
-    updateLevelTask(levelId: string, taskId: string, task: TaskType): PromiseLike<ResponseType<LevelType>> {
+    updateLevelTask(levelId: string, taskId: string, task: TaskType): PromiseLike<ResponseType<TaskType>> {
         return instance.put(`/levels/${levelId}/tasks/${taskId}`, task, auth())
             .catch((error) => {
                 return handleError(error)
             })
     },
-    uploadMediaToTaskContent(
+    uploadMediaToTask(
         levelId: string,
         taskId: string,
         file: File
@@ -105,7 +110,7 @@ export const TASKS_API = {
         const config = auth()
         config.headers["content-type"] = "multipart/form-data"
 
-        return instance.post(`/api/v1/levels/${levelId}/tasks/${taskId}/video`, formData, config)
+        return instance.post(`/levels/${levelId}/tasks/${taskId}/video`, formData, config)
             .catch((error) => {
                 return handleError(error)
             })

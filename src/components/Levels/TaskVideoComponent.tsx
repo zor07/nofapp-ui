@@ -1,12 +1,13 @@
 import React from "react";
-import {Button, Space, Upload} from 'antd';
+import {Button, Space, Typography, Upload} from 'antd';
 import {DeleteOutlined, UploadOutlined} from '@ant-design/icons';
-import {TaskContentType} from "../../redux/task-content-list-reducer";
 import ReactPlayer from "react-player";
+import {TaskType} from "../../redux/tasks-reducer";
+import css from './Levels.module.css'
 
 
 type MapStatePropsType = {
-    taskContent: TaskContentType
+    task: TaskType
 }
 
 type MapDispatchPropsType = {
@@ -16,13 +17,15 @@ type MapDispatchPropsType = {
 
 type TaskContentVideoComponentType = MapStatePropsType & MapDispatchPropsType
 
-const TaskContentVideoComponent: React.FC<TaskContentVideoComponentType> = ({taskContent, onUploadVideo, onDeleteVideo}) => {
+const TaskContentVideoComponent: React.FC<TaskContentVideoComponentType> = ({task, onUploadVideo, onDeleteVideo}) => {
 
     const dummyRequest = ({file, onSuccess = null}) => {
         setTimeout(() => {
             onSuccess("ok");
         }, 0);
     };
+
+    const {Title} = Typography;
 
     const beforeUpload = (file): boolean => {
         // const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -50,17 +53,20 @@ const TaskContentVideoComponent: React.FC<TaskContentVideoComponentType> = ({tas
     return (
         <div>
 
-            {taskContent.fileUri && (
-                <ReactPlayer
-                    // playing={showVideo}
-                    className='react-player'
-                    url={[
-                        {
-                            src: taskContent.fileUri,
-                            type: "video/mp4"
-                        },
-                    ]}
-                    controls={true}/>
+            {task.fileUri && (
+                <div className={css.video}>
+                    <Title level={5}>Task video: </Title>
+                    <ReactPlayer
+                        // playing={showVideo}
+                        className='react-player'
+                        url={[
+                            {
+                                src: task.fileUri,
+                                type: "video/mp4"
+                            },
+                        ]}
+                        controls={true}/>
+                </div>
             )}
 
             <div>
@@ -71,9 +77,9 @@ const TaskContentVideoComponent: React.FC<TaskContentVideoComponentType> = ({tas
                         beforeUpload={beforeUpload}
                         onChange={handleChange}>
 
-                        <Button icon={<UploadOutlined/>}>{ taskContent.fileUri ? 'Upload new' : 'Upload video' }</Button>
+                        <Button icon={<UploadOutlined/>}>{ task.fileUri ? 'Upload new' : 'Upload video' }</Button>
                     </Upload>
-                    {taskContent.fileUri && (
+                    {task.fileUri && (
                         <div>
                             <Button danger icon={<DeleteOutlined/>}
                                     onClick={() => onDeleteVideo()}>

@@ -23,6 +23,7 @@ import TaskListContainer from "./components/Levels/Tasks/TaskListContainer";
 import TaskContentListContainer from "./components/Levels/Tasks/TaskContent/TaskContentListContainer";
 import TaskContentEditorContainer from "./components/Levels/Tasks/TaskContent/TaskContentEditorContainer";
 import TherapyContainer from "./components/Therapy/TherapyContainer";
+import TaskEditorContainer from "./components/Levels/TaskEditorContainer";
 
 class App extends Component {
 
@@ -60,9 +61,7 @@ class App extends Component {
                                 <Route path='/practice/:practiceId' element={<PracticeContainer/>}/>
                                 <Route path='/practice/editor/:practiceId' element={<PracticeEditorContainer/>}/>
                                 <Route path='/config/levels' element={<LevelsContainer/>}/>
-                                <Route path='/config/levels/:levelId/tasks' element={<TaskListContainer/>}/>
-                                <Route path='/config/levels/:levelId/tasks/:taskId/content' element={<TaskContentListContainer/>}/>
-                                <Route path='/config/levels/:levelId/tasks/:taskId/content/:taskContentId' element={<TaskContentEditorContainer/>}/>
+                                <Route path='/config/levels/:levelId/tasks/:taskId' element={<TaskEditorContainer/>}/>
                                 <Route path='/therapy' element={<TherapyContainer/>}/>
                                 <Route path='/login' element={<Login/>}/>
                             </Routes>

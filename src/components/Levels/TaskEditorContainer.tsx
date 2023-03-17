@@ -3,38 +3,32 @@ import {connect, useDispatch} from "react-redux";
 import {AppDispatch, AppStateType} from "../../redux/redux-store";
 import {useNavigate, useParams} from "react-router-dom";
 import {RemirrorJSON} from "remirror";
-import {Button, Col, Descriptions, message, PageHeader, Row} from "antd";
-import {ArrowLeftOutlined} from "@ant-design/icons";
+import {Col, message, PageHeader, Row} from "antd";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 import {useDebouncedCallback} from "use-debounce";
-import {TaskContentType} from "../../redux/task-content-list-reducer";
-import {
-    requestTaskContent,
-    unmountTaskContent,
-    updateTaskContent,
-    uploadVideo
-} from "../../redux/task-content-reducer";
 import Editor from "../Editor/Editor";
-import css from './TaskContent.module.css'
+import css from './Levels.module.css'
 import TaskContentVideoComponent from "./TaskVideoComponent";
+import {saveTask, TaskType} from "../../redux/tasks-reducer";
+import {requestTask, unmountTask, uploadVideo} from "../../redux/task-editor-reducer";
 
 
 type MapStatePropsType = {
-    taskContent: TaskContentType | null
+    task: TaskType | null
 }
 
 type MapDispatchPropsType = {
-    updateTaskContent: (levelId: string, taskId: string, taskContentId: string, taskContent: TaskContentType) => void
-    requestTaskContent: (levelId: string, taskId: string, taskContentId: string) => void
-    unmountTaskContent: () => void
-    uploadVideo: (levelId: string, taskId: string, taskContentId: string, file: File) => void
+    saveTask: (levelId: string, task: TaskType) => void
+    requestTask: (levelId: string, taskId: string) => void
+    unmountTask: () => void
+    uploadVideo: (levelId: string, taskId: string, file: File) => void
 }
 
 
 type TaskEditorContainerPropsType = MapStatePropsType & MapDispatchPropsType
 
-const PracticeEditorContainer: React.FC<TaskEditorContainerPropsType> = ({taskContent}) => {
+const PracticeEditorContainer: React.FC<TaskEditorContainerPropsType> = ({task}) => {
 
     const params = useParams()
     const navigate = useNavigate();
@@ -44,20 +38,19 @@ const PracticeEditorContainer: React.FC<TaskEditorContainerPropsType> = ({taskCo
     const [contentToUpdate, setContentToUpdate] = useState(null)
     const levelId = params.levelId
     const taskId = params.taskId
-    const taskContentId = params.taskContentId
 
     useEffect(() => {
-        if (taskContentId) {
-            dispatch(requestTaskContent(levelId, taskId, taskContentId)).then();
+        if (levelId && taskId) {
+            dispatch(requestTask(levelId, taskId)).then();
         }
         return () => {
-            dispatch(unmountTaskContent())
+            dispatch(unmountTask())
         }
     }, [dispatch])
 
     useEffect(() => {
         if (video) {
-            dispatch(uploadVideo(levelId, taskId, taskContentId, video))
+            dispatch(uploadVideo(levelId, taskId, video))
                 .then(() => setVideo(null));
         }
     }, [video])
@@ -71,17 +64,14 @@ const PracticeEditorContainer: React.FC<TaskEditorContainerPropsType> = ({taskCo
 
     useEffect(() => {
         if (contentToUpdate) {
-            const newTaskContent: TaskContentType = {
-                ...taskContent,
-                task: {
-                    ...taskContent.task,
-                    level: {
-                        ...taskContent.task.level
-                    }
+            const newTask: TaskType = {
+                ...task,
+                level: {
+                    ...task.level
                 },
                 data: contentToUpdate
             }
-            dispatch(updateTaskContent(levelId, taskId, taskContentId, newTaskContent))
+            dispatch(saveTask(levelId, newTask))
                 .then(() => setContentToUpdate(null))
         }
     }, [contentToUpdate])
@@ -107,8 +97,8 @@ const PracticeEditorContainer: React.FC<TaskEditorContainerPropsType> = ({taskCo
         }
     }
 
-    const backToTaskList = () => {
-        navigate(`/config/levels/${levelId}/tasks/${taskId}/content`)
+    const backToLevels = () => {
+        navigate(`/config/levels`)
     }
 
     const save = (content: RemirrorJSON, title: string) => {
@@ -162,19 +152,17 @@ const PracticeEditorContainer: React.FC<TaskEditorContainerPropsType> = ({taskCo
         <div className={css.content}>
             <PageHeader
                 ghost={false}
-                title={`Task content`}>
-                <Descriptions size="small" column={1}>
-                    <Descriptions.Item>
-                        <Button onClick={() => backToTaskList()} icon={<ArrowLeftOutlined />}>Go back </Button>
-                    </Descriptions.Item>
-                </Descriptions>
+                title={task && task.level ? `${task.name}` : `Task`}
+                subTitle={task && task.level ? `${task.level.name}` : `Level`}
+                onBack={() => backToLevels()}>
+
             </PageHeader>
-            {taskContent
+            {task
                 ? <div>
                     <Row>
                         <Col span={24}>
                             <Editor selection={{anchor: 0, head: 0}}
-                                    content={taskContent.data}
+                                    content={task.data}
                                     setEditorState={setEditorState}
                                     setShouldAutoSave={setShouldAutoSave}
                                     setShouldSaveImmediately={setShouldSaveImmediately}/>
@@ -182,7 +170,7 @@ const PracticeEditorContainer: React.FC<TaskEditorContainerPropsType> = ({taskCo
                     </Row>
                     <Row>
                         <Col span={24}>
-                            <TaskContentVideoComponent taskContent={taskContent}
+                            <TaskContentVideoComponent task={task}
                                                        onDeleteVideo={onDeleteVideo}
                                                        onUploadVideo={onUploadVideo} />
                         </Col>
@@ -196,16 +184,16 @@ const PracticeEditorContainer: React.FC<TaskEditorContainerPropsType> = ({taskCo
 
 const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
-        taskContent: state.taskContent.taskContent,
+        task: state.taskEditor.task,
     }
 }
 
 export default compose(
     withAuthRedirect,
     connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {
-        requestTaskContent,
-        updateTaskContent,
-        unmountTaskContent,
+        requestTask,
+        saveTask,
+        unmountTask,
         uploadVideo
     })
 )(PracticeEditorContainer);

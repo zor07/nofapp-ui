@@ -3,6 +3,7 @@ import {isTokenExpired} from "../api/apiUtils";
 import {refreshToken} from "./auth-reducer";
 import {LevelType} from "./levels-reducer";
 import {AppDispatch} from "./redux-store";
+import {RemirrorJSON} from "remirror";
 
 export type TaskType = {
     id: string,
@@ -10,6 +11,8 @@ export type TaskType = {
     name: string,
     description: string,
     level: LevelType,
+    fileUri: string | null,
+    data: RemirrorJSON | null,
 }
 
 type SetTasksActionType = {
@@ -74,7 +77,7 @@ export const saveTask = (levelId: string, task: TaskType) => {
             await dispatch(requestTasks(levelId))
         } else if (isTokenExpired(response)) {
             dispatch(refreshToken())
-                .then(() => dispatch(requestTasks(levelId)))
+                .then(() => dispatch(saveTask(levelId, task)))
         }
     }
 }

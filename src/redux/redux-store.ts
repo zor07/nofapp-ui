@@ -16,6 +16,7 @@ import tasksReducer from "./tasks-reducer";
 import taskContentListReducer from "./task-content-list-reducer";
 import taskContentReducer from "./task-content-reducer";
 import therapyReducer from "./therapy-reducer";
+import taskEditorReducer from "./task-editor-reducer";
 
 let rootReducer = combineReducers({
 
@@ -26,6 +27,7 @@ let rootReducer = combineReducers({
     therapy: therapyReducer,
     levels: levelsReducer,
     tasks: tasksReducer,
+    taskEditor: taskEditorReducer,
     taskContentList: taskContentListReducer,
     taskContent: taskContentReducer,
     profileList: profileListReducer,

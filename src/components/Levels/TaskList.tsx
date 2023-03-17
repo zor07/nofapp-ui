@@ -2,9 +2,10 @@ import React, {useState} from 'react';
 import css from './Tasks/Tasks.module.css'
 import {TaskType} from "../../redux/tasks-reducer";
 import {Button, Form, List, Modal, Popconfirm, Space, Typography} from "antd";
-import {DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
+import {DeleteOutlined, EditOutlined, AlignCenterOutlined, PlusOutlined} from "@ant-design/icons";
 import {LevelType} from "../../redux/levels-reducer";
 import NewTaskForm from "./forms/NewTaskForm";
+import {NavLink} from "react-router-dom";
 
 
 type MapStatePropsType = {
@@ -81,6 +82,11 @@ const TaskList: React.FC<LevelTasksPropsType> = ({
                                                  type={'dashed'}
                                                  onClick={() => onEditTask(task)}
                                                  icon={<EditOutlined/>}/>
+                                         <NavLink to={`/config/levels/${task.level.id}/tasks/${task.id}`}>
+                                             <Button size={'small'}
+                                                     type={'dashed'}
+                                                     icon={<AlignCenterOutlined />}/>
+                                         </NavLink>
                                          <Popconfirm placement="right"
                                                      title={`Are you shure you want to delete [${task.name}] ?`}
                                                      onConfirm={() => deleteTask(task)}
