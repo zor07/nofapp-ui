@@ -113,7 +113,7 @@ const LevelListContainer: React.FC<LevelsListContainerPropsType> = ({levels}) =>
 
     return (
         <div className={css.content}>
-            <PageHeader title='Levels' />
+            <PageHeader title='Edit Levels' />
             <List itemLayout="vertical"
                   size="small"
                   footer={
