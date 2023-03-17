@@ -9,7 +9,7 @@ import {Button, Form, List, Modal, PageHeader, Popconfirm, Space} from "antd";
 import {DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
 import LevelItem from "./LevelItem";
 import {saveTask, deleteTask, TaskType} from "../../redux/tasks-reducer";
-import LevelTasks from "./LevelTasks";
+import TaskList from "./TaskList";
 import NewLevelForm from "./forms/NewLevelForm";
 
 
@@ -150,9 +150,9 @@ const LevelListContainer: React.FC<LevelsListContainerPropsType> = ({levels}) =>
                                      </Space>
                                  ]}>
                             <LevelItem level={level} />
-                            <LevelTasks level={level}
-                                        saveTask={(task) => setTaskToSave(task)}
-                                        deleteTask={(task) => setTaskToDelete(task)} />
+                            <TaskList level={level}
+                                      saveTask={(task) => setTaskToSave(task)}
+                                      deleteTask={(task) => setTaskToDelete(task)} />
                       </List.Item>
                   )}/>
             <Modal visible={levelFormVisible}

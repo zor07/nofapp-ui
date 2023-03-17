@@ -21,7 +21,7 @@ type OwnPropsType = {}
 
 type LevelTasksPropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
 
-const LevelTasks: React.FC<LevelTasksPropsType> = ({
+const TaskList: React.FC<LevelTasksPropsType> = ({
        level,
        saveTask,
        deleteTask,
@@ -110,4 +110,4 @@ const LevelTasks: React.FC<LevelTasksPropsType> = ({
 }
 
 
-export default LevelTasks
+export default TaskList
