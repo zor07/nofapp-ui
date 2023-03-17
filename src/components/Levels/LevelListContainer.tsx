@@ -79,9 +79,6 @@ const LevelListContainer: React.FC<LevelsListContainerPropsType> = ({levels}) =>
         setTaskToDelete(null)
     }, [taskToDelete])
 
-
-
-
     const onDeleteLevel = (levelId: string) => {
         setLevelToDelete(levelId)
     }

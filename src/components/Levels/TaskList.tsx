@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import css from './Tasks/Tasks.module.css'
 import {TaskType} from "../../redux/tasks-reducer";
 import {Button, Form, List, Modal, Popconfirm, Space, Typography} from "antd";
-import {NavLink} from "react-router-dom";
 import {DeleteOutlined, EditOutlined, PlusOutlined} from "@ant-design/icons";
 import {LevelType} from "../../redux/levels-reducer";
 import NewTaskForm from "./forms/NewTaskForm";
@@ -41,6 +40,12 @@ const TaskList: React.FC<LevelTasksPropsType> = ({
         setTaskFormVisible(true)
     }
 
+    const onEditTask = (task: TaskType) => {
+
+        setTaskToEdit(task)
+        showTaskFormModal()
+    }
+
     const onTaskFormSubmit = (task: TaskType) => {
         saveTask(task)
         setTaskFormVisible(false)
@@ -72,11 +77,10 @@ const TaskList: React.FC<LevelTasksPropsType> = ({
                       <List.Item key={task.id}
                                  extra={[
                                      <Space direction={'vertical'}>
-                                         <NavLink to={`/config/levels/${task.level.id}/tasks/${task.id}/content`}>
-                                             <Button size={'small'}
-                                                     type={'dashed'}
-                                                     icon={<EditOutlined/>}/>
-                                         </NavLink>
+                                         <Button size={'small'}
+                                                 type={'dashed'}
+                                                 onClick={() => onEditTask(task)}
+                                                 icon={<EditOutlined/>}/>
                                          <Popconfirm placement="right"
                                                      title={`Are you shure you want to delete [${task.name}] ?`}
                                                      onConfirm={() => deleteTask(task)}
