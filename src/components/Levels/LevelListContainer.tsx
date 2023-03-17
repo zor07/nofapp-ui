@@ -29,7 +29,7 @@ type OwnPropsType = {}
 
 type LevelsListContainerPropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
 
-const LevelsContainer: React.FC<LevelsListContainerPropsType> = ({levels}) => {
+const LevelListContainer: React.FC<LevelsListContainerPropsType> = ({levels}) => {
     const dispatch = useDispatch<AppDispatch>()
     const [levelForm] = Form.useForm();
 
@@ -178,4 +178,4 @@ export default compose(
     connect<MapStatePropsType, MapDispatchPropsType, AppStateType>(mapStateToProps, {
         requestLevels, saveLevel, deleteLevel, saveTask, deleteTask
     })
-)(LevelsContainer);
+)(LevelListContainer);

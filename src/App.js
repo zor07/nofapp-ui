@@ -18,7 +18,7 @@ import NoteListContainer from "./components/Note/NoteListContainer";
 import NoteEditorContainer from "./components/Note/NoteEditorContainer";
 import ProfileList from "./components/Profile/list/ProfileListContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
-import LevelsContainer from "./components/Levels/LevelsContainer";
+import LevelsContainer from "./components/Levels/LevelListContainer";
 import TaskListContainer from "./components/Levels/Tasks/TaskListContainer";
 import TaskContentListContainer from "./components/Levels/Tasks/TaskContent/TaskContentListContainer";
 import TaskContentEditorContainer from "./components/Levels/Tasks/TaskContent/TaskContentEditorContainer";
