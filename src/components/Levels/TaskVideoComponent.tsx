@@ -51,10 +51,10 @@ const TaskContentVideoComponent: React.FC<TaskContentVideoComponentType> = ({tas
     };
 
     return (
-        <div>
+        <div className={css.video}>
 
             {task.fileUri && (
-                <div className={css.video}>
+                <div>
                     <Title level={5}>Task video: </Title>
                     <ReactPlayer
                         // playing={showVideo}
@@ -76,11 +76,14 @@ const TaskContentVideoComponent: React.FC<TaskContentVideoComponentType> = ({tas
                         customRequest={dummyRequest}
                         beforeUpload={beforeUpload}
                         onChange={handleChange}>
-
-                        <Button icon={<UploadOutlined/>}>{ task.fileUri ? 'Upload new' : 'Upload video' }</Button>
+                        <div className={css.videoControls}>
+                            <Button icon={<UploadOutlined/>}>
+                                { task.fileUri ? 'Upload new' : 'Upload video' }
+                            </Button>
+                        </div>
                     </Upload>
                     {task.fileUri && (
-                        <div>
+                        <div className={css.videoControls}>
                             <Button danger icon={<DeleteOutlined/>}
                                     onClick={() => onDeleteVideo()}>
                                 Remove

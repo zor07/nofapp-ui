@@ -3,5 +3,9 @@
 }
 
 .video {
-    padding: 20px
+    padding: 10px
+}
+
+.videoControls {
+    padding-top: 10px;
 }
