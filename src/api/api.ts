@@ -4,6 +4,7 @@ import {ProfileType, RelapseLog} from "../redux/profile-reducer";
 import {NoteType} from "../redux/note-editor-reducer";
 import {LevelType} from "../redux/levels-reducer";
 import {TaskType} from "../redux/tasks-reducer";
+import {UserProgressType} from "../redux/user-progress-reducer";
 
 const instance = axios.create({
     baseURL: process.env.NODE_ENV === 'production' ? process.env.REACT_APP_API_URL_PROD : process.env.REACT_APP_API_URL_DEV.toString()
@@ -124,15 +125,14 @@ export const TASKS_API = {
 
 export const USER_PROGRESS_API = {
 
-    getCurrentUserTask(): PromiseLike<ResponseType<TaskType>> {
-        return instance.get<Array<TaskType>>(`progress`, auth())
+    fetchUserProgress(): PromiseLike<ResponseType<UserProgressType>> {
+        return instance.get<UserProgressType>(`progress`, auth())
             .catch((error) => {
                 return handleError(error)
             })
     },
-    // todo rename endpoint to finishTask
     finishCurrentTask(): PromiseLike<ResponseType<any>> {
-        return instance.put(`progress/nextTask`, null, auth())
+        return instance.put(`progress/finishCurrentTask`, null, auth())
             .catch((error) => {
                 return handleError(error)
             })

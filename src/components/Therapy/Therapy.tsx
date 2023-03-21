@@ -2,7 +2,7 @@
 // import {Button, PageHeader, Space} from "antd";
 // import css from "./Therapy.module.css";
 // import {TaskContentType} from "../../redux/task-content-list-reducer";
-// import TaskContentViewer from "./TaskContentViewer";
+// import TaskDataViewer from "./TaskDataViewer";
 // import {TaskType} from "../../redux/tasks-reducer";
 //
 //
@@ -32,7 +32,7 @@
 // }) => {
 //
 //     const taskContentElements = taskContentList.map((taskContent, index) => (
-//         <TaskContentViewer key={index} taskContent={taskContent}/>
+//         <TaskDataViewer key={index} taskContent={taskContent}/>
 //     ))
 //
 //     const showNextLevelButton = selectedUserTask !== currentUserTask

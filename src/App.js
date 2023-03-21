@@ -19,7 +19,7 @@ import NoteEditorContainer from "./components/Note/NoteEditorContainer";
 import ProfileList from "./components/Profile/list/ProfileListContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import LevelsContainer from "./components/Levels/LevelListContainer";
-import TherapyContainer from "./components/Therapy/TherapyContainer";
+import TherapyContainer from "./components/Therapy/UserProgressContainer";
 import TaskEditorContainer from "./components/Levels/TaskEditorContainer";
 
 class App extends Component {
@@ -59,7 +59,7 @@ class App extends Component {
                                 <Route path='/practice/editor/:practiceId' element={<PracticeEditorContainer/>}/>
                                 <Route path='/config/levels' element={<LevelsContainer/>}/>
                                 <Route path='/config/levels/:levelId/tasks/:taskId' element={<TaskEditorContainer/>}/>
-                                {/*<Route path='/therapy' element={<TherapyContainer/>}/>*/}
+                                <Route path='/therapy' element={<TherapyContainer/>}/>
                                 <Route path='/login' element={<Login/>}/>
                             </Routes>
                         </Content>

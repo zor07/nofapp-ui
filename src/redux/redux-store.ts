@@ -13,8 +13,8 @@ import profileListReducer from "./profile-list-reducer";
 import levelsReducer from "./levels-reducer";
 import {TypedUseSelectorHook, useSelector} from "react-redux";
 import tasksReducer from "./tasks-reducer";
-// import therapyReducer from "./therapy-reducer";
 import taskEditorReducer from "./task-editor-reducer";
+import userProgressReducer from "./user-progress-reducer";
 
 let rootReducer = combineReducers({
 
@@ -22,7 +22,7 @@ let rootReducer = combineReducers({
     auth: authReducer,
     app: appReducer,
     profile: profileReducer,
-    // therapy: therapyReducer,
+    therapy: userProgressReducer,
     levels: levelsReducer,
     tasks: tasksReducer,
     taskEditor: taskEditorReducer,
