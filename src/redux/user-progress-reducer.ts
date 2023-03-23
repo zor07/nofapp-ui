@@ -51,8 +51,21 @@ const setUserProgressActionCreator = (payload: UserProgressType): SetUserProgres
 export const fetchUserProgress = () => {
     return async (dispatch: AppDispatch) => {
         const userProgressResponse = await USER_PROGRESS_API.fetchUserProgress()
+
         if (userProgressResponse.status === 200) {
-            await dispatch(setUserProgressActionCreator(userProgressResponse.data))
+            const responseData = userProgressResponse.data
+            if (responseData.uncompletedTask && responseData.uncompletedTask.fileUri) {
+                responseData.uncompletedTask.fileUri = `http://127.0.0.1:9000/${responseData.uncompletedTask.fileUri}`
+            }
+            if (responseData.userTasks) {
+                responseData.userTasks.map(userTask => {
+                    if (userTask.task && userTask.task.fileUri) {
+                        userTask.task.fileUri = `http://127.0.0.1:9000/${userTask.task.fileUri}`
+                    }
+                })
+            }
+
+            await dispatch(setUserProgressActionCreator(responseData))
         } else if (isTokenExpired(userProgressResponse)) {
             dispatch(refreshToken())
                 .then(() => dispatch(fetchUserProgress()))

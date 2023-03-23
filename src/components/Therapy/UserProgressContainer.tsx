@@ -40,7 +40,10 @@ const UserProgressContainer: React.FC<TherapyContainerPropsType> = ({userProgres
     }, [])
 
     const taskList = userProgress ? userProgress.userTasks : []
-    taskList.sort((a, b) => a.task.order - b.task.order)
+    taskList.sort( (a, b) =>
+            a.task.level.order - b.task.level.order ||
+            a.task.order - b.task.order
+    )
 
     const {Text} = Typography;
     return (
@@ -67,13 +70,9 @@ const UserProgressContainer: React.FC<TherapyContainerPropsType> = ({userProgres
                                                      onClick={() => setTaskToDisplay(userTask)}
                                                      icon={<EditOutlined/>}> </Button>
                                          ]}>
-                                  <Title level={5}>{userTask.task.name}</Title>
-                                  <div>
-                                      <Text>Order: {userTask.task.order}</Text>
-                                  </div>
-                                  <div>
-                                      <Text>{userTask.task.description}</Text>
-                                  </div>
+
+                                  <Title level={5}>{`${userTask.task.level.name} -  ${userTask.task.name}`}</Title>
+
                               </List.Item>
                           )}/>
                 }

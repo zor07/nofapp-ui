@@ -26,13 +26,9 @@ const TaskDataViewer: React.FC<TaskContentViewerPropsType> = ({userTask}) => {
         <div className={css.taskContent}>
             {hasData && (
                 <div>
-
-                    <Title level={5}>{task.name}</Title>
-
                     {task.data && (
                         <EditorReadView data={task.data} displayTitle={true}/>
                     )}
-
                     {task.fileUri && (
                         <ReactPlayer
                             // playing={showVideo}
