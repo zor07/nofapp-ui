@@ -25,9 +25,10 @@ type OwnPropsType = {}
 
 type TherapyContainerPropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
 
-const UserProgressContainer: React.FC<TherapyContainerPropsType> = ({userProgress, finishCurrentTask}) => {
+const UserProgressContainer: React.FC<TherapyContainerPropsType> = ({userProgress}) => {
     const dispatch = useDispatch<AppDispatch>()
     const [taskToDisplay, setTaskToDisplay] = useState(null)
+    const [shouldFinishTask, setShouldFinishTask] = useState(false)
 
 
     useEffect(() => {
@@ -38,6 +39,18 @@ const UserProgressContainer: React.FC<TherapyContainerPropsType> = ({userProgres
             }))
 
     }, [])
+
+    useEffect(() => {
+        if (shouldFinishTask) {
+            dispatch(finishCurrentTask())
+                .then(() => dispatch(fetchUserProgress()))
+                .then(() => setTaskToDisplay({
+                    task: userProgress.uncompletedTask,
+                    completed: false
+                }))
+                .then(() => setShouldFinishTask(false))
+        }
+    }, [shouldFinishTask])
 
     const taskList = userProgress ? userProgress.userTasks : []
     taskList.sort( (a, b) =>
@@ -51,7 +64,7 @@ const UserProgressContainer: React.FC<TherapyContainerPropsType> = ({userProgres
             <div>
                 {/*  Task Data  */}
                 {taskToDisplay &&
-                    <TaskDataViewer userTask={taskToDisplay}/>
+                    <TaskDataViewer userTask={taskToDisplay} onFinishTask={() => setShouldFinishTask(true)}/>
                 }
 
             </div>

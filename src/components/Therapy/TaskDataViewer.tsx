@@ -8,7 +8,10 @@ import {UserTaskType} from "../../redux/user-progress-reducer";
 type MapStatePropsType = {
     userTask: UserTaskType
 }
-type MapDispatchPropsType = {}
+type MapDispatchPropsType = {
+    onFinishTask: () => void
+}
+
 type OwnPropsType = {}
 
 type TaskContentViewerPropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
@@ -16,7 +19,7 @@ type TaskContentViewerPropsType = MapStatePropsType & MapDispatchPropsType & Own
 const {Title} = Typography;
 
 
-const TaskDataViewer: React.FC<TaskContentViewerPropsType> = ({userTask}) => {
+const TaskDataViewer: React.FC<TaskContentViewerPropsType> = ({userTask, onFinishTask}) => {
 
     const task = userTask ? userTask.task : null
     const uncompleted = !userTask.completed
@@ -43,7 +46,9 @@ const TaskDataViewer: React.FC<TaskContentViewerPropsType> = ({userTask}) => {
                     )}
 
                     {uncompleted &&
-                        <Button>Finish Task</Button>
+                        <div className={css.finishTask}>
+                            <Button  onClick={() => onFinishTask()}>Finish Task</Button>
+                        </div>
                     }
                 </div>
             )}
