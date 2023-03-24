@@ -5,7 +5,7 @@ import {compose} from "redux";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import css from './Therapy.module.css'
 
-import {fetchUserProgress, finishCurrentTask, UserProgressType} from "../../redux/user-progress-reducer";
+import {fetchUserProgress, finishCurrentTask, UserProgressType, UserTaskType} from "../../redux/user-progress-reducer";
 import TaskDataViewer from "./TaskDataViewer";
 import {Button, List, Typography} from "antd";
 import {EditOutlined} from "@ant-design/icons";
@@ -29,11 +29,13 @@ const UserProgressContainer: React.FC<TherapyContainerPropsType> = ({userProgres
     const dispatch = useDispatch<AppDispatch>()
     const [taskToDisplay, setTaskToDisplay] = useState(null)
     const [shouldFinishTask, setShouldFinishTask] = useState(false)
+    const [taskListVisible, setTaskListVisible] = useState(true)
+    const [taskDataVisible, setTaskDataVisible] = useState(false)
 
 
     useEffect(() => {
         dispatch(fetchUserProgress())
-            .then(() => setTaskToDisplay({
+            .then(() => displayTask({
                 task: userProgress.uncompletedTask,
                 completed: false
             }))
@@ -44,13 +46,31 @@ const UserProgressContainer: React.FC<TherapyContainerPropsType> = ({userProgres
         if (shouldFinishTask) {
             dispatch(finishCurrentTask())
                 .then(() => dispatch(fetchUserProgress()))
-                .then(() => setTaskToDisplay({
+                .then(() => displayTask({
                     task: userProgress.uncompletedTask,
                     completed: false
                 }))
                 .then(() => setShouldFinishTask(false))
+                .then(() => setTaskDataVisible(true))
+                .then(() => setTaskListVisible(false))
         }
     }, [shouldFinishTask])
+
+
+    const displayTask = (task: UserTaskType) => {
+        setTaskToDisplay(task)
+        setTaskDataVisible(true);
+        setTaskListVisible(false)
+    }
+
+    const openTaskList = () => {
+        setTaskListVisible(true);
+        setTaskDataVisible(false);
+    }
+
+    const finishTask = () => {
+        setShouldFinishTask(true)
+    }
 
     const taskList = userProgress ? userProgress.userTasks : []
     taskList.sort( (a, b) =>
@@ -63,14 +83,17 @@ const UserProgressContainer: React.FC<TherapyContainerPropsType> = ({userProgres
         <div className={css.content}>
             <div>
                 {/*  Task Data  */}
-                {taskToDisplay &&
-                    <TaskDataViewer userTask={taskToDisplay} onFinishTask={() => setShouldFinishTask(true)}/>
+                {taskToDisplay && taskDataVisible &&
+                    <TaskDataViewer userTask={taskToDisplay}
+                                    onFinishTask={() => finishTask()}
+                                    onOpenTaskList={() => openTaskList()}
+                    />
                 }
 
             </div>
             <div>
             {/*  Task List  */}
-                {userProgress && userProgress.userTasks &&
+                {userProgress && userProgress.userTasks && taskListVisible &&
 
                     <List itemLayout="vertical"
                           size="small"
@@ -80,7 +103,7 @@ const UserProgressContainer: React.FC<TherapyContainerPropsType> = ({userProgres
                                          extra={[
                                              <Button size={'small'}
                                                      type={'dashed'}
-                                                     onClick={() => setTaskToDisplay(userTask)}
+                                                     onClick={() => displayTask(userTask)}
                                                      icon={<EditOutlined/>}> </Button>
                                          ]}>
 

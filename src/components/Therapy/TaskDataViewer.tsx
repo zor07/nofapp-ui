@@ -10,6 +10,7 @@ type MapStatePropsType = {
 }
 type MapDispatchPropsType = {
     onFinishTask: () => void
+    onOpenTaskList: () => void
 }
 
 type OwnPropsType = {}
@@ -19,7 +20,7 @@ type TaskContentViewerPropsType = MapStatePropsType & MapDispatchPropsType & Own
 const {Title} = Typography;
 
 
-const TaskDataViewer: React.FC<TaskContentViewerPropsType> = ({userTask, onFinishTask}) => {
+const TaskDataViewer: React.FC<TaskContentViewerPropsType> = ({userTask, onFinishTask,  onOpenTaskList}) => {
 
     const task = userTask ? userTask.task : null
     const uncompleted = !userTask.completed
@@ -45,11 +46,14 @@ const TaskDataViewer: React.FC<TaskContentViewerPropsType> = ({userTask, onFinis
                             controls={true}/>
                     )}
 
-                    {uncompleted &&
-                        <div className={css.finishTask}>
-                            <Button  onClick={() => onFinishTask()}>Finish Task</Button>
+
+                        <div className={css.buttons}>
+                            {uncompleted &&
+                                <Button  onClick={() => onFinishTask()}>Finish Task</Button>
+                            }
+                            <Button onClick={() => onOpenTaskList()} >Select Task</Button>
                         </div>
-                    }
+
                 </div>
             )}
         </div>
