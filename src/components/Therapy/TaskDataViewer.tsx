@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Typography} from "antd";
+import {Button, Space} from "antd";
 import ReactPlayer from "react-player";
 import EditorReadView from "../Editor/EditorReadView";
 import css from './Therapy.module.css'
@@ -17,45 +17,35 @@ type OwnPropsType = {}
 
 type TaskContentViewerPropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType
 
-const {Title} = Typography;
-
-
 const TaskDataViewer: React.FC<TaskContentViewerPropsType> = ({userTask, onFinishTask,  onOpenTaskList}) => {
 
-    const task = userTask ? userTask.task : null
-    const uncompleted = !userTask.completed
-
-    const hasData = task ? task.data || task.fileUri : false
     return (
         <div className={css.taskContent}>
-            {hasData && (
-                <div>
-                    {task.data && (
-                        <EditorReadView data={task.data} displayTitle={true}/>
-                    )}
-                    {task.fileUri && (
+            <div>
+                <EditorReadView data={userTask.task.data} displayTitle={true}/>
+            </div>
+            <div>
+                {userTask.task.fileUri && (
                         <ReactPlayer
                             // playing={showVideo}
                             className='react-player'
                             url={[
                                 {
-                                    src: task.fileUri,
+                                    src: userTask.task.fileUri,
                                     type: "video/mp4"
                                 },
                             ]}
                             controls={true}/>
                     )}
+            </div>
+            <Space className={css.buttons}>
+                {!userTask.completed &&
+                    <Button onClick={() => onFinishTask()}>Finish Task</Button>
+                }
 
+                <Button onClick={() => onOpenTaskList()}>Show task list</Button>
+            </Space>
 
-                        <div className={css.buttons}>
-                            {uncompleted &&
-                                <Button  onClick={() => onFinishTask()}>Finish Task</Button>
-                            }
-                            <Button onClick={() => onOpenTaskList()} >Select Task</Button>
-                        </div>
-
-                </div>
-            )}
         </div>
     )
 }

@@ -9,7 +9,7 @@ type InitialStateType = {
 };
 
 export type UserProgressType = {
-    uncompletedTask: TaskType
+    uncompletedTask: UserTaskType
     userTasks: Array<UserTaskType>
 }
 
@@ -54,8 +54,10 @@ export const fetchUserProgress = () => {
 
         if (userProgressResponse.status === 200) {
             const responseData = userProgressResponse.data
-            if (responseData.uncompletedTask && responseData.uncompletedTask.fileUri) {
-                responseData.uncompletedTask.fileUri = `http://127.0.0.1:9000/${responseData.uncompletedTask.fileUri}`
+            if (responseData.uncompletedTask
+                            && responseData.uncompletedTask.task
+                            && responseData.uncompletedTask.task.fileUri) {
+                responseData.uncompletedTask.task.fileUri = `http://127.0.0.1:9000/${responseData.uncompletedTask.task.fileUri}`
             }
             if (responseData.userTasks) {
                 responseData.userTasks.map(userTask => {
