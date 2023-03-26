@@ -115,6 +115,12 @@ export const TASKS_API = {
                 return handleError(error)
             })
     },
+    deleteMediaFromTask(levelId: string, taskId: string): PromiseLike<ResponseType<any>>  {
+        return instance.delete(`/levels/${levelId}/tasks/${taskId}/video`, auth())
+            .catch((error) => {
+                return handleError(error)
+            })
+    },
     deleteTask(levelId: string, taskId: string): PromiseLike<ResponseType<any>>  {
         return instance.delete(`/levels/${levelId}/tasks/${taskId}`, auth())
             .catch((error) => {

@@ -7,7 +7,7 @@ import css from './Therapy.module.css'
 
 import {fetchUserProgress, finishCurrentTask, UserProgressType, UserTaskType} from "../../redux/user-progress-reducer";
 import TaskDataViewer from "./TaskDataViewer";
-import {Button, List} from "antd";
+import {Button, List, message} from "antd";
 import {EditOutlined} from "@ant-design/icons";
 import Title from "antd/es/typography/Title";
 
@@ -38,7 +38,13 @@ const UserProgressContainer: React.FC<TherapyContainerPropsType> = ({userProgres
 
     useEffect(() => {
         if (userProgress) {
-            setTaskToDisplay(userProgress.uncompletedTask)
+            if (userProgress.uncompletedTask) {
+                setTaskToDisplay(userProgress.uncompletedTask)
+            } else {
+                message.info('Вы прошли все задания!')
+                const taskList = sortedTaskList()
+                setTaskToDisplay(taskList[taskList.length - 1])
+            }
         }
     }, [userProgress])
 
@@ -50,12 +56,19 @@ const UserProgressContainer: React.FC<TherapyContainerPropsType> = ({userProgres
         }
     }, [shouldFinishTask])
 
-    const taskList = userProgress ? userProgress.userTasks : []
 
-    taskList.sort((a, b) =>
-        a.task.level.order - b.task.level.order ||
-        a.task.order - b.task.order
-    )
+
+    const sortedTaskList = (): Array<UserTaskType> => {
+        const taskList = userProgress ? userProgress.userTasks : []
+
+        taskList.sort((a, b) =>
+            a.task.level.order - b.task.level.order ||
+            a.task.order - b.task.order
+        )
+        return taskList
+    }
+
+    const taskList = sortedTaskList()
 
     const displayTask = (userTask: UserTaskType) => {
         setTaskToDisplay(userTask)

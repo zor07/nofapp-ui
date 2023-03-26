@@ -112,6 +112,18 @@ export const uploadVideo = (levelId: string, taskId: string, file: File) => {
     }
 }
 
+export const deleteVideo = (levelId: string, taskId: string) => {
+    return async (dispatch: AppDispatch) => {
+        const response = await TASKS_API.deleteMediaFromTask(levelId, taskId);
+        if (response.status === 204) {
+            await dispatch(requestTask(levelId, taskId))
+        } else if (isTokenExpired(response)) {
+            dispatch(refreshToken())
+                .then(() => dispatch(deleteVideo(levelId, taskId)))
+        }
+    }
+}
+
 
 export const unmountTask = () => {
     return (dispatch) => {

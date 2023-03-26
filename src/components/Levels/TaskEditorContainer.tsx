@@ -11,7 +11,7 @@ import Editor from "../Editor/Editor";
 import css from './Levels.module.css'
 import TaskContentVideoComponent from "./TaskVideoComponent";
 import {saveTask, TaskType} from "../../redux/tasks-reducer";
-import {requestTask, unmountTask, uploadVideo} from "../../redux/task-editor-reducer";
+import {deleteVideo, requestTask, unmountTask, uploadVideo} from "../../redux/task-editor-reducer";
 
 
 type MapStatePropsType = {
@@ -23,6 +23,7 @@ type MapDispatchPropsType = {
     requestTask: (levelId: string, taskId: string) => void
     unmountTask: () => void
     uploadVideo: (levelId: string, taskId: string, file: File) => void
+    deleteVideo: (levelId: string, taskId: string) => void
 }
 
 
@@ -57,8 +58,8 @@ const PracticeEditorContainer: React.FC<TaskEditorContainerPropsType> = ({task})
 
     useEffect(() => {
         if (shouldDeleteVideo) {
-            //TODO implement
-            setShouldDeleteVideo(false)
+            dispatch(deleteVideo(levelId, taskId))
+                .then(() => setShouldDeleteVideo(false))
         }
     }, [shouldDeleteVideo])
 
@@ -194,6 +195,7 @@ export default compose(
         requestTask,
         saveTask,
         unmountTask,
-        uploadVideo
+        uploadVideo,
+        deleteVideo,
     })
 )(PracticeEditorContainer);
