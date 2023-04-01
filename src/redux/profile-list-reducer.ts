@@ -3,6 +3,7 @@ import {isTokenExpired} from "../api/apiUtils";
 import {refreshToken} from "./auth-reducer";
 import {adjustForTimezone} from "../utils/dateUtils";
 import {ProfileType} from "./profile-reducer";
+import {s3Url} from "../utils/s3Utils";
 
 type InitialStateType =  {
     profiles: Array<ProfileType>
@@ -40,7 +41,7 @@ export const getProfiles = () => {
         if (response.status === 200) {
             const profiles = response.data.map(profile => {
                 if (profile.avatarUri) {
-                    profile.avatarUri = `http://127.0.0.1:9000/${profile.avatarUri}`
+                    profile.avatarUri = `${s3Url()}/${profile.avatarUri}`
                 }
                 profile.timerStart = new Date(adjustForTimezone(profile.timerStart.toString()))
                 return profile

@@ -3,6 +3,7 @@ import {isTokenExpired} from "../api/apiUtils";
 import {refreshToken} from "./auth-reducer";
 import {AppDispatch} from "./redux-store";
 import {TaskType} from "./tasks-reducer";
+import {s3Url} from "../utils/s3Utils";
 
 type SetTaskActionType = {
     type: typeof SET_TASK
@@ -70,7 +71,7 @@ export const saveTask = (levelId: string, task: TaskType) => {
                 responseTask.data = JSON.parse(DEFAULT_TASK_DATA)
             }
             if (responseTask.fileUri) {
-                responseTask.fileUri = `http://127.0.0.1:9000/${responseTask.fileUri}`
+                responseTask.fileUri = `${s3Url()}${responseTask.fileUri}`
             }
             await dispatch(requestTask(levelId, responseTask.id))
         } else if (isTokenExpired(response)) {
@@ -90,7 +91,7 @@ export const requestTask = (levelId: string, taskId: string) => {
                 task.data = JSON.parse(DEFAULT_TASK_DATA)
             }
             if (task.fileUri) {
-                task.fileUri = `http://127.0.0.1:9000/${task.fileUri}`
+                task.fileUri = `${s3Url()}${task.fileUri}`
             }
             await dispatch(setTask(task))
         } else if (isTokenExpired(response)) {

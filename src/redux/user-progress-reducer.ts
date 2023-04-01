@@ -3,6 +3,7 @@ import {isTokenExpired} from "../api/apiUtils";
 import {refreshToken} from "./auth-reducer";
 import {AppDispatch} from "./redux-store";
 import {TaskType} from "./tasks-reducer";
+import {s3Url} from "../utils/s3Utils";
 
 type InitialStateType = {
     userProgress: UserProgressType
@@ -57,12 +58,12 @@ export const fetchUserProgress = () => {
             if (responseData.uncompletedTask
                             && responseData.uncompletedTask.task
                             && responseData.uncompletedTask.task.fileUri) {
-                responseData.uncompletedTask.task.fileUri = `http://127.0.0.1:9000/${responseData.uncompletedTask.task.fileUri}`
+                responseData.uncompletedTask.task.fileUri = `${s3Url()}${responseData.uncompletedTask.task.fileUri}`
             }
             if (responseData.userTasks) {
                 responseData.userTasks.map(userTask => {
                     if (userTask.task && userTask.task.fileUri) {
-                        userTask.task.fileUri = `http://127.0.0.1:9000/${userTask.task.fileUri}`
+                        userTask.task.fileUri = `${s3Url()}${userTask.task.fileUri}`
                     }
                 })
             }

@@ -3,6 +3,7 @@ import {isTokenExpired} from "../api/apiUtils";
 import {refreshToken} from "./auth-reducer";
 import {adjustForTimezone} from "../utils/dateUtils";
 import {NoteType} from "./note-editor-reducer";
+import {s3Url} from "../utils/s3Utils";
 
 export type ProfileType = {
     id: string | null
@@ -85,7 +86,7 @@ export const getProfile = (userId : string) => {
         if (response.status === 200) {
             const profile = response.data
             if (profile.avatarUri) {
-                profile.avatarUri = `http://127.0.0.1:9000/${profile.avatarUri}`
+                profile.avatarUri = `${s3Url()}${profile.avatarUri}`
             }
             profile.timerStart = new Date(adjustForTimezone(profile.timerStart.toString()))
             dispatch(setProfileActionCreator(profile))
