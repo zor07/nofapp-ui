@@ -41,7 +41,7 @@ export const getProfiles = () => {
         if (response.status === 200) {
             const profiles = response.data.map(profile => {
                 if (profile.avatarUri) {
-                    profile.avatarUri = `${s3Url()}/${profile.avatarUri}`
+                    profile.avatarUri = `${s3Url()}${profile.avatarUri}`
                 }
                 profile.timerStart = new Date(adjustForTimezone(profile.timerStart.toString()))
                 return profile
