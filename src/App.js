@@ -1,7 +1,7 @@
 import './App.css';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import TimerContainer from "./components/Timer/TimerContainer";
-import Login from "./components/Login/Login";
+import Login from "./components/Auth/Login";
 import React, {Component} from "react";
 import {connect, Provider} from "react-redux";
 import {compose} from "redux";
@@ -21,6 +21,7 @@ import ProfileContainer from "./components/Profile/ProfileContainer";
 import LevelsContainer from "./components/Levels/LevelListContainer";
 import TherapyContainer from "./components/Therapy/UserProgressContainer";
 import TaskEditorContainer from "./components/Levels/TaskEditorContainer";
+import Register from "./components/Auth/Register";
 
 class App extends Component {
 
@@ -61,6 +62,7 @@ class App extends Component {
                                 <Route path='/config/levels/:levelId/tasks/:taskId' element={<TaskEditorContainer/>}/>
                                 <Route path='/therapy' element={<TherapyContainer/>}/>
                                 <Route path='/login' element={<Login/>}/>
+                                <Route path='/register' element={<Register/>}/>
                             </Routes>
                         </Content>
                     </Layout>

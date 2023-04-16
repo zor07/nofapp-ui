@@ -1,6 +1,7 @@
 import {AUTH_API} from "../api/api";
 import Cookies from 'universal-cookie';
 import {isTokenExpired} from "../api/apiUtils";
+import {AppDispatch} from "./redux-store";
 
 type UserDataType = {
     id: string | null,
@@ -37,8 +38,18 @@ const setUserData = (id: string | null,
                      username: string | null,
                      isAuth: boolean): SetUserDataActionType => ({type: SET_USER_DATA, payload: {id, name, username, isAuth}})
 
+export const register = (username: string, name: string, password: string) => {
+    return async (dispatch: AppDispatch) => {
+        const response = await AUTH_API.register(username, name, password);
+        if (response.status === 200) {
+            updateCookies(response.data.access_token, response.data.refresh_token)
+            dispatch(me())
+        }
+    }
+}
+
 export const login = (username: string, password: string) => {
-    return async (dispatch: Function) => {
+    return async (dispatch: AppDispatch) => {
         const response = await AUTH_API.login(username, password);
         if (response.status === 200) {
             updateCookies(response.data.access_token, response.data.refresh_token)
@@ -48,14 +59,14 @@ export const login = (username: string, password: string) => {
 }
 
 export const logout = () => {
-    return (dispatch: Function) => {
+    return (dispatch: AppDispatch) => {
         dispatch(setUserData(null, null, null, false));
         updateCookies(null, null)
     }
 }
 
 export const me = () => {
-    return async (dispatch: Function) => {
+    return async (dispatch: AppDispatch) => {
         const response = await AUTH_API.me()
         if (response.status === 200) {
             dispatch(setUserData(response.data.id, response.data.name, response.data.username, true))
@@ -67,7 +78,7 @@ export const me = () => {
 }
 
 export const refreshToken = () => {
-    return async (dispatch: Function) => {
+    return async (dispatch: AppDispatch) => {
         const response = await AUTH_API.refreshAccessToken()
         if (response.status === 200) {
             updateCookies(response.data.access_token, response.data.refresh_token)

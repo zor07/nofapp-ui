@@ -22,6 +22,9 @@ export type ResponseType<T> = {
 } & ErrorResponse
 
 export const AUTH_API = {
+    register(username, name, password) {
+        return instance.post(`auth/register`, {username, name, password})
+    },
     login(username, password) {
         return instance.post(`auth/login`, {username, password})
     },
@@ -40,7 +43,7 @@ export const AUTH_API = {
 }
 
 export const LEVELS_API = {
-    getLevels(): PromiseLike<ResponseType<Array<LevelType>>>  {
+    getLevels(): PromiseLike<ResponseType<Array<LevelType>>> {
         return instance.get(`/levels`, auth()).catch((error) => {
             return handleError(error)
         })
@@ -51,13 +54,13 @@ export const LEVELS_API = {
                 return handleError(error)
             })
     },
-    updateLevel(level: LevelType): PromiseLike<ResponseType<LevelType>>  {
+    updateLevel(level: LevelType): PromiseLike<ResponseType<LevelType>> {
         return instance.put(`/levels/${level.id}`, level, auth())
             .catch((error) => {
                 return handleError(error)
             })
     },
-    deleteLevel(levelId: string): PromiseLike<ResponseType<any>>  {
+    deleteLevel(levelId: string): PromiseLike<ResponseType<any>> {
         return instance.delete(`/levels/${levelId}`, auth())
             .catch((error) => {
                 return handleError(error)
@@ -66,12 +69,12 @@ export const LEVELS_API = {
 }
 
 export const TASKS_API = {
-    getLevelTasks(levelId: string): PromiseLike<ResponseType<Array<TaskType>>>  {
+    getLevelTasks(levelId: string): PromiseLike<ResponseType<Array<TaskType>>> {
         return instance.get(`/levels/${levelId}/tasks`, auth()).catch((error) => {
             return handleError(error)
         })
     },
-    getLevelTask(levelId: string, taskId: string): PromiseLike<ResponseType<TaskType>>  {
+    getLevelTask(levelId: string, taskId: string): PromiseLike<ResponseType<TaskType>> {
         return instance.get(`/levels/${levelId}/tasks/${taskId}`, auth()).catch((error) => {
             return handleError(error)
         })
@@ -115,13 +118,13 @@ export const TASKS_API = {
                 return handleError(error)
             })
     },
-    deleteMediaFromTask(levelId: string, taskId: string): PromiseLike<ResponseType<any>>  {
+    deleteMediaFromTask(levelId: string, taskId: string): PromiseLike<ResponseType<any>> {
         return instance.delete(`/levels/${levelId}/tasks/${taskId}/video`, auth())
             .catch((error) => {
                 return handleError(error)
             })
     },
-    deleteTask(levelId: string, taskId: string): PromiseLike<ResponseType<any>>  {
+    deleteTask(levelId: string, taskId: string): PromiseLike<ResponseType<any>> {
         return instance.delete(`/levels/${levelId}/tasks/${taskId}`, auth())
             .catch((error) => {
                 return handleError(error)
