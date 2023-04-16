@@ -46,7 +46,7 @@ class App extends Component {
                                 minHeight: 280,
                             }}>
                             <Routes>
-                                <Route path='/' element={<TimerContainer/>}/>
+                                <Route path='/' element={<ProfileContainer/>}/>
                                 <Route path='/timer' element={<TimerContainer/>}/>
                                 <Route path='/profiles' element={<ProfileList/>}/>
                                 <Route path='/profile' element={<ProfileContainer/>}/>
