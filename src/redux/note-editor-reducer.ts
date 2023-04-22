@@ -5,7 +5,6 @@ import {currentDateString} from "../utils/dateUtils";
 import {refreshToken} from "./auth-reducer";
 import {NotebookType} from "./notebook-reducer";
 import {unmountNotes} from "./notes-reducer";
-import {AppStateType} from "./redux-store";
 
 export type NoteType = {
     id: string | null
